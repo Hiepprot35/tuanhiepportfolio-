@@ -36,14 +36,10 @@
     transform: rotate(360deg);
   }
 }
-@keyframes hiep {
-  0% {transform:rotate(0deg);}
-  100% {transform:rotate(360deg)}
 
-}
-.App-logo
+.animation
 {
-  animation-name: hiep;
+  animation-name: App-logo-spin;
   animation-duration: 10s;
   animation-delay: -10000s;
   animation-timing-function: linear; 
@@ -67,6 +63,7 @@
   justify-content:center;
   margin: 20px;
 }
-.div6
+.hidden
 {
+  opacity: 1;
 }

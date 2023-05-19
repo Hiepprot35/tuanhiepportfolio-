@@ -126,15 +126,19 @@ const todoList=(arr)=>
 console.log(todo)
 const confirmToDo=()=>
 {
+ 
   if(job[job.length-1])
   {
 
+    
     setToDo(pre=>[...pre,job])
+    setJob('')
   }
-  else
-  console.log("Lỗi")
-
-}
+  else 
+    var NotificationEmpty=document.getElementsByName('NotificationDiv');
+    
+    console.log(NotificationEmpty)
+  }
 return (
 
   <div className="App">
@@ -150,6 +154,7 @@ return (
 
     <div>
       <input
+      value={job}
         type='textbox'
         onChange={eventChange}
       />
@@ -157,6 +162,7 @@ return (
     <button onClick={confirmToDo} >TODOLIST</button>
   <div>
   <div>
+    <div className='NotificationDiv hidden'> cak</div>
           {todo.map((element, index) => (
             <div key={index}>
               <ul>
@@ -164,7 +170,9 @@ return (
               </ul>
             </div>
           ))}
+          
         </div>
+        <div className='animation'>HIHIHIHI</div>
   </div>
 
     <button onClick={listSumbit}>Sumbit</button>
