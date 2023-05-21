@@ -3,9 +3,12 @@ import { useState } from 'react';
 
 function App() {
 
-
+  const LSListJob=JSON.parse(localStorage.getItem('jobs'));
   const [checked, setChecked] = useState([])
-  const [todo, setToDo] = useState([])
+  const [todo, setToDo] = useState([LSListJob])
+  console.log(LSListJob.split(','))
+  console.log(LSListJob)
+
   const [job, setJob] = useState('')
 
   const xx1 = () => {
@@ -123,13 +126,18 @@ const todoList=(arr)=>
   setToDo([arr])
   console.log(todo)
 }
-console.log(todo)
 const confirmToDo=()=>
 {
   if(job[job.length-1])
   {
-
-    setToDo(pre=>[...pre,job])
+    setToDo(pre=>
+      {
+        const jobsList=[...pre,job]
+        console.log(typeof(jobsList))
+        localStorage.setItem('jobs',jobsList)
+        return jobsList
+      })
+      setJob('')
   }
   else
   console.log("Lỗi")
@@ -150,6 +158,7 @@ return (
 
     <div>
       <input
+      value={job}
         type='textbox'
         onChange={eventChange}
       />
