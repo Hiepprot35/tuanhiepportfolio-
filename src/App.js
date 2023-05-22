@@ -3,9 +3,12 @@ import { useState } from 'react';
 
 function App() {
 
-
+  const LSListJob = JSON.parse(localStorage.getItem('jobs'));
   const [checked, setChecked] = useState([])
-  const [todo, setToDo] = useState([])
+  const [todo, setToDo] = useState([...LSListJob]??'')
+  console.log(LSListJob)
+  console.log(todo)
+
   const [job, setJob] = useState('')
 
   const xx1 = () => {
@@ -18,6 +21,18 @@ function App() {
   const xx3 = () => {
     return Math.floor(Math.random() * 6 + 1)
   }
+  // const deleteElemnt = (stt) => {
+  //   const arrayNew = []
+  //   for (let i = 0; i < todo.length; i++) {
+  //     if (i < stt) {
+  //       arrayNew.push(todo[i])
+  //     }
+  //     if (i > stt) {
+  //       arrayNew.push(todo[i+1])
+  //     }
+  //   }
+  //   setToDo([arrayNew])
+  // }
   function taixiu() {
     if (checked[checked.length - 1]) {
       return checked[checked.length - 1].reduce((total, cur) => {
@@ -79,106 +94,114 @@ function App() {
 
   }
 
-const mapCheck = () => {
-  if (checked[checked.length - 1]) {
-    return (
-      checked[checked.length - 1].map(element => {
-        return (
-          <div className=''>
-            <div className="divNumber">
-              {element}
+  const mapCheck = () => {
+    if (checked[checked.length - 1]) {
+      return (
+        checked[checked.length - 1].map(element => {
+          return (
+            <div className=''>
+              <div className="divNumber">
+                {element}
+              </div>
+              <div className="divXucXac">
+                {xuxxac(element)}
+              </div>
+
             </div>
-            <div className="divXucXac">
-              {xuxxac(element)}
-            </div>
 
-          </div>
-
-        )
-      })
-    )
+          )
+        })
+      )
+    }
+    else
+      return <p> Không có chuỗi</p>
   }
-  else
-    return <p> Không có chuỗi</p>
-}
 
-const checktai = () => {
-  const tai = "tai"
-  let message;
+  const checktai = () => {
+    const tai = "tai"
+    let message;
 
-  if (taixiu(checked[checked.length - 1]) >= 11) {
-    return message = <p>Tài.</p>;
+    if (taixiu(checked[checked.length - 1]) >= 11) {
+      return message = <p>Tài.</p>;
+    }
+    if (taixiu(checked[checked.length - 1]) < 11)
+      return message = <p>Xỉu.</p>;
   }
-  if (taixiu(checked[checked.length - 1]) < 11)
-    return message = <p>Xỉu.</p>;
-}
-const eventChange = (event) => {
-  
-    
+  const eventChange = (event) => {
+
+
     setJob([event.target.value])
 
-}
-const todoList=(arr)=>
-{
-  setToDo([arr])
-  console.log(todo)
-}
-console.log(todo)
-const confirmToDo=()=>
-{
- 
-  if(job[job.length-1])
+  }
+  function deleteElement(stt)
   {
-
-    
-    setToDo(pre=>[...pre,job])
-    setJob('')
+    for(let i=0;i<todo.length;i++)
+    {
+      if(i!=stt)
+      {
+        setToDo(pre=>[...pre,todo[i]])
+      }
+    }
   }
-  else 
-    var NotificationEmpty=document.getElementsByName('NotificationDiv');
-    
-    console.log(NotificationEmpty)
+  const confirmToDo = () => {
+
+    if (job[job.length - 1]) {
+      setToDo(pre => {
+        const jobsList = [...pre, job]
+        const localJobsKey = JSON.stringify(todo)
+        localStorage.setItem('jobs', localJobsKey)
+        return jobsList
+      })
+      setJob('')
+    }
   }
-return (
+  return (
 
-  <div className="App">
-
-
+    <div className="App">
 
 
-    <div className='container'>{mapCheck()}</div>
-    <div >
-      {checktai()}
 
-    </div>
 
-    <div>
-      <input
-      value={job}
-        type='textbox'
-        onChange={eventChange}
-      />
-    </div>
-    <button onClick={confirmToDo} >TODOLIST</button>
-  <div>
-  <div>
-    <div className='NotificationDiv hidden'> cak</div>
+      <div className='container'>{mapCheck()}</div>
+      <div >
+        {checktai()}
+
+      </div>
+
+      <div>
+        <input
+          value={job}
+          type='textbox'
+          onChange={eventChange}
+        />
+      </div>
+      <button onClick={confirmToDo} >TODOLIST</button>
+      <div>
+        <div>
+          <div className='NotificationDiv hidden'> cak</div>
           {todo.map((element, index) => (
             <div key={index}>
               <ul>
                 <li>{element}</li>
+                <li>      
+</li>
               </ul>
+              <button onClick={() => deleteElement(index)} >{index}</button>
+
             </div>
-          ))}
-          
+
+
+          ))
+          }
+
         </div>
         <div className='animation'>HIHIHIHI</div>
-  </div>
+      </div>
 
-    <button onClick={listSumbit}>Sumbit</button>
+      <button onClick={listSumbit}>Sumbit</button>
 
-  </div>
-);
+    </div>
+  );
 
 }
 
