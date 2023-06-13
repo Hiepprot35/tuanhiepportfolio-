@@ -1,16 +1,55 @@
 import './App.css';
-import { useState } from 'react';
-
+import { useEffect, useState } from 'react';
+import Header from './header';
+import ChangeTitle from './TitleEff';
+import ContainerMain from './ContainerMain'
+import TimeCount from './TimeCount';
+import ChatBox from './chatBox';
 function App() {
-
   const LSListJob = JSON.parse(localStorage.getItem('jobs'));
-  const [checked, setChecked] = useState([])
-  const [todo, setToDo] = useState([...LSListJob]??'')
-  console.log(LSListJob)
-  console.log(todo)
+  const [checked, setChecked] = useState([]);
+  const [text, setText] = useState([]);
 
+  const [todo, setToDo] = useState(LSListJob ?? []);
   const [job, setJob] = useState('')
+  function ToDoComponent() {
 
+    return (
+      <div className='ContainerMain'>
+        <div className='container'>{mapCheck()}</div>
+        <div >
+          {checktai()}
+
+        </div>
+
+        <div className='ToDoMain'>
+          <input
+            value={job}
+            type='textbox'
+            onChange={eventChange}
+          />
+        </div>
+        <button onClick={confirmToDo} >TODOLIST</button>
+        <div className='jobTodo_div'>
+          {todo.map((element, index) => (
+            <div key={index}>
+              <ul>
+                <li className='jobToDo'>{element}</li>
+
+              </ul>
+
+
+            </div>
+
+
+          ))
+          }
+
+        </div>
+
+
+      </div>)
+  }
   const xx1 = () => {
     return Math.floor(Math.random() * 6 + 1)
   }
@@ -21,18 +60,8 @@ function App() {
   const xx3 = () => {
     return Math.floor(Math.random() * 6 + 1)
   }
-  // const deleteElemnt = (stt) => {
-  //   const arrayNew = []
-  //   for (let i = 0; i < todo.length; i++) {
-  //     if (i < stt) {
-  //       arrayNew.push(todo[i])
-  //     }
-  //     if (i > stt) {
-  //       arrayNew.push(todo[i+1])
-  //     }
-  //   }
-  //   setToDo([arrayNew])
-  // }
+  const [header, SetHeader] = useState(true);
+
   function taixiu() {
     if (checked[checked.length - 1]) {
       return checked[checked.length - 1].reduce((total, cur) => {
@@ -75,7 +104,6 @@ function App() {
   }
   const listCheck = (id) => {
     const isChecked = checked.includes(id)
-    const cek = checked
     setChecked(pre => {
 
 
@@ -94,7 +122,7 @@ function App() {
 
   }
 
-  const mapCheck = () => {
+  function mapCheck() {
     if (checked[checked.length - 1]) {
       return (
         checked[checked.length - 1].map(element => {
@@ -116,9 +144,21 @@ function App() {
     else
       return <p> Không có chuỗi</p>
   }
+  useEffect(() => {
+    fetch(`https://jsonplaceholder.typicode.com/posts`)
 
+      .then(res => res.json())
+      .then(contents => {
+        setText(contents);
+      })
+  }, []
+  )
+  const [textShow, setTextShow] = useState(true)
+  const showHeader = () => {
+    SetHeader(!header);
+    setTextShow(!textShow);
+  }
   const checktai = () => {
-    const tai = "tai"
     let message;
 
     if (taixiu(checked[checked.length - 1]) >= 11) {
@@ -133,76 +173,45 @@ function App() {
     setJob([event.target.value])
 
   }
-  function deleteElement(stt)
-  {
-    for(let i=0;i<todo.length;i++)
-    {
-      if(i!=stt)
-      {
-        setToDo(pre=>[...pre,todo[i]])
-      }
-    }
-  }
+
   const confirmToDo = () => {
 
     if (job[job.length - 1]) {
       setToDo(pre => {
         const jobsList = [...pre, job]
-        const localJobsKey = JSON.stringify(todo)
+        const localJobsKey = JSON.stringify(jobsList)
         localStorage.setItem('jobs', localJobsKey)
         return jobsList
       })
       setJob('')
     }
   }
-  return (
 
+  return (
     <div className="App">
 
 
 
 
-      <div className='container'>{mapCheck()}</div>
-      <div >
-        {checktai()}
+      <Header></Header>
 
+      <div className='button_div'>
+        <button onClick={showHeader}>{(textShow && 'hidden') || (!textShow && 'show')}</button>
+        <button onClick={listSumbit}>Sumbit</button>
       </div>
+      {/* <ToDoComponent>
 
-      <div>
-        <input
-          value={job}
-          type='textbox'
-          onChange={eventChange}
-        />
-      </div>
-      <button onClick={confirmToDo} >TODOLIST</button>
-      <div>
-        <div>
-          <div className='NotificationDiv hidden'> cak</div>
-          {todo.map((element, index) => (
-            <div key={index}>
-              <ul>
-                <li>{element}</li>
-                <li>      
-</li>
-              </ul>
-              <button onClick={() => deleteElement(index)} >{index}</button>
-
-            </div>
-
-
-          ))
-          }
-
-        </div>
-        <div className='animation'>HIHIHIHI</div>
-      </div>
-
-      <button onClick={listSumbit}>Sumbit</button>
-
+      </ToDoComponent>
+      
+      {<ChangeTitle></ChangeTitle>} */}
+      <ChatBox></ChatBox>
+      {header && <ContainerMain></ContainerMain>
+      }
     </div>
-  );
+  )
 
 }
+
+
 
 export default App;

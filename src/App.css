@@ -67,3 +67,9 @@
 {
   opacity: 1;
 }
+.button_div
+{
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
