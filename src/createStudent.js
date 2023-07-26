@@ -1,7 +1,16 @@
 import { useEffect, useState } from "react";
 const CreateStudent = () => {
-    const [tokenPrivate,setTokenPrivate]=useState('')
     const [classInfo, setClass] = useState([]);
+    const [avatarURL, setAvatarURL] = useState();
+    const [dataimg, setDataimg] = useState()
+    const imgInput = (e) => {
+        const img = e.target.files[0]
+        setDataimg(img)
+        const imgLink = URL.createObjectURL(img)
+        setAvatarURL(imgLink);
+        console.log((img))
+
+    }
     useEffect(
         () => {
             fetch('http://localhost:4000/api/getAllClass')
@@ -11,29 +20,37 @@ const CreateStudent = () => {
                 })
         }
         , [])
+    console.log("create")
     async function handleSubmit(event) {
 
         event.preventDefault();
-        const data = Array.from(event.target.elements)
-        .filter((input) => input.name)
-        .reduce((obj, input) => Object.assign(obj, { [input.name]: input.value }), {});
+        const data = new FormData();
+        data.append('MSSV', event.target.elements.MSSV.value);
+        data.append('Name', event.target.elements.Name.value);
+        data.append('img', dataimg);
+        data.append('Address', event.target.elements.Address.value);
+        data.append('Birthday', event.target.elements.Birthday.value);
+        data.append('password', event.target.elements.password.value);
+        data.append('Class', event.target.elements.Class.value);
+        data.append('Sex', event.target.elements.Sex.value);
+
         try {
+            console.log(data.img)
             const res = await fetch('http://localhost:4000/api/createStudent', {
                 method: 'post',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(data)
+                body: data
             });
-            
+
             if (!res.ok) {
                 throw new Error('Request failed with status ' + res.status.toString());
-              }
-            
-              const dataFromServer = await res.json();
-             
-
-            } catch (error) {
-              console.error('Error occurred:', error);
             }
+
+
+
+        } catch (error) {
+            console.error('Error occurred:', error);
+        }
 
     };
     return (
@@ -41,7 +58,7 @@ const CreateStudent = () => {
             <>
                 <h2>Thêm sinh viên</h2>
                 <form method="post" action="/create" onSubmit={handleSubmit}>
-                <div className="mb-3">
+                    <div className="mb-3">
                         <label htmlFor="exampleInputEmail1" className="form-label">
                             MSSV
                         </label>
@@ -66,7 +83,8 @@ const CreateStudent = () => {
                         />
                     </div>
                     <div className="mb-3">
-                        <input type="file" name="img" />
+                        <input type="file" name="img" onChange={imgInput} />
+                        <img className="avatarImage" src={avatarURL}></img>
                     </div>
                     <div className="mb-3">
                         <label htmlFor="exampleInputPassword1" className="form-label">
@@ -81,12 +99,13 @@ const CreateStudent = () => {
 
                         />
                     </div>
-                   
+
                     <div className="mb-3">
                         <label htmlFor="exampleInputEmail1" className="form-label">
                             Birthday
                         </label>
                         <input
+
                             type="date"
                             name="Birthday"
                             className="form-control"

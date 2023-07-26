@@ -12,7 +12,6 @@ export default function Login({ setToken }) {
   const [message, setMessage] = useState();
 
   const [loginImgBackground, setLoginImgBackground] = useState(imgLinkBasic);
-  console.log("a")
   async function handleSubmit(e) {
     e.preventDefault();
     const data = Array.from(e.target.elements)
@@ -31,7 +30,6 @@ export default function Login({ setToken }) {
       })
       .then(data => data.json())
     if (resoponse.token) {
-      console.log("ok")
       setToken(resoponse);
       navigate("/")
     }
@@ -183,7 +181,7 @@ export default function Login({ setToken }) {
   )
 
 }
-Login.propTypes = {
-  setToken: PropTypes.func.isRequired
-};
+// Login.propTypes = {
+//   setToken: PropTypes.func.isRequired
+// };
 
