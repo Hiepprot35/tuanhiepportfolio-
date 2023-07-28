@@ -23,11 +23,13 @@ export default function Home() {
             <h1>hello</h1>
             {
                 posts.map((post, index) => {
-                    const bufferString = Buffer.from(post.img).toString('base64');
+                    console.log(post.img)
+                    const bufferString =post.img &&  Buffer.from(post.img).toString('base64');
+                    console.log(bufferString)
                     return (
                         <div key={index}>
                             <h1>{post.Name}</h1>
-                            <img className="avatarImage" src={`data:image/jpeg;base64,${bufferString}`} alt="Post Image" />
+                            <img className="avatarImage" src={`data:image/jpeg;base64,${bufferString}`} alt="{index}" />
                         </div>
                     )
                 })
