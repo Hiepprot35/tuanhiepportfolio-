@@ -1,3 +1,6 @@
+*
+{
+  margin: 5px;}
 .App {
   text-align: center;
 }
@@ -72,4 +75,7 @@
   display: flex;
   align-items: center;
   flex-direction: column;
+}
+table, th, td {
+  border:1px solid black;
 }

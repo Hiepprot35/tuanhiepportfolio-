@@ -197,13 +197,14 @@ function App() {
 
       <div className='button_div'>
         <button onClick={showHeader}>{(textShow && 'hidden') || (!textShow && 'show')}</button>
-        <button onClick={listSumbit}>Sumbit</button>
+        <button onClick={listSumbit}>Tai Xiu</button>
+
       </div>
       {/* <ToDoComponent>
 
-      </ToDoComponent>
+      </ToDoComponent> */}
       
-      {<ChangeTitle></ChangeTitle>} */}
+      {/* {<ChangeTitle></ChangeTitle>} */}
       <ChatBox></ChatBox>
       {header && <ContainerMain></ContainerMain>
       }

@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 const ContainerMain = () => {
   const tabs = ['posts', 'comments', 'albums']
   const [type, setType] = useState('')
-  const [ToF,setToF]=useState(false)
+  const [ToF, setToF] = useState(false)
   const [posts, setPosts] = useState([]);
   const [showToTop, setShowToTop] = useState(false)
   useEffect(() => {
@@ -27,9 +27,8 @@ const ContainerMain = () => {
 
   )
 
-  function ClickToSee(tab)
-  { 
-    setType(tab); 
+  function ClickToSee(tab) {
+    setType(tab);
     setToF(!ToF);
   }
   function scrollToTop() {
@@ -38,9 +37,9 @@ const ContainerMain = () => {
       behavior: "smooth" // Thêm thuộc tính này để tạo hiệu ứng cuộn mượt
     });
   }
-  
-  
-  
+
+
+
   return (
     <div className='titlePhoto'>
       {
@@ -67,17 +66,9 @@ const ContainerMain = () => {
 
       }
       {
-       ToF && posts.map(
-          (content, index) => {
-            return (
-              <ul key={index}>
-                <li >{content.title}</li>
-              </ul>
-            )
-          }
-        )
+        
       }
-    
+
       {
         showToTop &&
         (
