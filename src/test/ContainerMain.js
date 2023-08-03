@@ -1,5 +1,6 @@
-import { tab } from "@testing-library/user-event/dist/tab";
 import { useEffect, useState } from "react";
+
+const data=require('./models/studentModel')
 const ContainerMain = () => {
   const tabs = ['posts', 'comments', 'albums']
   const [type, setType] = useState('')
@@ -7,7 +8,6 @@ const ContainerMain = () => {
   const [posts, setPosts] = useState([]);
   const [showToTop, setShowToTop] = useState(false)
   useEffect(() => {
-    console.log(type)
     fetch(`https://jsonplaceholder.typicode.com/${type}`)
 
       .then(res => res.json())
@@ -37,9 +37,8 @@ const ContainerMain = () => {
       behavior: "smooth" // Thêm thuộc tính này để tạo hiệu ứng cuộn mượt
     });
   }
-
-
-
+  
+  
   return (
     <div className='titlePhoto'>
       {

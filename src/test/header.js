@@ -8,7 +8,6 @@ function Header() {
                 setWidth(window.innerWidth)});
         }
     )
-    console.log(window.innerWidth)
         return (
 
             <div className="Header_divs">
