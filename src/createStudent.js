@@ -42,7 +42,6 @@ export default function CreateStudent() {
 
     // Gán dữ liệu hình ảnh vào trường "img" trong đối tượng data
     if (dataimg) {
-      const imgBlob = new Blob([dataimg], { type: dataimg.type });
       const imgBuffer = await blobToBuffer(dataimg);
 
       data.img = imgBuffer;
@@ -56,7 +55,6 @@ export default function CreateStudent() {
         },
         body: JSON.stringify(data)
       });
-      console.log(res);
     } catch (error) {
       console.error('Error occurred:', error);
     }

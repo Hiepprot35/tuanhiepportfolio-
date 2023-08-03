@@ -10,10 +10,11 @@ const imgLinkBasic =
 export default function Login({ setToken }) {
   const navigate = useNavigate();
   const [message, setMessage] = useState();
-
+  const [isLoading,setIsLoading]=useState(false);
   const [loginImgBackground, setLoginImgBackground] = useState(imgLinkBasic);
   async function handleSubmit(e) {
     e.preventDefault();
+    setIsLoading(true)
     const data = Array.from(e.target.elements)
       .filter((input) => input.name)
       .reduce((obj, input) => Object.assign(obj, { [input.name]: input.value }), {})
@@ -31,9 +32,12 @@ export default function Login({ setToken }) {
       .then(data => data.json())
     if (resoponse.token) {
       setToken(resoponse);
+      setIsLoading(false)
       navigate("/")
     }
     else {
+      setIsLoading(false)
+
       setMessage('Không có tài khoản hoặc mật khẩu')
     }
   }
@@ -176,6 +180,15 @@ export default function Login({ setToken }) {
 
         </div>
       </div>
+      {
+        !isLoading &&
+        <div className='LoaderColorBackground'>
+
+      <div className="Loader"></div>
+      </div>
+      }
+    
+
     </>
 
   )
