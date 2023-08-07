@@ -1,43 +1,48 @@
 import { useNavigate } from 'react-router-dom';
 import ChangeBackground from './test/changeBackground';
 import { useEffect, useState, useRef } from "react";
-import PropTypes from 'prop-types'; // ES6
+import { IsLoading } from './Loading';
+
 const URL = 'http://localhost:4000/api/login';
 const imgLinkBasic =
 {
   link: "https://pbs.twimg.com/media/EnOnhlSWEAEeYB3?format=jpg&name=large"
 }
-export default function Login({ setToken }) {
+export default function Login({ setAccessToken }) {
   const navigate = useNavigate();
+  const [isLoading,setIsLoading]=useState(false)
   const [message, setMessage] = useState();
-  const [isLoading,setIsLoading]=useState(false);
   const [loginImgBackground, setLoginImgBackground] = useState(imgLinkBasic);
   async function handleSubmit(e) {
     e.preventDefault();
     setIsLoading(true)
+    var headers = new Headers();
+    headers.append('Content-Type', 'application/json');
+    headers.append('Accept', 'application/json');
     const data = Array.from(e.target.elements)
       .filter((input) => input.name)
       .reduce((obj, input) => Object.assign(obj, { [input.name]: input.value }), {})
     const resoponse = await fetch(URL,
       {
         method: "POST",
-        headers:
-        {
-          "Content-type": "application/json",
-        },
+        credentials: 'include',
+        headers:headers,
+
         body: JSON.stringify(
           data
         )
       })
-      .then(data => data.json())
-    if (resoponse.token) {
-      setToken(resoponse);
-      setIsLoading(false)
-      navigate("/")
+
+    const dataRes = await resoponse.json();
+    const user=dataRes.user[0];
+    
+    console.log(user)
+    if (dataRes.AccessToken) {
+      setAccessToken(dataRes.AccessToken);
+      navigate('/home', { state: { user } });
     }
     else {
       setIsLoading(false)
-
       setMessage('Không có tài khoản hoặc mật khẩu')
     }
   }
@@ -181,14 +186,9 @@ export default function Login({ setToken }) {
         </div>
       </div>
       {
-        !isLoading &&
-        <div className='LoaderColorBackground'>
 
-      <div className="Loader"></div>
-      </div>
+       isLoading && <IsLoading></IsLoading>
       }
-    
-
     </>
 
   )

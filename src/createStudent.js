@@ -1,65 +1,90 @@
 import { useEffect, useState } from "react";
 import { Buffer } from "buffer";
+import { useRefresh } from "./hook/useRefresh";
+import UseToken from "./hook/useToken";
 function blobToBuffer(blob) {
     return new Promise((resolve, reject) => {
-      const reader = new FileReader();
-      reader.onload = () => {
-        const buffer = Buffer.from(reader.result);
-        resolve(buffer);
-      };
-      reader.onerror = (error) => {
-        reject(error);
-      };
-      reader.readAsArrayBuffer(blob);
+        const reader = new FileReader();
+        reader.onload = () => {
+            const buffer = Buffer.from(reader.result);
+            resolve(buffer);
+        };
+        reader.onerror = (error) => {
+            reject(error);
+        };
+        reader.readAsArrayBuffer(blob);
     });
-  }
+}
 export default function CreateStudent() {
-  const [classInfo, setClass] = useState([]);
-  const [avatarURL, setAvatarURL] = useState();
-  const [dataimg, setDataimg] = useState();
+    const { AccessToken, setAccessToken } = UseToken();
+    const [dataSend, setDataSend] = useState([]);
+    const [classInfo, setClass] = useState([]);
+    const [avatarURL, setAvatarURL] = useState();
+    const [dataimg, setDataimg] = useState();
+    const refreshAccessToken = useRefresh();
+    const imgInput = (e) => {
+        const img = e.target.files[0];
+        const imgLink = URL.createObjectURL(img);
+        setAvatarURL(imgLink);
+        setDataimg(img);
+    };
+    console.log("old ", AccessToken)
+    useEffect(() => {
+        fetch('http://localhost:4000/api/getAllClass')
+            .then(res => res.json())
+            .then(contents => {
+                setClass(contents);
+            });
+    }, []);
+    const sendData = async (data) => {
+        try {
+            console.log("new accesstoken", AccessToken)
 
-  const imgInput = (e) => {
-    const img = e.target.files[0];
-    const imgLink = URL.createObjectURL(img);
-    setAvatarURL(imgLink);
-    setDataimg(img);
-  };
+            const res = await fetch('http://localhost:4000/api/createStudent', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${AccessToken}`
 
-  useEffect(() => {
-    fetch('http://localhost:4000/api/getAllClass')
-      .then(res => res.json())
-      .then(contents => {
-        setClass(contents);
-      });
-  }, []);
+                },
+                body: JSON.stringify(data)
+            });
 
-  async function handleSubmit(event) {
-    event.preventDefault();
+            const resJson = await res.json()
 
-    const data = Array.from(event.target.elements)
-      .filter((input) => input.name)
-      .reduce((obj, input) => Object.assign(obj, { [input.name]: input.value }), {});
+            console.log(resJson)
+            if (resJson.error) {
+                refreshAccessToken({ setAccessToken })
+            }
+            else {
+                console.log("Success")
+            }
+        } catch (error) {
 
-    // Gán dữ liệu hình ảnh vào trường "img" trong đối tượng data
-    if (dataimg) {
-      const imgBuffer = await blobToBuffer(dataimg);
-
-      data.img = imgBuffer;
+            console.error('Error occurred:', error);
+        }
     }
+    async function handleSubmit(event) {
 
-    try {
-      const res = await fetch('http://localhost:4000/api/createStudent', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(data)
-      });
-    } catch (error) {
-      console.error('Error occurred:', error);
+        event.preventDefault();
+        const data = Array.from(event.target.elements)
+            .filter((input) => input.name)
+            .reduce((obj, input) => Object.assign(obj, { [input.name]: input.value }), {});
+
+        // Gán dữ liệu hình ảnh vào trường "img" trong đối tượng data
+        if (dataimg) {
+            const imgBlob = new Blob([dataimg], { type: dataimg.type });
+            const imgBuffer = await blobToBuffer(dataimg);
+
+            data.img = imgBuffer;
+        }
+        setDataSend(data)
+
     }
-  }
-
+    useEffect(() => {
+       
+        sendData(dataSend)
+    }, [AccessToken])
     return (
         <div className="CreateStudentForm">
             <>
@@ -158,7 +183,6 @@ export default function CreateStudent() {
                     </button>
                 </form>
             </>
-
         </div>
 
 

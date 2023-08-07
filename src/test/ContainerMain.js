@@ -4,7 +4,7 @@ const data=require('./models/studentModel')
 const ContainerMain = () => {
   const tabs = ['posts', 'comments', 'albums']
   const [type, setType] = useState('')
-  const [ToF,setToF]=useState(false)
+  const [ToF, setToF] = useState(false)
   const [posts, setPosts] = useState([]);
   const [showToTop, setShowToTop] = useState(false)
   useEffect(() => {
@@ -27,9 +27,8 @@ const ContainerMain = () => {
 
   )
 
-  function ClickToSee(tab)
-  { 
-    setType(tab); 
+  function ClickToSee(tab) {
+    setType(tab);
     setToF(!ToF);
   }
   function scrollToTop() {
@@ -66,17 +65,9 @@ const ContainerMain = () => {
 
       }
       {
-       ToF && posts.map(
-          (content, index) => {
-            return (
-              <ul key={index}>
-                <li >{content.title}</li>
-              </ul>
-            )
-          }
-        )
+        
       }
-    
+
       {
         showToTop &&
         (

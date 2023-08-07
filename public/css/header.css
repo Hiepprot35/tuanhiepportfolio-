@@ -1,0 +1,22 @@
+.header_container
+{
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+}
+.left
+{
+    margin-left:50px;
+}
+.left img
+{
+    width: 20%;
+}
+.center{
+    align-items: center;
+}
