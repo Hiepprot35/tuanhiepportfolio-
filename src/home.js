@@ -5,75 +5,72 @@ import { LogOut } from "./logout";
 import { IsLoading } from "./Loading";
 
 const { Buffer } = require('buffer');
-export default function Home() {
-    const refreshAccessToken=UseRefresh();
-    const [message, setMessage] = useState(false)
+
+export default function Home({ user }) {
+    const [count, setCount] = useState(0)
+
+    const refreshAccessToken = UseRefresh();
     const { AccessToken, setAccessToken } = UseToken();
-    const [isLoading,setIsLoading]=useState(false)
+    const [isLoading, setIsLoading] = useState(true);
+    const [posts, setPosts] = useState([]);
 
     const URL = `http://localhost:4000/getallstudent`;
-    const [posts, setPosts] = useState([]);
-    const [isTimeout,setIsTimeout]=useState(false)
-    // Function để fetch danh sách sinh viên
-    const fetchData = async () => {
-        try {
-            setIsLoading(true)
-            const response = await fetch(URL, {
-                method: "GET",
-                headers: {
-                    'Authorization': `Bearer ${AccessToken}`
-                }
-            });
 
-            const data = await response.json();
-            if (!data.error) {
-                setIsLoading(false)
+    console.log(document.cookie)
 
-                console.log(data)
-                setPosts(data);
-            }
-            throw new Error('Failed to fetch data from the server.');
-           
-        } catch (error) {
-
-            console.error(error)
-        }
-        
-    };
-    // useEffect(() => {
-    //     fetchData();
-    // },[AccessToken]);
-    
     useEffect(() => {
-        fetchData()
-        .then(() => {
-            refreshAccessToken();
-          });
+        let isMounted = true
+        const fetchData = async () => {
+            try {
+                const response = await fetch(URL, {
+                    method: "GET",
+                    headers: {
+                        'Authorization': `Bearer ${AccessToken}`
+                    }
+                });
 
-    },[]);
-    return (
-       
-        <>
-        {
-                   isLoading && <IsLoading></IsLoading>
+                if (response.ok && isMounted) {
+                    const jsonData = await response.json();
+                    if (!jsonData.error) {
+
+                        setPosts(jsonData);
+                        setIsLoading(false)
+                    }
+                    else {
+                        refreshAccessToken({ setAccessToken })
+                    }
+                    console.log(jsonData)
+                }
+            } catch (error) {
+
+                console.error(error);
+
+            }
+        };
+        fetchData()
+        return () => {
+            isMounted = false
 
         }
+    }, []);
+
+    return (
         <div>
-            <h1>hello</h1>
-            {   
-                message? <div>Cek</div> : posts.map((post, index) => {
+            {isLoading ? (
+                <IsLoading />
+            ) : (
+                posts.map((post, index) => {
                     const bufferString = post.img && Buffer.from(post.img).toString('base64');
                     return (
                         <div key={index}>
                             <h1>{post.Name}</h1>
-                            <img className="avatarImage" src={`data:image/jpeg;base64,${bufferString}`} alt="{index}" />
+                            <img className="avatarImage" src={`data:image/jpeg;base64,${bufferString}`} alt={index} />
                         </div>
-                    )
-                }) 
-            }
-            {/* <button onClick={logout}>Log out</button> */}
-            <LogOut></LogOut>
+                    );
+                })
+            )}
+            <LogOut />
+            <button onClick={() => setCount(pre => pre + 1)}>Click</button>
         </div>
-            </>
-    )
+    );
 }

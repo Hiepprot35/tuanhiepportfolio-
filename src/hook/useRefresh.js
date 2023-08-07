@@ -2,9 +2,7 @@ import { useEffect } from 'react';
 import UseToken from '../hook/useToken';
 
 const UseRefresh = () => {
-  const { AccessToken, setAccessToken } = UseToken();
-  const refreshAccessToken = async () => {
-    console.log(AccessToken)
+  const refreshAccessToken = async ({setAccessToken}) => {
 
     try {
 
@@ -17,7 +15,6 @@ const UseRefresh = () => {
       if (data.error) {
         throw new Error(data.error);
       }
-      console.log(data)
       setAccessToken(data.AccessToken); // Cập nhật AccessToken mới vào state
       return data.AccessToken;
     } catch (error) {
