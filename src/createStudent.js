@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Buffer } from "buffer";
 import { useRefresh } from "./hook/useRefresh";
 import UseToken from "./hook/useToken";
+import Header from "./header";
 function blobToBuffer(blob) {
     return new Promise((resolve, reject) => {
         const reader = new FileReader();
@@ -17,7 +18,6 @@ function blobToBuffer(blob) {
 }
 export default function CreateStudent() {
     const { AccessToken, setAccessToken } = UseToken();
-    const [dataSend, setDataSend] = useState([]);
     const [classInfo, setClass] = useState([]);
     const [avatarURL, setAvatarURL] = useState();
     const [dataimg, setDataimg] = useState();
@@ -28,14 +28,14 @@ export default function CreateStudent() {
         setAvatarURL(imgLink);
         setDataimg(img);
     };
-    console.log("old ", AccessToken)
     useEffect(() => {
         fetch('http://localhost:4000/api/getAllClass')
             .then(res => res.json())
             .then(contents => {
                 setClass(contents);
             });
-    }, []);
+    }, [AccessToken]);
+
     const sendData = async (data) => {
         try {
             console.log("new accesstoken", AccessToken)
@@ -52,13 +52,7 @@ export default function CreateStudent() {
 
             const resJson = await res.json()
 
-            console.log(resJson)
-            if (resJson.error) {
-                refreshAccessToken({ setAccessToken })
-            }
-            else {
-                console.log("Success")
-            }
+           
         } catch (error) {
 
             console.error('Error occurred:', error);
@@ -78,14 +72,14 @@ export default function CreateStudent() {
 
             data.img = imgBuffer;
         }
-        setDataSend(data)
 
+
+        
     }
-    useEffect(() => {
-       
-        sendData(dataSend)
-    }, [AccessToken])
+   
     return (
+        <>
+        <Header></Header>
         <div className="CreateStudentForm">
             <>
                 <h2>Thêm sinh viên</h2>
@@ -100,7 +94,7 @@ export default function CreateStudent() {
                             className="form-control"
                             id="exampleInputEmail1"
                             aria-describedby="emailHelp"
-                        />
+                            />
                     </div>
                     <div className="mb-3">
                         <label htmlFor="exampleInputEmail1" className="form-label">
@@ -112,7 +106,7 @@ export default function CreateStudent() {
                             className="form-control"
                             id="exampleInputEmail1"
                             aria-describedby="emailHelp"
-                        />
+                            />
                     </div>
                     <div className="mb-3">
                         <input type="file" name="img" onChange={imgInput} />
@@ -128,8 +122,8 @@ export default function CreateStudent() {
                             className="form-control"
                             id="exampleInputPassword1"
                             required
-
-                        />
+                            
+                            />
                     </div>
 
                     <div className="mb-3">
@@ -143,8 +137,8 @@ export default function CreateStudent() {
                             className="form-control"
                             id="exampleInputEmail1"
                             aria-describedby="emailHelp"
-
-                        />
+                            
+                            />
                     </div>
                     <div className="mb-3">
                         <label htmlFor="exampleInputPassword1" className="form-label">
@@ -155,7 +149,7 @@ export default function CreateStudent() {
                             name="password"
                             className="form-control"
                             id="exampleInputPassword1"
-                        />
+                            />
                     </div>
                     <div className="mb-3">
                         <span>Tên lớp</span>
@@ -186,5 +180,6 @@ export default function CreateStudent() {
         </div>
 
 
+                            </>
     )
 }

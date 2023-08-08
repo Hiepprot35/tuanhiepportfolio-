@@ -15,6 +15,8 @@ export const useRefresh = () => {
       }
       
       setAccessToken(data.AccessToken); // Cập nhật AccessToken mới vào state
+      console.log("New Token",data.AccessToken)
+
       return data.AccessToken;
     } catch (error) {
       console.log('Lỗi:', error.message);

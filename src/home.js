@@ -1,12 +1,13 @@
 import { useEffect, useState } from "react";
 import UseToken from './hook/useToken';
-import { LogOut } from "./logout";
 import { useRefresh } from "./hook/useRefresh";
 import { useLocation } from 'react-router-dom';
 import Header from "./header";
 import { IsLoading } from "./Loading";
 import CreateStudent from './createStudent';
+import { useAuth } from './context/userContext'
 const { Buffer } = require('buffer');
+
 export default function Home() {
     const { AccessToken, setAccessToken } = UseToken();
     const [isLoading, setIsLoading] = useState(true)
@@ -16,11 +17,11 @@ export default function Home() {
     const location = useLocation();
     const user = location.state?.user || {}; // Sử dụng state?.user để tránh lỗi khi state không tồn tại
     const URL = `http://localhost:4000/getallstudent`;
-    console.log(user)
-
+    let isCancel = false
     useEffect(() => {
-        let isCancel = false
         const getInfoUser = async () => {
+            
+            console.log("Old Token: ",AccessToken)
             try {
                 const response = await fetch(URL, {
                     method: "GET",
@@ -42,6 +43,7 @@ export default function Home() {
                     }
                 }
                 else {
+                    
                     refreshAccessToken({ setAccessToken })
 
                 }
@@ -60,30 +62,28 @@ export default function Home() {
 
     document.title = "Home"
 
-
     return (
 
         <>
-                <Header user={user} />
-            <div>
+            <Header user={user} />
+            <div className="container_main">
                 {
-                    isLoading ? <IsLoading></IsLoading> : 
-                    
+                    isLoading ? <IsLoading></IsLoading> :
+
 
                         posts.map((post, index) => {
                             const bufferString = post.img && Buffer.from(post.img).toString('base64');
                             return (
                                 <div key={index}>
-                                <h1>{post.Name}</h1>
-                                <img className="avatarImage" src={`data:image/jpeg;base64,${bufferString}`} alt="{index}" />
-                            </div>
-                        )
-                    })
-                
+                                    <h1>{post.Name}</h1>
+                                    <img className="avatarImage" src={`data:image/jpeg;base64,${bufferString}`} alt="{index}" />
+                                </div>
+                            )
+                        })
+
                 }
                 {/* <button onClick={logout}>Log out</button> */}
-                <LogOut></LogOut>
-               
+
             </div>
         </>
     )

@@ -2,7 +2,7 @@ import { useNavigate } from 'react-router-dom';
 import ChangeBackground from './test/changeBackground';
 import { useEffect, useState, useRef } from "react";
 import { IsLoading } from './Loading';
-
+import { useAuth } from './context/userContext'
 const URL = 'http://localhost:4000/api/login';
 const imgLinkBasic =
 {
@@ -10,7 +10,10 @@ const imgLinkBasic =
 }
 export default function Login({ setAccessToken }) {
   const navigate = useNavigate();
-  const [isLoading,setIsLoading]=useState(false)
+  const {user2,setUser2}=useAuth();
+
+  const [user, setUser]=useState()
+  const [isLoading, setIsLoading] = useState(false)
   const [message, setMessage] = useState();
   const [loginImgBackground, setLoginImgBackground] = useState(imgLinkBasic);
   async function handleSubmit(e) {
@@ -26,7 +29,7 @@ export default function Login({ setAccessToken }) {
       {
         method: "POST",
         credentials: 'include',
-        headers:headers,
+        headers: headers,
 
         body: JSON.stringify(
           data
@@ -34,8 +37,8 @@ export default function Login({ setAccessToken }) {
       })
 
     const dataRes = await resoponse.json();
-    const user=dataRes.user[0];
-    
+    const user = dataRes.user[0];
+    setUser2(user)
     console.log(user)
     if (dataRes.AccessToken) {
       setAccessToken(dataRes.AccessToken);
@@ -187,7 +190,7 @@ export default function Login({ setAccessToken }) {
       </div>
       {
 
-       isLoading && <IsLoading></IsLoading>
+        isLoading && <IsLoading></IsLoading>
       }
     </>
 
