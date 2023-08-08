@@ -1,0 +1,40 @@
+.header_container {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 50px;
+    background-color: rgb(124, 119, 119);
+}
+
+.header {
+    display: flex;
+}
+
+.left {
+    margin-left: 50px;
+}
+
+.left img {
+    width: 20%;
+}
+
+.center {
+    align-items: center;
+}
+
+.center input {
+    padding: 10px;
+}
+
+.center img {
+    width: 10px;
+}
+
+.center button {
+    border: none;
+    background-color: rgba(240, 248, 255, 0);
+}

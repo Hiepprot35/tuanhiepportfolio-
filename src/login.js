@@ -12,7 +12,6 @@ export default function Login({ setAccessToken }) {
   const navigate = useNavigate();
   const [isLoading,setIsLoading]=useState(false)
   const [message, setMessage] = useState();
-
   const [loginImgBackground, setLoginImgBackground] = useState(imgLinkBasic);
   async function handleSubmit(e) {
     e.preventDefault();
@@ -35,10 +34,12 @@ export default function Login({ setAccessToken }) {
       })
 
     const dataRes = await resoponse.json();
-    console.log(dataRes)
+    const user=dataRes.user[0];
+    
+    console.log(user)
     if (dataRes.AccessToken) {
       setAccessToken(dataRes.AccessToken);
-      navigate("/")
+      navigate('/home', { state: { user } });
     }
     else {
       setIsLoading(false)

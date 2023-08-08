@@ -26,7 +26,7 @@ code {
   border-radius: 50%;
   border: 10px rgb(255, 254, 254) solid;
   border-top: solid black 10px;
-  animation: load infinite 1s;
+  animation: load linear infinite 1s;
   margin: 200px 400px;
 }
 @keyframes load {

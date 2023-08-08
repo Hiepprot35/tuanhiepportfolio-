@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Buffer } from "buffer";
-import UseRefresh  from "./hook/useRefresh";
+import { useRefresh } from "./hook/useRefresh";
 import UseToken from "./hook/useToken";
 function blobToBuffer(blob) {
     return new Promise((resolve, reject) => {
@@ -17,18 +17,18 @@ function blobToBuffer(blob) {
 }
 export default function CreateStudent() {
     const { AccessToken, setAccessToken } = UseToken();
-
+    const [dataSend, setDataSend] = useState([]);
     const [classInfo, setClass] = useState([]);
     const [avatarURL, setAvatarURL] = useState();
     const [dataimg, setDataimg] = useState();
-    const  refreshAccessToken=UseRefresh();
+    const refreshAccessToken = useRefresh();
     const imgInput = (e) => {
         const img = e.target.files[0];
         const imgLink = URL.createObjectURL(img);
         setAvatarURL(imgLink);
         setDataimg(img);
     };
-
+    console.log("old ", AccessToken)
     useEffect(() => {
         fetch('http://localhost:4000/api/getAllClass')
             .then(res => res.json())
@@ -36,10 +36,37 @@ export default function CreateStudent() {
                 setClass(contents);
             });
     }, []);
+    const sendData = async (data) => {
+        try {
+            console.log("new accesstoken", AccessToken)
 
+            const res = await fetch('http://localhost:4000/api/createStudent', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${AccessToken}`
+
+                },
+                body: JSON.stringify(data)
+            });
+
+            const resJson = await res.json()
+
+            console.log(resJson)
+            if (resJson.error) {
+                refreshAccessToken({ setAccessToken })
+            }
+            else {
+                console.log("Success")
+            }
+        } catch (error) {
+
+            console.error('Error occurred:', error);
+        }
+    }
     async function handleSubmit(event) {
-        event.preventDefault();
 
+        event.preventDefault();
         const data = Array.from(event.target.elements)
             .filter((input) => input.name)
             .reduce((obj, input) => Object.assign(obj, { [input.name]: input.value }), {});
@@ -51,23 +78,13 @@ export default function CreateStudent() {
 
             data.img = imgBuffer;
         }
+        setDataSend(data)
 
-        try {
-            const res = await fetch('http://localhost:4000/api/createStudent', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${AccessToken}`
-
-                },
-                body: JSON.stringify(data)
-            });
-            console.log(res);
-        } catch (error) {
-            console.error('Error occurred:', error);
-        }
     }
-
+    useEffect(() => {
+       
+        sendData(dataSend)
+    }, [AccessToken])
     return (
         <div className="CreateStudentForm">
             <>

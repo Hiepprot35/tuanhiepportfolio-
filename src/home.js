@@ -1,26 +1,26 @@
 import { useEffect, useState } from "react";
 import UseToken from './hook/useToken';
-import UseRefresh from "./hook/useRefresh";
 import { LogOut } from "./logout";
+import { useRefresh } from "./hook/useRefresh";
+import { useLocation } from 'react-router-dom';
+import Header from "./header";
 import { IsLoading } from "./Loading";
-
+import CreateStudent from './createStudent';
 const { Buffer } = require('buffer');
-
-export default function Home({ user }) {
-    const [count, setCount] = useState(0)
-
-    const refreshAccessToken = UseRefresh();
+export default function Home() {
     const { AccessToken, setAccessToken } = UseToken();
-    const [isLoading, setIsLoading] = useState(true);
+    const [isLoading, setIsLoading] = useState(true)
+    const refreshAccessToken = useRefresh()
     const [posts, setPosts] = useState([]);
-
+    // Function để fetch danh sách sinh viên
+    const location = useLocation();
+    const user = location.state?.user || {}; // Sử dụng state?.user để tránh lỗi khi state không tồn tại
     const URL = `http://localhost:4000/getallstudent`;
-
-    console.log(document.cookie)
+    console.log(user)
 
     useEffect(() => {
-        let isMounted = true
-        const fetchData = async () => {
+        let isCancel = false
+        const getInfoUser = async () => {
             try {
                 const response = await fetch(URL, {
                     method: "GET",
@@ -28,49 +28,63 @@ export default function Home({ user }) {
                         'Authorization': `Bearer ${AccessToken}`
                     }
                 });
+                if (response.ok && !isCancel) {
 
-                if (response.ok && isMounted) {
-                    const jsonData = await response.json();
-                    if (!jsonData.error) {
+                    const data = await response.json()
+                    if (data.error) {
+                        refreshAccessToken({ setAccessToken })
 
-                        setPosts(jsonData);
-                        setIsLoading(false)
                     }
                     else {
-                        refreshAccessToken({ setAccessToken })
+
+                        setIsLoading(false)
+                        setPosts(data)
                     }
-                    console.log(jsonData)
                 }
+                else {
+                    refreshAccessToken({ setAccessToken })
+
+                }
+
             } catch (error) {
 
-                console.error(error);
-
+                console.error(error)
             }
-        };
-        fetchData()
-        return () => {
-            isMounted = false
-
         }
-    }, []);
+        getInfoUser()
+
+        return () => {
+            isCancel = true
+        }
+    }, [AccessToken]);
+
+    document.title = "Home"
+
 
     return (
-        <div>
-            {isLoading ? (
-                <IsLoading />
-            ) : (
-                posts.map((post, index) => {
-                    const bufferString = post.img && Buffer.from(post.img).toString('base64');
-                    return (
-                        <div key={index}>
-                            <h1>{post.Name}</h1>
-                            <img className="avatarImage" src={`data:image/jpeg;base64,${bufferString}`} alt={index} />
-                        </div>
-                    );
-                })
-            )}
-            <LogOut />
-            <button onClick={() => setCount(pre => pre + 1)}>Click</button>
-        </div>
-    );
+
+        <>
+                <Header user={user} />
+            <div>
+                {
+                    isLoading ? <IsLoading></IsLoading> : 
+                    
+
+                        posts.map((post, index) => {
+                            const bufferString = post.img && Buffer.from(post.img).toString('base64');
+                            return (
+                                <div key={index}>
+                                <h1>{post.Name}</h1>
+                                <img className="avatarImage" src={`data:image/jpeg;base64,${bufferString}`} alt="{index}" />
+                            </div>
+                        )
+                    })
+                
+                }
+                {/* <button onClick={logout}>Log out</button> */}
+                <LogOut></LogOut>
+               
+            </div>
+        </>
+    )
 }
