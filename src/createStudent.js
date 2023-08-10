@@ -18,10 +18,12 @@ function blobToBuffer(blob) {
 }
 export default function CreateStudent() {
     const { AccessToken, setAccessToken } = UseToken();
+    const [data,setData]=useState();
+    const [isMounted,setIsMounted]=useState(false)
     const [classInfo, setClass] = useState([]);
     const [avatarURL, setAvatarURL] = useState();
     const [dataimg, setDataimg] = useState();
-    const refreshAccessToken = useRefresh();
+    const refreshAccessToken  = useRefresh();
     const imgInput = (e) => {
         const img = e.target.files[0];
         const imgLink = URL.createObjectURL(img);
@@ -38,7 +40,6 @@ export default function CreateStudent() {
 
     const sendData = async (data) => {
         try {
-            console.log("new accesstoken", AccessToken)
 
             const res = await fetch('http://localhost:4000/api/createStudent', {
                 method: 'POST',
@@ -51,8 +52,8 @@ export default function CreateStudent() {
             });
 
             const resJson = await res.json()
+            console.log(resJson)
 
-           
         } catch (error) {
 
             console.error('Error occurred:', error);
@@ -72,114 +73,132 @@ export default function CreateStudent() {
 
             data.img = imgBuffer;
         }
-
-
+        setData(data)
+       setIsMounted(!isMounted)
         
     }
    
+    useEffect(()=>
+    {
+        async function fetchData() {
+            try {
+                const refreshedData = await refreshAccessToken();
+               refreshedData.AccessToken? setAccessToken(refreshedData.AccessToken):console.log("OKE");
+                
+            } catch (error) {
+                // Xử lý lỗi nếu cần
+            }
+        }
+        
+        fetchData();
+    },[isMounted])
+    useEffect(()=>
+    {
+        sendData(data)
+
+    },[AccessToken])
     return (
         <>
-        <Header></Header>
-        <div className="CreateStudentForm">
-            <>
-                <h2>Thêm sinh viên</h2>
-                <form method="post" action="/create" onSubmit={handleSubmit}>
-                    <div className="mb-3">
-                        <label htmlFor="exampleInputEmail1" className="form-label">
-                            MSSV
-                        </label>
-                        <input
-                            type="text"
-                            name="MSSV"
-                            className="form-control"
-                            id="exampleInputEmail1"
-                            aria-describedby="emailHelp"
+            <Header></Header>
+            <div className="CreateStudentForm">
+                <>
+                    <h2>Thêm sinh viên</h2>
+                    <form method="post" action="/create" onSubmit={handleSubmit}>
+                        <div className="mb-3">
+                            <label htmlFor="exampleInputEmail1" className="form-label">
+                                MSSV
+                            </label>
+                            <input
+                                type="text"
+                                name="MSSV"
+                                className="form-control"
+                                id="exampleInputEmail1"
+                                aria-describedby="emailHelp"
                             />
-                    </div>
-                    <div className="mb-3">
-                        <label htmlFor="exampleInputEmail1" className="form-label">
-                            Name
-                        </label>
-                        <input
-                            type="text"
-                            name="Name"
-                            className="form-control"
-                            id="exampleInputEmail1"
-                            aria-describedby="emailHelp"
+                        </div>
+                        <div className="mb-3">
+                            <label htmlFor="exampleInputEmail1" className="form-label">
+                                Name
+                            </label>
+                            <input
+                                type="text"
+                                name="Name"
+                                className="form-control"
+                                id="exampleInputEmail1"
+                                aria-describedby="emailHelp"
                             />
-                    </div>
-                    <div className="mb-3">
-                        <input type="file" name="img" onChange={imgInput} />
-                        <img className="avatarImage" src={avatarURL}></img>
-                    </div>
-                    <div className="mb-3">
-                        <label htmlFor="exampleInputPassword1" className="form-label">
-                            Address
-                        </label>
-                        <input
-                            type="text"
-                            name="Address"
-                            className="form-control"
-                            id="exampleInputPassword1"
-                            required
-                            
-                            />
-                    </div>
+                        </div>
+                        <div className="mb-3">
+                            <input type="file" name="img" onChange={imgInput} />
+                            <img className="avatarImage" src={avatarURL}></img>
+                        </div>
+                        <div className="mb-3">
+                            <label htmlFor="exampleInputPassword1" className="form-label">
+                                Address
+                            </label>
+                            <input
+                                type="text"
+                                name="Address"
+                                className="form-control"
+                                id="exampleInputPassword1"
 
-                    <div className="mb-3">
-                        <label htmlFor="exampleInputEmail1" className="form-label">
-                            Birthday
-                        </label>
-                        <input
-
-                            type="date"
-                            name="Birthday"
-                            className="form-control"
-                            id="exampleInputEmail1"
-                            aria-describedby="emailHelp"
-                            
                             />
-                    </div>
-                    <div className="mb-3">
-                        <label htmlFor="exampleInputPassword1" className="form-label">
-                            Mật khẩu
-                        </label>
-                        <input
-                            type="text"
-                            name="password"
-                            className="form-control"
-                            id="exampleInputPassword1"
+                        </div>
+
+                        <div className="mb-3">
+                            <label htmlFor="exampleInputEmail1" className="form-label">
+                                Birthday
+                            </label>
+                            <input
+
+                                type="date"
+                                name="Birthday"
+                                className="form-control"
+                                id="exampleInputEmail1"
+                                aria-describedby="emailHelp"
+
                             />
-                    </div>
-                    <div className="mb-3">
-                        <span>Tên lớp</span>
-                        <select name="Class" >
-                            {
-                                classInfo.map((tab) => {
-                                    return (
-                                        <option key={tab.CLASSID} value={tab.CLASSNAME} >
-                                            {tab.CLASSNAME}
-                                        </option>
-                                    )
-                                })
-                            }
-                        </select>
-                    </div>
-                    <div className="mb-3">
-                        <span>Giới tính</span>
-                        <select id="sex" name="Sex" >
-                            <option value={"Nữ"}>Nữ</option>
-                            <option value={"Nam"}>Nam</option>
-                        </select>
-                    </div>
-                    <button type="submit" className="btn btn-primary">
-                        Submit
-                    </button>
-                </form>
-            </>
-        </div>
+                        </div>
+                        <div className="mb-3">
+                            <label htmlFor="exampleInputPassword1" className="form-label">
+                                Mật khẩu
+                            </label>
+                            <input
+                                type="text"
+                                name="password"
+                                className="form-control"
+                                id="exampleInputPassword1"
+                            />
+                        </div>
+                        <div className="mb-3">
+                            <span>Tên lớp</span>
+                            <select name="Class" >
+                                {
+                                    classInfo.map((tab) => {
+                                        return (
+                                            <option key={tab.CLASSID} value={tab.CLASSID} >
+                                                {tab.CLASSNAME}
+                                            </option>
+                                        )
+                                    })
+                                }
+                            </select>
+                        </div>
+                        <div className="mb-3">
+                            <span>Giới tính</span>
+                            <select id="sex" name="Sex" >
+                                <option value={"Nữ"}>Nữ</option>
+                                <option value={"Nam"}>Nam</option>
+                            </select>
+                        </div>
+                        <button type="submit" className="btn btn-primary">
+                            Submit
+                        </button>
+                    </form>
+                </>
+            </div>
 
 
-                            </>
+        </>
     )
 }

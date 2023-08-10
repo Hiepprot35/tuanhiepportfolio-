@@ -7,7 +7,7 @@ export default function UseRFToken() {
         const userToken = JSON.parse(tokenString);
         return userToken
     }
-    const [RFtoken, setRFToken] = useState(getRFToken())
+    const [token, setRFToken] = useState(getRFToken())
     const saveToken = (userToken) => {
         localStorage.setItem('AccessToken', JSON.stringify(userToken));
         setToken(userToken)
