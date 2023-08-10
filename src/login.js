@@ -37,10 +37,10 @@ export default function Login({ setAccessToken }) {
       })
 
     const dataRes = await resoponse.json();
+    if (dataRes.AccessToken) {
     const user = dataRes.user[0];
     setUser2(user)
     console.log(user)
-    if (dataRes.AccessToken) {
       setAccessToken(dataRes.AccessToken);
       navigate('/home', { state: { user } });
     }

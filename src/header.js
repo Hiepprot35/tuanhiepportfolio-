@@ -64,7 +64,7 @@ export default function Header(props) {
 
                         </li>
                         <li>
-                            <p className='City citytemp'> {weather.temp} độ C</p>
+                            <p className='City citytemp'> {weather.temp}*C</p>
 
                         </li>
                         <li>

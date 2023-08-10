@@ -100,7 +100,7 @@ export default function CreateStudent() {
     return (
         <>
             <Header></Header>
-            <div className="CreateStudentForm">
+            <div className="CreateStudentForm container_main">
                 <>
                     <h2>Thêm sinh viên</h2>
                     <form method="post" action="/create" onSubmit={handleSubmit}>

@@ -13,10 +13,11 @@ export default function Home() {
     const [isLoading, setIsLoading] = useState(true)
     const refreshAccessToken = useRefresh()
     const [posts, setPosts] = useState([]);
-    const [currentData, setCurrentData] = useState(1)
+    const [currentPage, setCurrentPage] = useState(1)
     const [classInfo, setClass] = useState([]);
-    const DataPerPage=4;
-    const startIndex=1;
+    const DataPerPage = 4;
+    const startIndex = (currentPage - 1) * DataPerPage;
+    const endIndex = startIndex + DataPerPage
 
     useEffect(() => {
         fetch('http://localhost:4000/api/getAllClass')
@@ -132,7 +133,12 @@ export default function Home() {
         getData()
     }, [AccessToken])
     document.title = "Home"
+    const currentData = posts.slice(startIndex, endIndex)
+    const totalPages = Math.ceil(posts.length / DataPerPage);
 
+    const handlePageChange = (page) => {
+        setCurrentPage(page);
+    };
     return (
 
         <>
@@ -157,7 +163,7 @@ export default function Home() {
                             </thead>
                             <tbody>
                                 {
-                                    posts.map((post, index) => {
+                                    currentData.map((post, index) => {
                                         const bufferString = post.img && Buffer.from(post.img).toString('base64');
                                         return (
                                             <tr key={index}>
@@ -187,7 +193,13 @@ export default function Home() {
 
                         </table>
                 }
-
+                <div>
+                    {Array.from({ length: totalPages }, (_, index) => (
+                        <button key={index} onClick={() => handlePageChange(index + 1)}>
+                            {index + 1}
+                        </button>
+                    ))}
+                </div>
 
             </div>
         </>
