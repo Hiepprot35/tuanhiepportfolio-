@@ -18,10 +18,12 @@ function blobToBuffer(blob) {
 }
 export default function CreateStudent() {
     const { AccessToken, setAccessToken } = UseToken();
+    const [data,setData]=useState();
+    const [isMounted,setIsMounted]=useState(false)
     const [classInfo, setClass] = useState([]);
     const [avatarURL, setAvatarURL] = useState();
     const [dataimg, setDataimg] = useState();
-    const refreshAccessToken = useRefresh();
+    const refreshAccessToken  = useRefresh();
     const imgInput = (e) => {
         const img = e.target.files[0];
         const imgLink = URL.createObjectURL(img);
@@ -38,7 +40,6 @@ export default function CreateStudent() {
 
     const sendData = async (data) => {
         try {
-            console.log("new accesstoken", AccessToken)
 
             const res = await fetch('http://localhost:4000/api/createStudent', {
                 method: 'POST',
@@ -51,7 +52,7 @@ export default function CreateStudent() {
             });
 
             const resJson = await res.json()
-
+            console.log(resJson)
 
         } catch (error) {
 
@@ -78,15 +79,34 @@ export default function CreateStudent() {
         catch (error) {
             console.error(error);
         }
-
-
-
+        setData(data)
+       setIsMounted(!isMounted)
+        
     }
+   
+    useEffect(()=>
+    {
+        async function fetchData() {
+            try {
+                const refreshedData = await refreshAccessToken();
+               refreshedData.AccessToken? setAccessToken(refreshedData.AccessToken):console.log("OKE");
+                
+            } catch (error) {
+                // Xử lý lỗi nếu cần
+            }
+        }
+        
+        fetchData();
+    },[isMounted])
+    useEffect(()=>
+    {
+        sendData(data)
 
+    },[AccessToken])
     return (
         <>
             <Header></Header>
-            <div className="CreateStudentForm">
+            <div className="CreateStudentForm container_main">
                 <>
                     <h2>Thêm sinh viên</h2>
                     <form method="post" action="/create" onSubmit={handleSubmit}>
@@ -127,7 +147,6 @@ export default function CreateStudent() {
                                 name="Address"
                                 className="form-control"
                                 id="exampleInputPassword1"
-                                required
 
                             />
                         </div>
@@ -163,7 +182,7 @@ export default function CreateStudent() {
                                 {
                                     classInfo.map((tab) => {
                                         return (
-                                            <option key={tab.CLASSID} value={tab.CLASSNAME} >
+                                            <option key={tab.CLASSID} value={tab.CLASSID} >
                                                 {tab.CLASSNAME}
                                             </option>
                                         )

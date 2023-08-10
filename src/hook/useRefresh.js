@@ -1,30 +1,23 @@
 import { useState, useEffect } from 'react';
+import UseToken from './useToken';
 
 export const useRefresh = () => {
+  const { AccessToken, setAccessToken } = UseToken();
 
-  const refreshAccessToken = async ({setAccessToken}) => {
-    try {
+  const refreshAccessToken = async () => {
+    
       const response = await fetch('http://localhost:4000/api/rfAccessToken', {
-        method: 'GET',
+        method: 'POST',
         credentials: 'include', // Đảm bảo gửi cookie khi gọi API
+        headers:
+        {
+          'Authorization': `Bearer ${AccessToken}`
+        }
       });
 
       const data = await response.json();
-      if (data.error) {
-        throw new Error(data.error);
-      }
-      
-      setAccessToken(data.AccessToken); // Cập nhật AccessToken mới vào state
-      console.log("New Token",data.AccessToken)
+      return(data)
+    };
+    return refreshAccessToken
 
-      return data.AccessToken;
-    } catch (error) {
-      console.log('Lỗi:', error.message);
-      return null;
-    }
-  };
-
-  
-
-  return refreshAccessToken ;
 };

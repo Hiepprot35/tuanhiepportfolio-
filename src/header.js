@@ -48,15 +48,33 @@ export default function Header(props) {
     return (
         <>
             <div className="header_container">
+                <div className='left header-left' style={{ display: "flex", alignItems: "center" }}>
+                    <ul className='list'>
 
-                <div className='left header' style={{ display: "flex", alignItems: "center" }}>
-                    <Link to="/create">Create</Link>
-                    <Link to="/home">Home</Link>
+                        <li>
+                            <Link to="/home" className='Link'>Home</Link>
 
-                    <p> {weather.city}     </p>
-                    <p> {weather.temp} độ C</p>
-                    <img src={`/images/${weather.weather}.png`} alt={weather.weather} />
+                        </li>
+                        <li>
+                            <Link to="/create" className='Link'>Create</Link>
+
+                        </li>
+                        <li>
+                            <p className='City cityname'> {weather.city}     </p>
+
+                        </li>
+                        <li>
+                            <p className='City citytemp'> {weather.temp}*C</p>
+
+                        </li>
+                        <li>
+                            <img src={`/images/${weather.weather}.png`} alt={weather.weather} />
+
+                        </li>
+                    </ul>
+
                 </div>
+
                 <div className="center header">
 
                     <button onClick={handleSumbit}>
@@ -78,11 +96,11 @@ export default function Header(props) {
                         </>
 
                     }
-                    
 
 
+
+                    <LogOut></LogOut>
                 </div>
-                <LogOut></LogOut>
             </div>
 
         </>
