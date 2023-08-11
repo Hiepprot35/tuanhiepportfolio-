@@ -92,11 +92,12 @@ export default function CreateStudent() {
         
         fetchData();
     },[isMounted])
+    
     useEffect(()=>
     {
         sendData(data)
 
-    },[AccessToken])
+    },[isMounted])
     return (
         <>
             <Header></Header>
