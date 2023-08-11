@@ -81,7 +81,7 @@ export default function CreateStudent() {
         }
         setData(data)
        setIsMounted(!isMounted)
-        
+    console.log(isMounted)        
     }
    
     useEffect(()=>
@@ -90,13 +90,14 @@ export default function CreateStudent() {
             try {
                 const refreshedData = await refreshAccessToken();
                refreshedData.AccessToken? setAccessToken(refreshedData.AccessToken):console.log("OKE");
-                
+                console.log(refreshedData)
             } catch (error) {
                 // Xử lý lỗi nếu cần
             }
         }
         
         fetchData();
+
     },[isMounted])
     
     useEffect(()=>
