@@ -60,18 +60,24 @@ export default function CreateStudent() {
         }
     }
     async function handleSubmit(event) {
+        try {
 
-        event.preventDefault();
-        const data = Array.from(event.target.elements)
-            .filter((input) => input.name)
-            .reduce((obj, input) => Object.assign(obj, { [input.name]: input.value }), {});
+            event.preventDefault();
+            const data = Array.from(event.target.elements)
+                .filter((input) => input.name)
+                .reduce((obj, input) => Object.assign(obj, { [input.name]: input.value }), {});
 
-        // Gán dữ liệu hình ảnh vào trường "img" trong đối tượng data
-        if (dataimg) {
-            const imgBlob = new Blob([dataimg], { type: dataimg.type });
-            const imgBuffer = await blobToBuffer(dataimg);
+            // Gán dữ liệu hình ảnh vào trường "img" trong đối tượng data
+            if (dataimg) {
+                const imgBlob = new Blob([dataimg], { type: dataimg.type });
+                const imgBuffer = await blobToBuffer(dataimg);
 
-            data.img = imgBuffer;
+                data.img = imgBuffer;
+            }
+
+        }
+        catch (error) {
+            console.error(error);
         }
         setData(data)
        setIsMounted(!isMounted)
