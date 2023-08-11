@@ -61,7 +61,7 @@ export default function CreateStudent() {
     }
     async function handleSubmit(event) {
         try {
-
+            console.log("clickeds")
             event.preventDefault();
             const data = Array.from(event.target.elements)
                 .filter((input) => input.name)
