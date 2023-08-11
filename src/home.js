@@ -129,6 +129,7 @@ export default function Home() {
         fetchData();
 
     }, []);
+    console.log(AccessToken)
     useEffect(() => {
         getData()
     }, [AccessToken])
