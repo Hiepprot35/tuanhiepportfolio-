@@ -3,6 +3,7 @@ import { Buffer } from "buffer";
 import { useRefresh } from "./hook/useRefresh";
 import UseToken from "./hook/useToken";
 import Header from "./header";
+import { send } from "process";
 function blobToBuffer(blob) {
     return new Promise((resolve, reject) => {
         const reader = new FileReader();
@@ -83,6 +84,7 @@ export default function CreateStudent() {
        setIsMounted(!isMounted)
     }
    console.log(refreshAccessToken)
+   console.log(sendData(data))
     useEffect(()=>
     {
         async function fetchData() {
