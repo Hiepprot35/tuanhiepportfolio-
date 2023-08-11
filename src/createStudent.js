@@ -24,6 +24,7 @@ export default function CreateStudent() {
     const [avatarURL, setAvatarURL] = useState();
     const [dataimg, setDataimg] = useState();
     const refreshAccessToken  = useRefresh();
+    console.log(useRefresh())
     const imgInput = (e) => {
         const img = e.target.files[0];
         const imgLink = URL.createObjectURL(img);
