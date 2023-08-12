@@ -50,7 +50,6 @@ export default function CreateStudent() {
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${AccessToken}`,
-                    'MSSV':`${user2.MSSV}`
 
                 },
                 body: JSON.stringify(data)

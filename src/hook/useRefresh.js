@@ -11,7 +11,9 @@ export const useRefresh = () => {
         credentials: 'include', // Đảm bảo gửi cookie khi gọi API
         headers:
         {
-          'Authorization': `Bearer ${AccessToken}`
+          'Authorization': `Bearer ${AccessToken}`,
+          'MSSV':`${user2.MSSV}`
+
         }
       });
 
