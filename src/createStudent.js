@@ -83,13 +83,12 @@ export default function CreateStudent() {
         setData(data)
        setIsMounted(!isMounted)
     }
-   console.log(refreshAccessToken)
-   console.log(sendData(data))
     useEffect(()=>
     {
         async function fetchData() {
             try {
                 const refreshedData = await refreshAccessToken();
+                
                refreshedData.AccessToken? setAccessToken(refreshedData.AccessToken):console.log("OKE");
             } catch (error) {
                 // Xử lý lỗi nếu cần
@@ -103,7 +102,7 @@ export default function CreateStudent() {
     useEffect(()=>
     {
         sendData(data)
-
+        console.log("Send")
     },[isMounted])
     return (
         <>
