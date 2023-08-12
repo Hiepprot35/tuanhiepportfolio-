@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import UseToken from './useToken';
-import { useAuth } from './context/userContext'
+import { useAuth } from '../context/userContext'
 
 export const useRefresh = () => {
   const { AccessToken, setAccessToken } = UseToken();
