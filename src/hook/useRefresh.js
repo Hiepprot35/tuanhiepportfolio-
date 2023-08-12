@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import UseToken from './useToken';
+import { useAuth } from './context/userContext'
 
 export const useRefresh = () => {
   const { AccessToken, setAccessToken } = UseToken();
@@ -12,7 +13,7 @@ export const useRefresh = () => {
         credentials: 'include', // Đảm bảo gửi cookie khi gọi API
         headers:
         {
-          'Authorization': `git ${AccessToken}`,
+          'Authorization': `Bearer ${AccessToken}`,
           'MSSV':`${user2.MSSV}`
 
         }
