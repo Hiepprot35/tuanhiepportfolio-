@@ -3,6 +3,8 @@ import { Buffer } from "buffer";
 import { useRefresh } from "./hook/useRefresh";
 import UseToken from "./hook/useToken";
 import Header from "./header";
+import { useAuth } from './context/userContext'
+
 function blobToBuffer(blob) {
     return new Promise((resolve, reject) => {
         const reader = new FileReader();
@@ -17,6 +19,8 @@ function blobToBuffer(blob) {
     });
 }
 export default function CreateStudent() {
+    const { user2, setUser2 } = useAuth();
+
     const { AccessToken, setAccessToken } = UseToken();
     const [data,setData]=useState();
     const [isMounted,setIsMounted]=useState(false)
@@ -45,7 +49,8 @@ export default function CreateStudent() {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${AccessToken}`
+                    'Authorization': `Bearer ${AccessToken}`,
+                    'MSSV':`${user2.MSSV}`
 
                 },
                 body: JSON.stringify(data)
