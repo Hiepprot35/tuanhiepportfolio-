@@ -3,6 +3,7 @@ import UseToken from './useToken';
 
 export const useRefresh = () => {
   const { AccessToken, setAccessToken } = UseToken();
+  const { user2, setUser2 } = useAuth();
 
   const refreshAccessToken = async () => {
     
@@ -11,7 +12,7 @@ export const useRefresh = () => {
         credentials: 'include', // Đảm bảo gửi cookie khi gọi API
         headers:
         {
-          'Authorization': `Bearer ${AccessToken}`,
+          'Authorization': `git ${AccessToken}`,
           'MSSV':`${user2.MSSV}`
 
         }
