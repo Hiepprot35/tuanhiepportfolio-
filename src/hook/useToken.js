@@ -2,7 +2,6 @@ import { useState } from "react";
 
 
 export default function UseToken() {
-    console.log("join token")
     const getToken = () => {
         const tokenString = localStorage.getItem('AccessToken');
         const userToken = JSON.parse(tokenString);

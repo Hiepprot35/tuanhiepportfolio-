@@ -24,7 +24,6 @@ export default function CreateStudent() {
     const [avatarURL, setAvatarURL] = useState();
     const [dataimg, setDataimg] = useState();
     const refreshAccessToken  = useRefresh();
-    console.log(useRefresh())
     const imgInput = (e) => {
         const img = e.target.files[0];
         const imgLink = URL.createObjectURL(img);
@@ -41,7 +40,7 @@ export default function CreateStudent() {
 
     const sendData = async (data) => {
         try {
-
+            console.log("join")
             const res = await fetch('http://localhost:4000/api/createStudent', {
                 method: 'POST',
                 headers: {
@@ -62,9 +61,8 @@ export default function CreateStudent() {
     }
     async function handleSubmit(event) {
         try {
-            console.log("clickeds")
             event.preventDefault();
-            const data = Array.from(event.target.elements)
+            const dataInput = Array.from(event.target.elements)
                 .filter((input) => input.name)
                 .reduce((obj, input) => Object.assign(obj, { [input.name]: input.value }), {});
 
@@ -73,14 +71,14 @@ export default function CreateStudent() {
                 const imgBlob = new Blob([dataimg], { type: dataimg.type });
                 const imgBuffer = await blobToBuffer(dataimg);
 
-                data.img = imgBuffer;
+                dataInput.img = imgBuffer;
             }
 
+            setData(dataInput)
         }
         catch (error) {
             console.error(error);
         }
-        setData(data)
        setIsMounted(!isMounted)
     }
     useEffect(()=>
@@ -102,7 +100,6 @@ export default function CreateStudent() {
     useEffect(()=>
     {
         sendData(data)
-        console.log("Send")
     },[isMounted])
     return (
         <>

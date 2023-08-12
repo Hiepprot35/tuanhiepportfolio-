@@ -3,7 +3,6 @@ import UseToken from './useToken';
 
 export const useRefresh = () => {
   const { AccessToken, setAccessToken } = UseToken();
-  console.log('Join Refresh')
 
   const refreshAccessToken = async () => {
     
