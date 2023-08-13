@@ -20,7 +20,6 @@ export default function Header(props) {
     const handleSumbit = () => {
         setCity(cityInputRef.current.value);
     };
-
     useEffect(() => {
         let isMounted = true;
         const tempApi = async (city) => {

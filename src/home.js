@@ -8,7 +8,7 @@ import CreateStudent from './createStudent';
 import { useAuth } from './context/userContext'
 const { Buffer } = require('buffer');
 
-export default function Home() {
+export default function Home(props) {
     const { AccessToken, setAccessToken } = UseToken();
     const [isLoading, setIsLoading] = useState(true)
     const refreshAccessToken = useRefresh()
@@ -66,7 +66,6 @@ export default function Home() {
 
                 setIsLoading(false)
                 setPosts(data)
-                console.log(data)
             }
 
         } catch (error) {
@@ -129,7 +128,7 @@ export default function Home() {
         fetchData();
 
     }, []);
-    console.log(AccessToken)
+    console.log(props)
     useEffect(() => {
         getData()
     }, [AccessToken])
@@ -143,7 +142,7 @@ export default function Home() {
     return (
 
         <>
-            <Header user={user} />
+            <Header props={props.Name} />
             <div className="container_main">
                 {
                     isLoading ? <IsLoading></IsLoading> :
