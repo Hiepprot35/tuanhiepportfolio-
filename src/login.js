@@ -37,7 +37,7 @@ export default function Login({ setAccessToken,setUser }) {
 
     const dataRes = await resoponse.json();
     if (dataRes.AccessToken) {
-    const user = dataRes.user[0];
+    const user = dataRes;
     setUser2(user)
       setAccessToken(dataRes.AccessToken);
       setUser(user)
@@ -112,7 +112,7 @@ export default function Login({ setAccessToken,setUser }) {
             <div className="dangnhap_input_div">
               <input
                 type="text"
-                name="MSSV"
+                name="username"
                 className="dangnhapinput 2"
                 defaultValue=""
                 id="input_tk"

@@ -14,7 +14,7 @@ export default function Header(props) {
     const { user2, setUser2 } = useAuth();
     const [city, setCity] = useState("hanoi");
     const apiKey = "e9f7e8aac0662b6cfe1bb2d11bbb7042";
-    const bufferString = user2 ? Buffer.from(user2.img).toString('base64') : "11111";
+    // const bufferString = user2 ? Buffer.from(user2.img).toString('base64') : "11111";
     const cityInputRef = useRef(null); // Tạo một tham chiếu useRef
 
     const handleSumbit = () => {
@@ -82,19 +82,7 @@ export default function Header(props) {
                     <input ref={cityInputRef} type="text" placeholder="Enter city" />
                 </div>
                 <div className="right header">
-                    {
-                        user2 &&
-
-                        <>
-
-                            <h1>
-                                {user2.Name}
-                            </h1>
-
-                            <img className="avatarImage" src={`data:image/jpeg;base64,${bufferString}`} alt="Avatar"></img>
-                        </>
-
-                    }
+                  
 
 
 
