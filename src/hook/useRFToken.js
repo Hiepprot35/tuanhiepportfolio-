@@ -1,20 +1,39 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import Cookies from "js-cookie";
 
+export default function useRFToken() {
+  const [isLogin, setIsLogin] = useState(false); // Trạng thái đăng nhập
 
-export default function UseRFToken() {
-    const getRFToken = () => {
-        const tokenString = localStorage.getItem('AccessToken');
-        const userToken = JSON.parse(tokenString);
-        return userToken
-    }
-    const [token, setRFToken] = useState(getRFToken())
-    const saveToken = (userToken) => {
-        localStorage.setItem('AccessToken', JSON.stringify(userToken));
-        setToken(userToken)
-    }
+  const checkRF = async () => {
+    const headers = new Headers();
+    headers.append('Content-Type', 'application/json');
+    headers.append('Accept', 'application/json');
     
-    return{
-        AccessToken: token,
-        setAccessToken:saveToken,
-  }
-} 
+    const cookieValue = Cookies.get("RefreshToken") || "";
+    
+    try {
+      const fetchApi = await fetch('http://localhost:4000/api/getRefreshToken',{
+        method: "POST",
+        headers: headers,
+        body: JSON.stringify({
+          "RefreshToken": cookieValue
+        })
+      });
+      
+      if (fetchApi.status === 200) {
+        setIsLogin(true);
+      } else {
+        setIsLogin(false);
+      }
+    } catch (error) {
+      console.error("Error fetching Refresh Token:", error);
+      setIsLogin(false);
+    }
+  };
+  
+  useEffect(() => {
+    checkRF();
+  }, []); // [] để đảm bảo chỉ chạy một lần sau khi component mount
+
+  return {isLogin,setIsLogin};
+}

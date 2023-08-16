@@ -5,7 +5,7 @@ export  const LogOut=() =>{
     {
      localStorage.removeItem("AccessToken")
      window.location.reload();
-     document.cookie = 'tokenRefresh=; Max-Age=0;secure';
+     document.cookie = 'RefreshToken=; Max-Age=0;secure';
         
     }
     return(

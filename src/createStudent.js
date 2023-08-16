@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Buffer } from "buffer";
 import { useRefresh } from "./hook/useRefresh";
 import UseToken from "./hook/useToken";
@@ -19,15 +19,18 @@ function blobToBuffer(blob) {
     });
 }
 export default function CreateStudent() {
-    const { user2, setUser2 } = useAuth();
+    const khoaRef = useRef(1)
+    const [currentChooseKhoa, setCurrentChooseKhoa] = useState(1);
 
+    const [khoa, setKhoa] = useState();
     const { AccessToken, setAccessToken } = UseToken();
-    const [data,setData]=useState();
-    const [isMounted,setIsMounted]=useState(false)
+    const [data, setData] = useState();
+    const [isMounted, setIsMounted] = useState(false)
     const [classInfo, setClass] = useState([]);
+    const [classFlowKhoa, setClassFlowKhoa] = useState();
     const [avatarURL, setAvatarURL] = useState();
     const [dataimg, setDataimg] = useState();
-    const refreshAccessToken  = useRefresh();
+    const refreshAccessToken = useRefresh();
     const imgInput = (e) => {
         const img = e.target.files[0];
         const imgLink = URL.createObjectURL(img);
@@ -40,8 +43,14 @@ export default function CreateStudent() {
             .then(contents => {
                 setClass(contents);
             });
-    }, [AccessToken]);
-
+    }, []);
+    useEffect(() => {
+        fetch('http://localhost:4000/api/getAllKhoa')
+            .then(res => res.json())
+            .then(contents => {
+                setKhoa(contents);
+            });
+    }, []);
     const sendData = async (data) => {
         try {
             console.log("join")
@@ -83,28 +92,35 @@ export default function CreateStudent() {
         catch (error) {
             console.error(error);
         }
-       setIsMounted(!isMounted)
+        setIsMounted(!isMounted)
     }
-    useEffect(()=>
-    {
+    useEffect(() => {
         async function fetchData() {
             try {
                 const refreshedData = await refreshAccessToken();
-                
-               refreshedData.AccessToken? setAccessToken(refreshedData.AccessToken):console.log("OKE");
+
+                refreshedData.AccessToken ? setAccessToken(refreshedData.AccessToken) : console.log("OKE");
             } catch (error) {
                 // Xử lý lỗi nếu cần
             }
         }
-        
+
         fetchData();
 
-    },[isMounted])
-    
-    useEffect(()=>
-    {
+    }, [isMounted])
+
+    useEffect(() => {
+
         sendData(data)
-    },[isMounted])
+    }, [isMounted])
+    const handleChooseKhoa = (e) => {
+
+        setCurrentChooseKhoa(e.target.value)
+    }
+    useEffect(() => {
+        const data = classInfo.filter((tab) => tab.KhoaID === parseInt(currentChooseKhoa))
+        setClassFlowKhoa(data);
+    }, [currentChooseKhoa])
     return (
         <>
             <Header></Header>
@@ -112,18 +128,7 @@ export default function CreateStudent() {
                 <>
                     <h2>Thêm sinh viên</h2>
                     <form method="post" action="/create" onSubmit={handleSubmit}>
-                        <div className="mb-3">
-                            <label htmlFor="exampleInputEmail1" className="form-label">
-                                MSSV
-                            </label>
-                            <input
-                                type="text"
-                                name="MSSV"
-                                className="form-control"
-                                id="exampleInputEmail1"
-                                aria-describedby="emailHelp"
-                            />
-                        </div>
+                  
                         <div className="mb-3">
                             <label htmlFor="exampleInputEmail1" className="form-label">
                                 Name
@@ -136,6 +141,19 @@ export default function CreateStudent() {
                                 aria-describedby="emailHelp"
                             />
                         </div>
+                        <div className="mb-3">
+                            <label htmlFor="exampleInputEmail1" className="form-label">
+                                SDT
+                            </label>
+                            <input
+                                type="text"
+                                name="SDT"
+                                className="form-control"
+                                id="exampleInputEmail1"
+                                aria-describedby="emailHelp"
+                            />
+                        </div>
+                     
                         <div className="mb-3">
                             <input type="file" name="img" onChange={imgInput} />
                             <img className="avatarImage" src={avatarURL}></img>
@@ -167,22 +185,26 @@ export default function CreateStudent() {
 
                             />
                         </div>
+                       
                         <div className="mb-3">
-                            <label htmlFor="exampleInputPassword1" className="form-label">
-                                Mật khẩu
-                            </label>
-                            <input
-                                type="text"
-                                name="password"
-                                className="form-control"
-                                id="exampleInputPassword1"
-                            />
+                            <span>Tên khoa</span>
+                            <select name="Khoa" ref={khoaRef} value={currentChooseKhoa} onChange={handleChooseKhoa}>
+                                {
+                                    khoa ? khoa.map((tab) => {
+                                        return (
+                                            <option key={tab.KhoaID} value={tab.KhoaID} >
+                                                {tab.KhoaName}
+                                            </option>
+                                        )
+                                    }) : <div> ok</div>
+                                }
+                            </select>
                         </div>
                         <div className="mb-3">
                             <span>Tên lớp</span>
                             <select name="Class" >
                                 {
-                                    classInfo.map((tab) => {
+                                    classFlowKhoa && classFlowKhoa.map((tab) => {
                                         return (
                                             <option key={tab.CLASSID} value={tab.CLASSID} >
                                                 {tab.CLASSNAME}

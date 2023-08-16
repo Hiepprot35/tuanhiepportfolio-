@@ -8,7 +8,7 @@ const imgLinkBasic =
 {
   link: "https://pbs.twimg.com/media/EnOnhlSWEAEeYB3?format=jpg&name=large"
 }
-export default function Login({ setAccessToken,setUser }) {
+export default function Login({ setAccessToken,setIsLogin }) {
   const navigate = useNavigate();
   const {user2,setUser2}=useAuth();
 
@@ -40,7 +40,7 @@ export default function Login({ setAccessToken,setUser }) {
     const user = dataRes;
     setUser2(user)
       setAccessToken(dataRes.AccessToken);
-      setUser(user)
+      setIsLogin(true)
       // navigate('/home', { state: { user } });
     }
     else {
