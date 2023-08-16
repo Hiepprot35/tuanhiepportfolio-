@@ -1,10 +1,12 @@
 import { useState, useEffect } from 'react';
 import UseToken from './useToken';
 import { useAuth } from '../context/userContext'
+import Cookies from "js-cookie";
 
 export const useRefresh = () => {
   const { AccessToken, setAccessToken } = UseToken();
   const { user2, setUser2 } = useAuth();
+  const cookieValue = Cookies.get("RefreshToken") || "";
 
   const refreshAccessToken = async () => {
     
@@ -14,7 +16,10 @@ export const useRefresh = () => {
         headers:
         {
           'Authorization': `Bearer ${AccessToken}`
-        }
+        },
+        body: JSON.stringify({
+          "RefreshToken": cookieValue
+        })
       });
 
       const data = await response.json();
