@@ -46,6 +46,8 @@ function App() {
 
       <Route path="/create" element={<CreateStudent />} />
       <Route path="/" element={<FistHomePage />} />
+      <Route path="/login" element={<Login setAccessToken={setAccessToken} setIsLogin={setIsLogin} />} />
+
     </Routes>
   );
 }
