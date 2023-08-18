@@ -1,0 +1,901 @@
+    @import url(https://lolstatic-a.akamaihd.net/webfonts/live/css/lol/index.css);
+
+    @keyframes bounce {
+        from {
+            top: 0px;
+        }
+
+        to {
+            top: px;
+        }
+    }
+
+    * {
+        box-sizing: border-box;
+
+    }
+
+    a {
+        text-decoration: none;
+    }
+
+    body {
+        margin: 80px 0px 0px 0px;
+        padding: 0px;
+        background-color: #dfd8d8a8;
+    }
+
+    div {
+        display: block;
+    }
+
+    .body_container {
+
+        display: block;
+    }
+
+    .lol {
+
+        display: block;
+        width: 100%;
+        height: 100%;
+        margin: 0px;
+        animation: 1
+    }
+
+    .login_button {
+        color: white;
+        background: rgba(109, 106, 106, 0.2);
+
+    }
+
+    .play_button {
+        color: #0f0f0f;
+        background: #0d0f11;
+    }
+
+    .dangnhap a {
+        box-sizing: border-box;
+        cursor: pointer;
+        display: inline-block;
+        transition: color 1s cubic-bezier(0.06, 0.81, 0, 0.98);
+        vertical-align: middle;
+        font-size: 13px;
+        /* font-weight: 600; */
+        text-transform: uppercase;
+        padding: 8px 16px;
+        border-radius: 10px;
+        letter-spacing: .08em;
+        line-height: 140%;
+        height: 32px;
+    }
+
+    .img_lol {
+        display: inline-block;
+        position: relative;
+        width: 40vw;
+        height: calc(17.6333vw);
+        max-width: 37.5rem;
+        max-height: 16.5312rem;
+    }
+
+    .button_play_incheo {
+        width: 100%;
+        position: absolute;
+        left: 0px;
+        top: 0px;
+        bottom: 0px;
+        align-items: center;
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+    }
+
+    .play_in_cheo {
+        padding: 20px 40px 20px 40px;
+        background-color: rgba(58, 226, 226, 0.87);
+        border-radius: 10px;
+        border-color: #7e7e7e;
+
+    }
+
+    .video_cheo_divsec {
+        position: relative;
+        align-items: center;
+        display: flex;
+        justify-content: center;
+    }
+
+    .video_section {
+        box-sizing: border-box;
+        position: relative;
+        min-height: 31.25rem;
+        padding: 3.75rem;
+        align-content: center;
+
+
+    }
+
+    .video_cheo_div {
+        width: 100%;
+        position: absolute;
+        left: 0px;
+        top: 0px;
+        bottom: 0px;
+
+    }
+
+    .video_cheo {
+        display: flex;
+        z-index: -1;
+        text-align: center;
+    }
+
+    .video_cheo::after {
+        content: "Lê văn chẻo";
+        border-radius: 10px;
+        border: #852a2a;
+        z-index: 20;
+    }
+
+    .video_layer {
+        background-image: linear-gradient(to right, rgb(3, 35, 54), rgba(68, 5, 58, 0.733));
+        min-height: 500px;
+        width: 100%;
+        position: relative;
+
+        text-align: center;
+        z-index: 0;
+
+
+    }
+
+
+
+
+    ._2aMlTPtMn1IHOjnBng7Xwk {
+        display: flex;
+        justify-content: space-between;
+        height: 100%;
+    }
+
+    ._2kifR8SgDiOjjbRMOZ1npZ {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-right: 15px;
+        position: relative;
+    }
+
+    .play_button {
+
+        background-color: rgb(20, 100, 150);
+        margin-left: 20px !important;
+
+    }
+
+    .dangnhap button {
+        font-family: Spiegel, "Arial Narrow", Arial, sans-serif;
+        border-radius: 15px;
+        border: white;
+        border-top: 10px;
+        padding: 10px 10px 10px 10px;
+        letter-spacing: 2px;
+        line-height: 10px;
+    }
+
+    .dangnhap {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-right: 15px;
+        position: relative;
+    }
+
+    .test {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .logo_riot .riotbar-logo {
+        position: relative;
+        display: inline-flex;
+        align-items: center;
+    }
+
+    .logo_riot {
+        display: inline-flex;
+    }
+
+    .text p {
+        padding: 10px 20px 10px 20px;
+        font-size: 16px;
+        font-weight: bold;
+
+    }
+
+    .text p:hover {
+
+        border-radius: 10px;
+        background-color: rgba(139, 128, 128, 0.253);
+    }
+
+    .text a {
+        color: white;
+        font-size: 15px;
+    }
+
+    .lol_logo {
+        margin: 0px 50px 0px 20px;
+    }
+
+    /* .hide_box ::before {
+        background-color: black;
+        position: absolute;
+        width: 100%;
+        height: 500px;
+        content: "";
+        z-index: -1;
+    } */
+
+    ._3vp8M8e2gRtk5W-sZflwC svg {
+        margin-left: 5px;
+        fill: #7e7e7e;
+        width: 8px;
+        height: 5px;
+        margin-right: 20px;
+    }
+
+
+
+    .riotbar-logo svg:hover {
+
+        fill: #852a2a;
+
+    }
+
+    ._35l7QijJYkB3Bc2F_7dM8u svg {
+        fill: white;
+        padding-left: 10px;
+    }
+
+
+    .hide_box2 {
+        width: 100%;
+        position: absolute;
+        height: 600px;
+        background-color: rgb(233, 236, 236);
+        top: 0;
+        left: 0;
+        right: 0;
+        display: none;
+    }
+
+    .header {
+        background: rgb(17, 17, 17);
+        position: fixed;
+        top: 0px;
+        left: 0px;
+        right: 0px;
+        height: 80px;
+        z-index: 999;
+    }
+
+    .layer2 {
+        background-color: rgb(233, 236, 236);
+        height: 80px;
+    }
+
+    .hide_box2 ._35l7QijJYkB3Bc2F_7dM8u svg {
+        padding-top: 5px;
+        position: relative;
+        display: inline-flex;
+        align-items: center;
+        fill: black;
+    }
+
+    .list_trochoi li {
+        list-style-type: none;
+        font-size: 15px;
+        font-weight: 3px;
+
+    }
+
+    .trochoi a {
+
+        color: rgb(8, 8, 8);
+        font-size: 15px;
+        font-weight: 50;
+
+    }
+
+    .text_list {
+        margin-bottom: 20px;
+        letter-spacing: 0px;
+    }
+
+    .list_trochoi {
+        padding: 10px 10px 10px 10px;
+        width: 100%;
+    }
+
+    .tro_choi_title {
+        margin-top: 20px;
+        margin-left: 10px;
+        display: inline-block;
+        width: 100%;
+        padding: 10px 10px 10px;
+        background-color: rgba(186, 186, 186, 0.582);
+        border-radius: 5px;
+        font-weight: 600;
+    }
+
+    .thongtin_div_layer2,
+    .column {
+        display: flex;
+    }
+
+    .column,
+    .picture_list {
+        margin-right: 20px;
+
+    }
+
+    .two_text {
+        width: 70%;
+    }
+
+    .list_text {
+        display: flex;
+        flex-direction: column;
+        columns: 10em 3;
+        width: 50%;
+
+    }
+
+    .picture_list img {
+        width: 100%;
+        max-width: 452px;
+        border-radius: 10px;
+        box-shadow: 0 1px 3px rgb(0 0 0 / 12%), 0 1px 2px rgb(0 0 0 / 24%);
+
+    }
+
+    .img_list {
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+    }
+
+    .picture_list {
+        width: 50%;
+        display: flex;
+        gap: 16px
+    }
+
+    .text_img h4 {
+        color: #0a0a0a;
+        margin: 16px 0 0 0;
+        letter-spacing: .03em;
+        width: 100%;
+        position: static;
+        display: inline-block;
+        left: 0px;
+        bottom: 8px;
+        text-transform: unset;
+        font-family: unset;
+        font-weight: 300;
+        font-size: 13px;
+        line-height: 15.6px;
+        text-align: left;
+    }
+
+    .box_img {
+        width: 50%;
+        margin-top: 30px;
+    }
+
+
+
+    .information_section {
+        padding-top: 100px;
+        display: block;
+
+    }
+
+    .tin_tuc_tieu_bieu {
+        transform: rotate(-90deg) translate(100%, 50%);
+        transform-origin: left top;
+        white-space: nowrap;
+        color: rgb(28, 29, 42);
+        font-size: 10px;
+        letter-spacing: 0.25em;
+        font-weight: bold;
+
+    }
+
+    .tintuc {
+        display: flex;
+        padding-left: 130px;
+        padding-right: 130px;
+        justify-content: space-between;
+        height: 140px;
+
+    }
+
+    .tintuc_chitiet {
+        display: flex;
+        width: 30%;
+        height: 100%;
+        max-width: 340px;
+
+    }
+
+    .tintuc_chitiet::before {
+        content: "";
+
+
+    }
+
+    .title_thongtin {
+        font-size: 10px;
+    }
+
+    .thongtin_mot_text p {
+        font-size: 10px;
+
+    }
+
+    .thongtin_mot {
+        height: 90%;
+        max-width: 150px;
+        min-width: 100px;
+        overflow: hidden;
+    }
+
+    .thongtin_mot img {
+        transition: transform .2s;
+        /* Animation */
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        z-index: -1;
+        padding-top: 2px;
+
+
+    }
+
+    .thongtin_mot img:hover {
+        transform: scale(1.2);
+
+    }
+
+
+
+    .thongtin_mot_text {
+        width: 100%;
+        max-width: 85%;
+        height: 100%;
+        padding: 10px;
+        box-sizing: border-box;
+        overflow: hidden;
+    }
+
+    .tintuc_chitiet a {
+        color: rgb(5, 5, 5);
+        font-size: 15px;
+        display: flex;
+        width: 100%;
+        position: relative;
+        align-items: center;
+
+    }
+
+    canvas {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        transform: all 1s;
+
+
+    }
+
+    #myCanvas {
+        width: 1040.4px;
+        height: 518.2px;
+    }
+
+    .boder_container {
+        inset: 0px;
+        left: 10px;
+        pointer-events: none;
+        position: absolute;
+        z-index: 2;
+
+    }
+
+    .canvas_container_layer2 {
+        inset: 1px;
+        left: 10px;
+        pointer-events: none;
+        position: absolute;
+        clip-path: polygon(0 0, 90% 0, 100% 20%, 100% 100%, 100% 100%, 0 100%, 0 0, 0 0);
+        background: rgb(247, 247, 247);
+        z-index: -1;
+
+    }
+
+
+
+    .section_body {
+        padding: 140px 0px 15vw;
+        background-color: white;
+    }
+
+    .circle_div {
+        display: flex;
+        position: relative;
+        justify-content: space-evenly;
+        min-height: 600px;
+        width: 100%;
+    }
+
+    .section_container::after {
+        content: "";
+        width: 60px;
+    }
+
+    .choose svg {
+        transform: scale(1.2) !important;
+
+        fill: black !important;
+
+    }
+
+    .cheo_img_div {
+        position: absolute;
+        opacity: 0;
+        width: 90%;
+        height: 100%;
+
+
+    }
+
+    .cheo_img_div img {
+        position: absolute;
+        top: 20px;
+        left: 20px;
+
+    }
+
+    .circle_right {
+        position: relative;
+        display: flex;
+        justify-content: center;
+    }
+
+    .figure_div,
+    .figure_div img {
+        width: 90%;
+        height: 100%;
+    }
+
+    .canvas_2 {
+        width: 637.463px;
+        height: 638px;
+        position: absolute;
+        display: flex;
+        justify-content: center;
+    }
+
+    .active {
+        opacity: 1 !important;
+    }
+    .active_text {
+        opacity: 1 !important;
+    }
+    .change_back {
+        background-color: orange !important;
+    }
+
+    .liner_back {
+        opacity: 1 !important;
+        transform: scaleY(0.75) !important;
+
+    }
+
+    .text_circle_div,
+    .button_center {
+        position: relative;
+        align-items: center;
+        display: inline-flex;
+    }
+
+    .button_center {
+        transform: scale(1.22) translate(-10px, -50px);
+    }
+
+    .button_center::before {
+        content: "";
+        position: absolute;
+        width: 80px;
+        height: 2px;
+        left: -80px;
+        bottom: 4.5px;
+        background-color: rgb(206, 203, 203)
+    }
+
+    .button_center::after {
+        content: "";
+        position: absolute;
+        width: 80px;
+        height: 2px;
+        right: -80px;
+        bottom: 4.5px;
+        background-color: rgb(206, 203, 203)
+    }
+
+    .button_left {
+        flex: 1 1 auto;
+        position: relative;
+    }
+
+    .text_circle_div,
+    .circle_right {
+        width: 50%;
+    }
+
+    .text_1 {
+        position: relative;
+    }
+
+    .cheo_picture {
+        position: relative;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+
+    }
+
+    .circle_span {
+        width: 70px;
+        height: 70px;
+        fill: orange;
+        display: block;
+        transition: opacity 0.5s;
+        opacity: 0;
+
+    }
+
+    .circle_span svg {
+        width: 100%;
+        height: 100%;
+
+    }
+
+    .type_champiton {
+        background-color: transparent;
+        border: transparent;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+
+    }
+
+    .text_1 {
+        background-color: transparent;
+        border: transparent;
+        position: relative;
+    }
+
+    .logo_type_champion {
+        top: calc(50% - 15px);
+        left: calc(50% - 15px);
+        width: 30px;
+        height: 30px;
+        position: absolute;
+        transition: all 1s;
+    }
+
+    .logo_type_champion svg {
+        fill: gray;
+        transform: scale(0.8);
+        transition: all 1s;
+        width: 100%;
+
+    }
+
+    .logo_type_champion svg:hover {
+        fill: rgb(0, 0, 0);
+
+    }
+
+
+
+    .point_container {
+        display: block;
+        position: relative;
+        width: calc(100% + 24px);
+        z-index: 0;
+
+    }
+
+    .point_button {
+        position: relative;
+        display: block;
+        height: 9px;
+        width: 9px;
+        border-radius: 50%;
+        margin: 0px auto;
+        z-index: 1;
+        background-color: gray;
+    }
+
+    .point_container::before {
+        content: "";
+        position: absolute;
+        height: 1px;
+        width: 50px;
+        background-color: rgb(206, 203, 203);
+        bottom: 4px;
+        left: 0px;
+
+
+    }
+
+    .point_container::after {
+        content: "";
+        position: absolute;
+        height: 1px;
+        width: 50px;
+        background-color: rgb(206, 203, 203);
+        bottom: 4px;
+        right: 0px;
+    }
+
+    .logo_circle {
+        width: 100%;
+        height: 100%;
+        position: relative;
+    }
+
+    .liner_circle {
+        width: 2px;
+        height: 50px;
+        background-color: orange;
+        opacity: 0;
+        transform: scaleY(0);
+        will-change: transform;
+        transform-origin: center bottom;
+        transition-property: opacity, transform;
+        transition-duration: 400ms;
+        transition-timing-function: cubic-bezier(0.165, 0.84, 0.44, 1);
+
+    }
+
+    .circle_boder {
+        opacity: 1;
+        position: absolute;
+        width: 19px;
+        height: 19px;
+        border: 1px solid orange;
+        border-radius: 50%;
+        margin: 0 auto;
+        left: 6.3%;
+        bottom: -4px;
+        transition: 0.5s;
+    }
+
+    .header_seaction_body {
+        margin-bottom: 100px
+    }
+
+    .header_seaction_body span {
+        font-size: 50px;
+        text-decoration: up;
+    }
+
+    .left_layer1 {
+        width: 60px;
+    }
+
+    .section_container {
+        display: flex;
+    }
+
+    .tuong_section {
+        width: 100%;
+    }
+
+    .bigger {
+        text-transform: uppercase;
+        font-family: 'Oleo Script', cursive;
+
+    }
+
+    @import url('https://fonts.googleapis.com/css2?family=Oleo+Script:wght@700&display=swap');
+
+    .bigger1 {
+        font-size: 80px;
+        font-family: 'Oleo Script', cursive;
+        letter-spacing: 4px;
+    }
+
+    .bigger2 {
+        font-size: 40px;
+    }
+
+    /* .haychontuong_button
+    {
+        width: 400px;
+        height: 200px;
+        background-color: black;
+        position: relative;
+        
+    } */
+    .text_haychontuong {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+
+    }
+
+    /* .text_bigger
+    {
+        position: relative;
+        background-color: rgb(120, 120, 232);
+
+    }
+    .text_bigger::before
+    {
+        content: "";
+        position: absolute;
+        top:-20px;
+
+        left:-20px;
+        right:-20px;
+        bottom: -20px;
+        border: 1px solid black;
+    } */
+
+    .animate {
+        animation: animate 1s;
+        transition: all 1s;
+    }
+
+    .animate2 {
+        animation: animate2 1s;
+        transition: all 1s;
+    }
+
+    @keyframes rotate_x {
+        0% {
+            transform: rotate(0deg);
+        }
+
+        100% {
+            transform: rotate(360deg);
+        }
+    }
+
+    @keyframes animate {
+        from {
+            clip-path: polygon(100% 100%, 100% 100%, 100% 100%, 99% 100%);
+        }
+
+        to {
+            clip-path: polygon(0 100%, 100% 98%, 100% 0, 0 0);
+        }
+    }
+
+    @keyframes animate2 {
+        from {
+            clip-path: polygon(0 100%, 100% 98%, 100% 0, 0 0);
+        }
+
+        to {
+            clip-path: polygon(100% 100%, 100% 100%, 100% 100%, 99% 100%);
+        }
+    }
