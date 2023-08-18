@@ -637,8 +637,8 @@ export default function FistHomePage() {
                                             loop=""
                                             muted=""
                                         >
-                                            <source src="/images/homepage/howl.mp4" type="video/mp4" />
-                                            <source src="/images/homepage/howl.mp4" type="video/ogg" />
+                                            <source src="/images/homepage/canmuoi.mp4" type="video/mp4" />
+                                            <source src="/images/homepage/canmuoi.mp4" type="video/ogg" />
                                         </video>
                                         <div className="button_play_incheo">
                                             <div className="img_lol">
