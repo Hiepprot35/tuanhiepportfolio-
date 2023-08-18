@@ -127,8 +127,8 @@
 
     .video_cheo {
         display: flex;
-        z-index: -1;
         text-align: center;
+        z-index: 2;
     }
 
     .video_cheo::after {

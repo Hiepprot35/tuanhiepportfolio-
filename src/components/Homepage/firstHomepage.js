@@ -230,7 +230,7 @@ export default function FistHomePage() {
                         list_text_3[0].classList.toggle("change_back");
                         list_logo[0].classList.toggle("choose")
                         list_logo[list_img.length - 1].classList.toggle("choose")
-                        $(circle_show).css("left", 6.3 +"%");
+                        $(circle_show).css("left", 6.3 + "%");
 
                         stt = 0;
 
@@ -630,15 +630,17 @@ export default function FistHomePage() {
                                     <div className="video_cheo_divsec" style={{ width: "100%" }}>
                                         <canvas id="myCanvas" width={2480} height={1236} />
                                         <video
+                                            autoPlay
+                                            loop
                                             className="video_cheo"
                                             width="1700px"
                                             height="500px"
-                                            autoPlay=""
-                                            loop=""
-                                            muted=""
+
                                         >
                                             <source src="/images/homepage/canmuoi.mp4" type="video/mp4" />
                                             <source src="/images/homepage/canmuoi.mp4" type="video/ogg" />
+                                            Sorry, your browser doesn't support videos.
+
                                         </video>
                                         <div className="button_play_incheo">
                                             <div className="img_lol">
