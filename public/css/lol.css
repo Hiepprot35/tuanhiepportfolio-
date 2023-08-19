@@ -153,13 +153,13 @@
 
 
 
-    ._2aMlTPtMn1IHOjnBng7Xwk {
+    .riotbar-left-content {
         display: flex;
         justify-content: space-between;
         height: 100%;
     }
 
-    ._2kifR8SgDiOjjbRMOZ1npZ {
+    .riotbar-branding-switcher {
         display: flex;
         align-items: center;
         justify-content: center;

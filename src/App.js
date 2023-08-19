@@ -19,6 +19,7 @@ function App() {
 
   const ROLES = [1, 2]
   useEffect(() => {
+    console.log(isLogin)
     setIsLoading(false);
   }, [isLogin]);
 
@@ -37,7 +38,7 @@ function App() {
           <Route path="/home" element={<Home props={user} />} />
           <Route path="/" element={<Navigate to="/home"></Navigate>} />
           <Route path="/create" element={<CreateStudent />} />
-          <Route path="/*" element={<Navigate to="/home"></Navigate>} />
+          <Route path="/*" element={<Navigate to="/"></Navigate>} />
 
         </Route>
 
@@ -54,7 +55,7 @@ function App() {
       <Routes>
 
         {/* <Route path="*" element={<Navigate to="/"></Navigate>} /> */}
-        <Route path="/*" element={<IsLoading />} />
+        {/* <Route path="*" element={<IsLoading />} /> */}
 
         <Route path="/" element={<FistHomePage />} />
         <Route path="/login" element={<Login setAccessToken={setAccessToken} setIsLogin={setIsLogin} />} />

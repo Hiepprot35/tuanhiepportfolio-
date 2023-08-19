@@ -344,11 +344,11 @@ export default function FistHomePage() {
         <>
             <div className="header">
                 <div
-                    className="_2aMlTPtMn1IHOjnBng7Xwk riotbar-left-content"
+                    className=" riotbar-left-content"
                     id="riotbar-left-content"
                 >
                     <div
-                        className="_2kifR8SgDiOjjbRMOZ1npZ riotbar-branding-switcher"
+                        className=" riotbar-branding-switcher"
                         data-testid="riotbar:appSwitcher:button-open"
                     >
                         <div className="test">
@@ -446,11 +446,11 @@ export default function FistHomePage() {
             <div className="hide_box2" id="hide_box2">
                 <div className=" layer2">
                     <div
-                        className="_2aMlTPtMn1IHOjnBng7Xwk riotbar-left-content layer2"
+                        className=" riotbar-left-content layer2"
                         id="riotbar-left-content"
                     >
                         <div
-                            className="_2kifR8SgDiOjjbRMOZ1npZ riotbar-branding-switcher"
+                            className="riotbar-branding-switcher"
                             data-testid="riotbar:appSwitcher:button-open"
                         >
                             <div className="test">

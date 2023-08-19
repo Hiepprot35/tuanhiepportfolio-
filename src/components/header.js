@@ -84,62 +84,72 @@ export default function Header(props) {
 
     return (
         <>
-            <div className="header_container">
-                <div className='left header-left' style={{ display: "flex", alignItems: "center" }}>
-                    <ul className='list'>
+            <div className="header">
+                <div className='riotbar-left-content' >
+                    <div className='riotbar-branding-switcher'>
+                        <ul className='list'>
 
-                        <li>
-                            <Link to="/home" className='Link'>Home</Link>
+                            <li>
+                                <Link to="/home" className='Link'>Home</Link>
 
-                        </li>
-                        <li>
-                            <Link to="/create" className='Link'>Create</Link>
+                            </li>
+                            <li>
+                                <Link to="/create" className='Link'>Create</Link>
 
-                        </li>
-                        <li>
-                            <p className='City cityname'> {weather.city}     </p>
+                            </li>
+                            <li>
+                                <p className='City cityname'> {weather.city}     </p>
 
-                        </li>
-                        <li>
-                            <p className='City citytemp'> {weather.temp}*C</p>
+                            </li>
+                            <li>
+                                <p className='City citytemp'> {weather.temp}*C</p>
 
-                        </li>
-                        <li>
-                            <img src={`/images/${weather.weather}.png`} alt={weather.weather} />
+                            </li>
+                            <li>
+                                <img src={`/images/${weather.weather}.png`} alt={weather.weather} />
 
-                        </li>
-                    </ul>
+                            </li>
+                        </ul>
 
-                </div>
+                    </div>
 
-                <div className="center header">
+                    {/* <div className="">
 
                     <button onClick={handleSumbit}>
                         <img src='/images/search.png' alt='Weather'></img>
                     </button>
                     <input ref={cityInputRef} type="text" placeholder="Enter city" />
-                </div>
-                <div className="right header">
+                </div> */}
+                    <div className="dangnhap">
 
-                    {isLoading ? (
-                        <p>Đang tải...</p>
-                    ) : (
-                        <>
-                            {user.img &&
+                        {isLoading ? (
+                            <p>Đang tải...</p>
+                        ) : (
+                            <>
+                                {user.img &&
 
-                                <div>
+                                    <div>
+                                        <ul>
+                                            <li>
+                                            <p style={{ color: 'white' }}>{user.MSSV}</p>
 
-                                    <p style={{ color: 'white' }}>{user.MSSV}</p>
-                                    {/* <img src={`${BlobtoBase64(user.img)}`} alt='User Avatar'></img> */}
-                                </div>
-                            }
+                                            </li>
+                                            <li>
+                                            <img src={`${BlobtoBase64(user.img)}`} alt='User Avatar'></img>
 
-                            <LogOut />
-                        </>
-                    )}
+                                            </li>
+                                        </ul>
+                                    </div>
+                                }
 
+                                <LogOut />
+                            </>
+                        )}
+
+                    </div>
                 </div>
             </div>
+
 
         </>
     );
