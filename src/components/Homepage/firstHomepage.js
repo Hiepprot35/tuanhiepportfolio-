@@ -1,6 +1,6 @@
-import JsLolpage from "./lol"
 import { useEffect } from "react";
 import $ from 'jquery';
+const { Buffer } = require('buffer');
 
 export default function FistHomePage() {
     const titleHeader = [
@@ -414,7 +414,7 @@ export default function FistHomePage() {
                         {
                             titleHeader.map((index) => {
                                 return (
-                                    <div className="text">
+                                    <div className="text" key={index}>
                                         <div className="text">
                                             {" "}
                                             <a href="">
@@ -512,7 +512,7 @@ export default function FistHomePage() {
                                 <div className="trochoi" style={{ padding: "15px 0px 15px 15px" }}>
                                     {
                                         titleGameName.map((title) => (
-                                            <div className="text_list LMHT_trochoi">
+                                            <div className="text_list LMHT_trochoi" key={title}>
                                                 {" "}
                                                 <a href="" className="LMHT_list_link">
                                                     <span>{title}</span>

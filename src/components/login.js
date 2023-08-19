@@ -8,11 +8,11 @@ const imgLinkBasic =
 {
   link: "https://pbs.twimg.com/media/EnOnhlSWEAEeYB3?format=jpg&name=large"
 }
-export default function Login({ setAccessToken, setIsLogin }) {
+export default function Login({ setAccessToken,setIsLogin }) {
   const navigate = useNavigate();
   const { auth, setAuth } = useAuth();
   const location = useLocation();
-  const from = location.state?.from?.pathname || "/";
+  const from = location.state?.from?.pathname || "/home";
 
   const [isLoading, setIsLoading] = useState(false)
   const [message, setMessage] = useState();
@@ -39,11 +39,14 @@ export default function Login({ setAccessToken, setIsLogin }) {
 
     const dataRes = await resoponse.json();
     if (dataRes.AccessToken) {
+      console.log(dataRes.AccessToken)
       const user = dataRes;
       // setAuth({user.RoleID})
       setAccessToken(dataRes.AccessToken);
       const role=dataRes.Role
-      setAuth({role})
+      const username=dataRes.Username
+      const userID=dataRes.UserID
+      setAuth({role,username,userID})
       setIsLogin(true)
       navigate(from, { replace: true });
 

@@ -30,7 +30,6 @@ export default function CreateStudent() {
     const [classFlowKhoa, setClassFlowKhoa] = useState();
     const [avatarURL, setAvatarURL] = useState();
     const [dataimg, setDataimg] = useState();
-    console.log(auth)
 
     const refreshAccessToken = useRefresh();
     const imgInput = (e) => {
@@ -53,6 +52,7 @@ export default function CreateStudent() {
                 setKhoa(contents);
             });
     }, []);
+
     const sendData = async (data) => {
         try {
             console.log("join")
@@ -80,7 +80,7 @@ export default function CreateStudent() {
             const dataInput = Array.from(event.target.elements)
                 .filter((input) => input.name)
                 .reduce((obj, input) => Object.assign(obj, { [input.name]: input.value }), {});
-
+                dataInput.create_by=auth.userID
             // Gán dữ liệu hình ảnh vào trường "img" trong đối tượng data
             if (dataimg) {
                 const imgBlob = new Blob([dataimg], { type: dataimg.type });
@@ -108,7 +108,7 @@ export default function CreateStudent() {
         }
         fetchData();
         
-    }, [isMounted])
+    }, [])
 
    
     const handleChooseKhoa = (e) => {
@@ -121,9 +121,10 @@ export default function CreateStudent() {
 
     },[isMounted])
     useEffect(() => {
-        const data = classInfo.filter((tab) => tab.KhoaID === parseInt(currentChooseKhoa))
-        setClassFlowKhoa(data);
+        const data2 = classInfo.filter((tab) => tab.KhoaID === parseInt(currentChooseKhoa))
+        setClassFlowKhoa(data2);
     }, [currentChooseKhoa])
+
     return (
         <>
             <Header></Header>
@@ -142,7 +143,6 @@ export default function CreateStudent() {
                                 className="form-control"
                                 id="exampleInputEmail1"
                                 aria-describedby="emailHelp"
-                                required
                             />
                         </div>
                         <div className="mb-3">
@@ -155,13 +155,12 @@ export default function CreateStudent() {
                                 className="form-control"
                                 id="exampleInputEmail1"
                                 aria-describedby="emailHelp"
-                                required
                             />
                         </div>
                      
                         <div className="mb-3">
                             <input type="file" name="img" onChange={imgInput} />
-                            <img className="avatarImage" src={avatarURL}></img>
+                            <img className="avatarImage" src={avatarURL} alt="Avatar"></img>
                         </div>
                         <div className="mb-3">
                             <label htmlFor="exampleInputPassword1" className="form-label">
@@ -172,7 +171,6 @@ export default function CreateStudent() {
                                 name="Address"
                                 className="form-control"
                                 id="exampleInputPassword1"
-                                required
 
                             />
                         </div>
@@ -188,7 +186,7 @@ export default function CreateStudent() {
                                 className="form-control"
                                 id="exampleInputEmail1"
                                 aria-describedby="emailHelp"
-                                required
+                                
                             />
                         </div>
                        
@@ -234,10 +232,10 @@ export default function CreateStudent() {
                 </>
             </div>
                             
-                            {
+                            {/* {
                                     isMounted &&
                              <SuccessNotification></SuccessNotification>
-                            }   
+                            }    */}
 
         </>
     )

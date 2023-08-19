@@ -9,7 +9,6 @@ const RequireAuth = ({ allowedRoles }) => {
     const refreshAccessToken = useRefresh()
     const { AccessToken, setAccessToken } = UseToken();
 
-    const location = useLocation();
     useEffect(() => {
         async function fetchData() {
             try {
@@ -25,9 +24,7 @@ const RequireAuth = ({ allowedRoles }) => {
         fetchData();
 
     }, []);
-    console.log("User tole", auth?.role)
-    console.log("Role:", allowedRoles[0])
-    console.log(auth.role === 2)
+  
     return allowedRoles.includes(auth?.role) ? (
         <div>
             {auth?.role === 1 ? (
@@ -40,7 +37,7 @@ const RequireAuth = ({ allowedRoles }) => {
             ) : null}
         </div>
     ) : (
-        <p>Lỗi: Vai trò không được phép truy cập.</p>
+        console.log("ok")
     );
 }
 

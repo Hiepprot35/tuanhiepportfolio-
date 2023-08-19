@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import Cookies from "js-cookie";
 
 export default function useRFToken() {
-  const [isLogin, setIsLogin] = useState(false); // Trạng thái đăng nhập
+  const [isLogin, setIsLogin] = useState(); // Trạng thái đăng nhập
 
   const checkRF = async () => {
     const headers = new Headers();

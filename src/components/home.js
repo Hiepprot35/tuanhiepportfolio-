@@ -113,21 +113,21 @@ export default function Home(props) {
     //         isCancel = true
     //     }
     // }, [AccessToken]);
-    useEffect(() => {
-        async function fetchData() {
-            try {
-                const refreshedData = await refreshAccessToken();
-                refreshedData.AccessToken ? setAccessToken(refreshedData.AccessToken) : console.log("OKE")
+    // useEffect(() => {
+    //     async function fetchData() {
+    //         try {
+    //             const refreshedData = await refreshAccessToken();
+    //             refreshedData.AccessToken ? setAccessToken(refreshedData.AccessToken) : console.log("OKE")
 
-                // Tiếp tục xử lý dữ liệu sau khi làm mới access token
-            } catch (error) {
-                // Xử lý lỗi nếu cần
-            }
-        }
+    //             // Tiếp tục xử lý dữ liệu sau khi làm mới access token
+    //         } catch (error) {
+    //             // Xử lý lỗi nếu cần
+    //         }
+    //     }
 
-        fetchData();
-
-    }, []);
+    //     fetchData();
+    //     console.log("ok")
+    // }, []);
     useEffect(() => {
         getData()
     }, [AccessToken])
@@ -138,6 +138,7 @@ export default function Home(props) {
     const handlePageChange = (page) => {
         setCurrentPage(page);
     };
+    console.log(auth)
     return (
 
         <>
