@@ -5,14 +5,14 @@ import Header from "./header";
 import { IsLoading } from "./Loading";
 export default function DangKiLopHoc() {
     const { auth } = useAuth()
-    const [change,setChange]=useState(false)
     const [loading, setLoading] = useState(true)
     const [monHoc, setMonHoc] = useState()
-    const [MaMonHoc, setMaMonHoc] = useState()
-    const [classMonHoc,setClassMonHoc]=useState()
-    const ChooseMonHoc = (e) => {
-        setMaMonHoc(e.target.value)
-        setChange(!change)
+    const [ChooseMonHoc, setChooseMonHoc] = useState()
+    const [classMonHoc, setClassMonHoc] = useState()
+    const [chooseClass, setChooseClass] = useState();
+    const ChooseMonHocChange = (e) => {
+        setChooseMonHoc(e.target.value)
+        setChooseClass(null)
     }
     useEffect(() => {
         const getApi = async () => {
@@ -42,57 +42,109 @@ export default function DangKiLopHoc() {
 
                     },
                     body: JSON.stringify({
-                        "MaMonHoc": MaMonHoc
+                        "MaMonHoc": ChooseMonHoc
                     })
                 })
             const getMonHoc = await getMonhocFetch.json();
-                setClassMonHoc(getMonHoc)
+            setClassMonHoc(getMonHoc)
         }
         getApi()
-    }, [change]);
-    useEffect(()=>
-    {
-        console.log(classMonHoc)
-    },[change])
+    }, [ChooseMonHoc]);
+  
+
+    function handleDangKy() {
+        const sendDataApi= async ()=>
+        {
+            const URL='http://localhost:4000/api/dangkihoc'
+            const sendToApi=await fetch(URL,
+                {
+                    method:"POST",
+                    headers:{
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        "CLASSID": chooseClass,
+                        "MaMonHoc": ChooseMonHoc,
+                        "MSSV":auth.userID
+                    })
+                })
+                const data=await sendDataApi()
+            }
+        sendDataApi()
+    }
     return (
         <>
             <Header></Header>
             <div className="container_main">
-                <div className="MonHocCombobox_layou">
-                    <label >Chọn môn học:</label>
+                <form>
+                    <div className="MonHocCombobox_layou">
+
+                        {
+                            loading ? <IsLoading></IsLoading> :
+                                <div name="monhoc" id="monhoc" >
+
+                                    {
+                                        monHoc.map((title, index) => {
+                                            return (
+                                                <>
+                                                    <br />
+                                                    <input
+                                                        name={`${title.MonHocID}`}
+                                                        type="radio"
+                                                        id={`CLASS${title.MonHocID}`}
+                                                        value={`${title.MonHocID}`}
+                                                        checked={ChooseMonHoc === `${title.MonHocID}`} 
+                                                        onChange={ChooseMonHocChange}
+                                                        />
+                                                    <label htmlFor={`CLASS${title.MonHocID}`}>
+                                                        {title.MonHocTen}
+                                                    </label>
+                                                    <br />
+
+                                                </>
+
+                                            )
+
+                                        })
+                                    }
+                                </div>
+                        }
+                    </div>
                     {
-                        loading ? <IsLoading></IsLoading> :
-                            <select name="monhoc" id="monhoc" onChange={ChooseMonHoc}>
+                        classMonHoc && classMonHoc.map((title, index) => {
+                            return (
+                                <div key={index}>
+                                    <ul>
+                                        <li>
+                                            <input type="radio"
+                                                name={`${title.CLASSID}`}
+                                                id={`MONHOC${title.CLASSID}`}
+                                                value={`${title.CLASSID}`}
+                                                checked={chooseClass === `${title.CLASSID}`}
+                                                onChange={(e) => setChooseClass(e.target.value)}
+                                            />
+                                            <label htmlFor={`MONHOC${title.CLASSID}`} >
+                                                {title.CLASSID}
+                                                {title.MonHocTen}
+                                                {title.SiSo}
 
-                                {
-                                    monHoc.map((title, index) => {
-                                        return (
+                                            </label>
+                                        </li>
 
-                                            <option key={index} value={`${title.MonHocID}`}>{title.MonHocTen}</option>
-                                        )
 
-                                    })
-                                }
-                            </select>
+
+                                    </ul>
+
+                                </div>
+                            )
+                        })
                     }
-                </div>
-              {
-                classMonHoc&&classMonHoc.map((title,index)=>
-                {
-                    return(
-                        <div  key={index}>
-                            <ul>
-                                <li>{title.CLASSID}</li>
-                                <li>{title.MonHocTen}</li>
-                                <li>{title.SiSo}</li>
 
-
-                            </ul>
-                       
-                        </div>
-                    )
-                })
-              }
+                </form>
+                <input
+                    type="submit"
+                    onClick={handleDangKy}
+                />
             </div>
         </>
     )

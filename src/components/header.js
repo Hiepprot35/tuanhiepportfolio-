@@ -98,6 +98,10 @@ export default function Header(props) {
 
                             </li>
                             <li>
+                                <Link to="/dangkilop" className='Link'>Đăng ký học</Link>
+
+                            </li>
+                            <li>
                                 <p className='City cityname'> {weather.city}     </p>
 
                             </li>
@@ -126,16 +130,16 @@ export default function Header(props) {
                             <p>Đang tải...</p>
                         ) : (
                             <>
-                                {user.img &&
+                                {user &&
 
                                     <div>
                                         <ul>
                                             <li>
-                                            <p style={{ color: 'white' }}>{user.MSSV}</p>
+                                            <p style={{ color: 'white' }}> Hello {auth.username}</p>
 
                                             </li>
                                             <li>
-                                            <img src={`${BlobtoBase64(user.img)}`} alt='User Avatar'></img>
+                                            {user.img && <img src={`${BlobtoBase64(user.img)}`} alt='User Avatar'/>}
 
                                             </li>
                                         </ul>

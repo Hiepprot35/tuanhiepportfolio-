@@ -3,7 +3,7 @@ import { Buffer } from "buffer";
 import { useRefresh } from "../hook/useRefresh";
 import UseToken from "../hook/useToken";
 import Header from "./header";
-import useAuth  from '../hook/useAuth'
+import useAuth from '../hook/useAuth'
 import SuccessNotification from "./Notification/successNotifi";
 function blobToBuffer(blob) {
     return new Promise((resolve, reject) => {
@@ -20,8 +20,8 @@ function blobToBuffer(blob) {
 }
 export default function CreateStudent() {
     const khoaRef = useRef(1)
-    const [currentChooseKhoa, setCurrentChooseKhoa] = useState(1);
-    const {auth}=useAuth()
+    const [currentChooseKhoa, setCurrentChooseKhoa] = useState();
+    const { auth } = useAuth()
     const [khoa, setKhoa] = useState();
     const { AccessToken, setAccessToken } = UseToken();
     const [data, setData] = useState();
@@ -50,7 +50,8 @@ export default function CreateStudent() {
             .then(res => res.json())
             .then(contents => {
                 setKhoa(contents);
-            });
+            })
+
     }, []);
 
     const sendData = async (data) => {
@@ -80,7 +81,7 @@ export default function CreateStudent() {
             const dataInput = Array.from(event.target.elements)
                 .filter((input) => input.name)
                 .reduce((obj, input) => Object.assign(obj, { [input.name]: input.value }), {});
-                dataInput.create_by=auth.userID
+            dataInput.create_by = auth.userID
             // Gán dữ liệu hình ảnh vào trường "img" trong đối tượng data
             if (dataimg) {
                 const imgBlob = new Blob([dataimg], { type: dataimg.type });
@@ -107,19 +108,19 @@ export default function CreateStudent() {
             }
         }
         fetchData();
-        
+
     }, [])
 
-   
+
     const handleChooseKhoa = (e) => {
 
         setCurrentChooseKhoa(e.target.value)
     }
-    useEffect(()=>
-    {
+    useEffect(() => {
         sendData(data)
 
-    },[isMounted])
+    }, [isMounted])
+
     useEffect(() => {
         const data2 = classInfo.filter((tab) => tab.KhoaID === parseInt(currentChooseKhoa))
         setClassFlowKhoa(data2);
@@ -132,7 +133,7 @@ export default function CreateStudent() {
                 <>
                     <h2>Thêm sinh viên</h2>
                     <form method="post" action="/create" onSubmit={handleSubmit}>
-                  
+
                         <div className="mb-3">
                             <label htmlFor="exampleInputEmail1" className="form-label">
                                 Name
@@ -157,10 +158,11 @@ export default function CreateStudent() {
                                 aria-describedby="emailHelp"
                             />
                         </div>
-                     
+
                         <div className="mb-3">
                             <input type="file" name="img" onChange={imgInput} />
-                            <img className="avatarImage" src={avatarURL} alt="Avatar"></img>
+                            {avatarURL && <img className="avatarImage" src={avatarURL} alt="Avatar"></img>
+                            }
                         </div>
                         <div className="mb-3">
                             <label htmlFor="exampleInputPassword1" className="form-label">
@@ -186,13 +188,13 @@ export default function CreateStudent() {
                                 className="form-control"
                                 id="exampleInputEmail1"
                                 aria-describedby="emailHelp"
-                                
+
                             />
                         </div>
-                       
+
                         <div className="mb-3">
                             <span>Tên khoa</span>
-                            <select name="Khoa" ref={khoaRef} value={currentChooseKhoa} onChange={handleChooseKhoa}>
+                            <select name="Khoa" ref={khoaRef} value={currentChooseKhoa} onChange={handleChooseKhoa} >
                                 {
                                     khoa ? khoa.map((tab) => {
                                         return (
@@ -231,8 +233,8 @@ export default function CreateStudent() {
                     </form>
                 </>
             </div>
-                            
-                            {/* {
+
+            {/* {
                                     isMounted &&
                              <SuccessNotification></SuccessNotification>
                             }    */}
