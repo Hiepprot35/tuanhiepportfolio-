@@ -11,6 +11,7 @@ import useAuth from './hook/useAuth';
 import Dashboard from './components/Dashboard/Dashboard'
 import FistHomePage from './components/Homepage/firstHomepage';
 import { IsLoading } from './components/Loading';
+import DangKiLopHoc from './components/dangkilophoc';
 function App() {
   const [isLoading, setIsLoading] = useState(true); // Thêm trạng thái loading
   const { isLogin, setIsLogin } = useRFToken(); // Sử dụng hook và nhận trạng thái và hàm cập nhật trạng thái
@@ -34,6 +35,7 @@ function App() {
       <Routes>
         <Route element={<RequireAuth allowedRoles={ROLES} />}>
           <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/dangkilop" element={<DangKiLopHoc />} />
 
           <Route path="/home" element={<Home props={user} />} />
           <Route path="/" element={<Navigate to="/home"></Navigate>} />
