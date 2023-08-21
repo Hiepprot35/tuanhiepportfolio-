@@ -53,25 +53,33 @@ export default function DangKiLopHoc() {
   
 
     function handleDangKy() {
-        const sendDataApi= async ()=>
-        {
-            const URL='http://localhost:4000/api/dangkihoc'
-            const sendToApi=await fetch(URL,
-                {
-                    method:"POST",
-                    headers:{
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({
-                        "CLASSID": chooseClass,
-                        "MaMonHoc": ChooseMonHoc,
-                        "MSSV":auth.userID
-                    })
-                })
-                const data=await sendDataApi()
-            }
-        sendDataApi()
-    }
+        const sendDataApi = async () => {
+          const URL = 'http://localhost:4000/api/dangkihoc';
+          try {
+            const sendToApi = await fetch(URL, {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify({
+                CLASSID: chooseClass,
+                MaMonHoc: ChooseMonHoc,
+                MSSV: auth.username,
+              }),
+            });
+      
+            const data = await sendToApi.json(); // Chuyển phản hồi thành JSON
+            console.log('Phản hồi từ máy chủ:', data);
+            // Thực hiện các thao tác sau khi đăng ký thành công
+          } catch (error) {
+            console.error('Lỗi khi gửi yêu cầu:', error);
+            // Xử lý lỗi khi gửi yêu cầu
+          }
+        }
+      
+        sendDataApi();
+      }
+      
     return (
         <>
             <Header></Header>
