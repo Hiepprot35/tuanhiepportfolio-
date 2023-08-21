@@ -10,7 +10,7 @@ export const useRefresh = () => {
 
   const refreshAccessToken = async () => {
     
-      const response = await fetch('http://localhost:4000/api/rfAccessToken', {
+      const response = await fetch('https://tuanhiepprot3api.onrender.com/api/rfAccessToken', {
         method: 'POST',
         credentials: 'include', // Đảm bảo gửi cookie khi gọi API
         headers:

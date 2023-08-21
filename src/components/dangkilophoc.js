@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react"
+import { useState, useEffect, useRef } from "react"
 import { useRefresh } from "../hook/useRefresh";
 import useAuth from '../hook/useAuth'
 import Header from "./header";
@@ -7,13 +7,15 @@ export default function DangKiLopHoc() {
     const { auth } = useAuth()
     const [loading, setLoading] = useState(true)
     const [monHoc, setMonHoc] = useState()
-    const [ChooseMonHoc, setChooseMonHoc] = useState()
-    const [classMonHoc, setClassMonHoc] = useState()
+    const [ChooseMonHoc, setChooseMonHoc] = useState();
+    const [classMonHoc, setClassMonHoc] = useState();
     const [chooseClass, setChooseClass] = useState();
+    const [danhlopdadangky, setdsachlop] = useState();
     const ChooseMonHocChange = (e) => {
         setChooseMonHoc(e.target.value)
         setChooseClass(null)
     }
+    const check=useRef();
     useEffect(() => {
         const getApi = async () => {
 
@@ -50,36 +52,57 @@ export default function DangKiLopHoc() {
         }
         getApi()
     }, [ChooseMonHoc]);
-  
+    
+    useEffect(() => {
+        const sendDataApi = async () => {
+            try {
+                const URL = 'http://localhost:4000/api/lopdadangky'
+                const sendToApi = await fetch(URL,
+                    {
+                        method: "POST",
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({
+                            "MSSV": auth.username
+                        })
+                    })
+                const data = await sendToApi.json()
+                setdsachlop(data)
+            } catch (error) {
+                console.log(error)
+            }
 
+        }
+        sendDataApi()
+    }, [])
+    // useEffect(() => {
+    // console.log(check.current.value)
+    //   });
     function handleDangKy() {
         const sendDataApi = async () => {
-          const URL = 'http://localhost:4000/api/dangkihoc';
-          try {
-            const sendToApi = await fetch(URL, {
-              method: 'POST',
-              headers: {
-                'Content-Type': 'application/json',
-              },
-              body: JSON.stringify({
-                CLASSID: chooseClass,
-                MaMonHoc: ChooseMonHoc,
-                MSSV: auth.username,
-              }),
-            });
-      
-            const data = await sendToApi.json(); // Chuyển phản hồi thành JSON
-            console.log('Phản hồi từ máy chủ:', data);
-            // Thực hiện các thao tác sau khi đăng ký thành công
-          } catch (error) {
-            console.error('Lỗi khi gửi yêu cầu:', error);
-            // Xử lý lỗi khi gửi yêu cầu
-          }
+            try {
+                const URL = 'http://localhost:4000/api/dangkihoc'
+                const sendToApi = await fetch(URL,
+                    {
+                        method: "POST",
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({
+                            "CLASSID": chooseClass,
+                            "MaMonHoc": ChooseMonHoc,
+                            "MSSV": auth.username
+                        })
+                    })
+                const data = await sendToApi.json()
+            } catch (error) {
+                console.log(error)
+            }
+
         }
-      
-        sendDataApi();
-      }
-      
+        sendDataApi()
+    }
     return (
         <>
             <Header></Header>
@@ -94,22 +117,25 @@ export default function DangKiLopHoc() {
                                     {
                                         monHoc.map((title, index) => {
                                             return (
-                                                <>
+                                                <div key={index}
+                                                >
                                                     <br />
                                                     <input
+                                                        ref={check}
                                                         name={`${title.MonHocID}`}
-                                                        type="radio"
+                                                        type="checkbox"
                                                         id={`CLASS${title.MonHocID}`}
                                                         value={`${title.MonHocID}`}
-                                                        checked={ChooseMonHoc === `${title.MonHocID}`} 
+                                                        checked={ChooseMonHoc === `${title.MonHocID}` }
                                                         onChange={ChooseMonHocChange}
-                                                        />
-                                                    <label htmlFor={`CLASS${title.MonHocID}`}>
+                                                    />
+                                                    <label htmlFor={`CLASS${title.MonHocID}`}
+                                                    >
                                                         {title.MonHocTen}
                                                     </label>
                                                     <br />
 
-                                                </>
+                                                </div>
 
                                             )
 
@@ -120,15 +146,17 @@ export default function DangKiLopHoc() {
                     </div>
                     {
                         classMonHoc && classMonHoc.map((title, index) => {
+                            console.log(danhlopdadangky)
+                            console.log(  danhlopdadangky.some(item => item.CLASSID === title.CLASSID))
                             return (
                                 <div key={index}>
                                     <ul>
                                         <li>
-                                            <input type="radio"
+                                            <input type="checkbox"
                                                 name={`${title.CLASSID}`}
                                                 id={`MONHOC${title.CLASSID}`}
                                                 value={`${title.CLASSID}`}
-                                                checked={chooseClass === `${title.CLASSID}`}
+                                                // checked={danhlopdadangky.some(item => item.CLASSID === title.CLASSID) }
                                                 onChange={(e) => setChooseClass(e.target.value)}
                                             />
                                             <label htmlFor={`MONHOC${title.CLASSID}`} >

@@ -1,10 +1,10 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState ,memo} from 'react';
 import { Buffer } from 'buffer';
 import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
 import useAuth from '../hook/useAuth';
 import { LogOut } from "./logout";
 import BlobtoBase64 from '../function/BlobtoBase64';
-export default function Header(props) {
+function Header(props) {
     const [weather, setWeather] = useState({
         city: "",
         weather: "clear",
@@ -100,6 +100,9 @@ export default function Header(props) {
                             <li>
                                 <Link to="/dangkilop" className='Link'>Đăng ký học</Link>
 
+                            </li>  <li>
+                                <Link to="/chuongtrinhdaotao" className='Link'>Chương trình đào tạo</Link>
+
                             </li>
                             <li>
                                 <p className='City cityname'> {weather.city}     </p>
@@ -158,3 +161,4 @@ export default function Header(props) {
         </>
     );
 }
+export default memo(Header)
