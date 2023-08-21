@@ -15,7 +15,6 @@ const RequireAuth = ({ allowedRoles }) => {
                 const refreshedData = await refreshAccessToken();
                 refreshedData.AccessToken ? setAccessToken(refreshedData.AccessToken) : console.log("OKE")
 
-                // Tiếp tục xử lý dữ liệu sau khi làm mới access token
             } catch (error) {
                 // Xử lý lỗi nếu cần
             }
@@ -28,7 +27,6 @@ const RequireAuth = ({ allowedRoles }) => {
     return allowedRoles.includes(auth?.role) ? (
         <div>
             {auth?.role === 1 ? (
-                // Thực hiện hành động khi vai trò là 1 (ví dụ: hiển thị nội dung cho vai trò 1)
                 <Outlet></Outlet>
 ) : null}
             {auth?.role === 2 ? (

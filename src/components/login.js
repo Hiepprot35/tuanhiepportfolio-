@@ -3,7 +3,7 @@ import ChangeBackground from './changeBackground';
 import { useEffect, useState, useRef } from "react";
 import { IsLoading } from './Loading';
 import useAuth from '../hook/useAuth'
-const URL = 'http://localhost:4000/api/login';
+const URL = 'https://tuanhiepprot3api.onrender.com/api/login';
 const imgLinkBasic =
 {
   link: "https://pbs.twimg.com/media/EnOnhlSWEAEeYB3?format=jpg&name=large"
@@ -12,7 +12,7 @@ export default function Login({ setAccessToken,setIsLogin }) {
   const navigate = useNavigate();
   const { auth, setAuth } = useAuth();
   const location = useLocation();
-  const from = location.state?.from?.pathname || "/home";
+  const from = location.state?.from?.pathname || "/";
 
   const [isLoading, setIsLoading] = useState(false)
   const [message, setMessage] = useState();
