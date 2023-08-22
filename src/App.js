@@ -30,24 +30,24 @@ function App() {
     console.log(isLogin)
     console.log(isLoading)
   },[])
-//   const refreshAccessToken = useRefresh()
-//   useEffect(() => {
-//     async function fetchData() {
-//         try {
-//             const refreshedData = await refreshAccessToken();
-//             refreshedData.AccessToken ? setAccessToken(refreshedData.AccessToken) : console.log("OKE")
+  const refreshAccessToken = useRefresh()
+  useEffect(() => {
+    async function fetchData() {
+        try {
+            const refreshedData = await refreshAccessToken();
+            refreshedData.AccessToken ? setAccessToken(refreshedData.AccessToken) : console.log("OKE")
 
-//         } catch (error) {
-//             // Xử lý lỗi nếu cần
-//         }
-//     }
-//     if(AccessToken)
-//     {
+        } catch (error) {
+            // Xử lý lỗi nếu cần
+        }
+    }
+    if(AccessToken)
+    {
 
-//       fetchData();
-//     }
+      fetchData();
+    }
 
-// }, []);
+}, [isLoading]);
   if (isLoading) {
     return <IsLoading></IsLoading>
   }

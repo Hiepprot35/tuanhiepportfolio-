@@ -4,36 +4,37 @@ import useAuth from './useAuth';
 import Cookies from "js-cookie";
 import UseRfLocal from './useRFLocal';
 export const useRefresh = () => {
-  const {auth,setAuth}=useAuth()
+  const { auth, setAuth } = useAuth()
   const { AccessToken, setAccessToken } = UseToken();
   const cookieValue = Cookies.get("RefreshToken") || "";
-  const {RefreshToken}=UseRfLocal();
-  const host=process.env.REACT_APP_DB_HOST;
-  const tokenString = localStorage.getItem('RefreshToken');
-  console.log(tokenString)
+  const { RefreshToken } = UseRfLocal();
+  const host = process.env.REACT_APP_DB_HOST;
   const refreshAccessToken = async () => {
+    try {
       const response = await fetch(`${host}/api/rfAccessToken`, {
         method: 'POST',
-        credentials: 'include', // Đảm bảo gửi cookie khi gọi API
-        headers:
-        {
+        headers: {
+          'Content-Type': 'application/json',
           'Authorization': `Bearer ${AccessToken}`,
-          "RefreshToken": RefreshToken
-
         },
         body: JSON.stringify({
-          "RefreshToken": "1"
+          "RefreshToken": RefreshToken
         })
       });
 
+      if (!response.ok) {
+        throw new Error('Refresh token request failed');
+      }
+
       const data = await response.json();
-      const role=data.Role
-      const userID=data.UserID
-      const username=data.Username
-      console.log(data)
-      setAuth({role,userID,username})
-      return(data)
-    };
-    return refreshAccessToken
+      const { Role, UserID, Username } = data;
+      setAuth({ role: Role, userID: UserID, username: Username });
+      return data;
+    } catch (error) {
+      console.error('An error occurred:', error);
+      // Handle the error, perhaps by notifying the user or retrying
+    }
+  };
+  return refreshAccessToken
 
 };
