@@ -8,11 +8,11 @@ export default function useRFToken() {
     const headers = new Headers();
     headers.append('Content-Type', 'application/json');
     headers.append('Accept', 'application/json');
-    
+    const host =process.env.REACT_APP_DB_HOST
     const cookieValue = Cookies.get("RefreshToken") || "";
     
     try {
-      const fetchApi = await fetch('http://localhost:4000/api/getRefreshToken',{
+      const fetchApi = await fetch(`${host}/api/getRefreshToken`,{
         method: "POST",
         headers: headers,
         body: JSON.stringify({
