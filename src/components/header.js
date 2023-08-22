@@ -51,7 +51,7 @@ function Header(props) {
         let isAlivew = true;
 
         const studentInfo = async () => {
-            const URL = `${host}/getStudentbyID`;
+            const URL = `${host}/api/getStudentbyID`;
             try {
                 const studentApi = await fetch(URL, {
                     method: "POST",
