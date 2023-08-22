@@ -4,7 +4,7 @@ import { useEffect, useState, useRef } from "react";
 import { IsLoading } from './Loading';
 import useAuth from '../hook/useAuth'
 import UseRfLocal from '../hook/useRFLocal';
-const host='https://tuanhiepprot3api.onrender.com'
+const host=process.env.REACT_APP_DB_HOST;
 const URL = `${host}/api/login`;
 const imgLinkBasic =
 {

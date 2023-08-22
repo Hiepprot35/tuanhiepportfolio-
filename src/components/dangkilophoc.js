@@ -11,7 +11,7 @@ export default function DangKiLopHoc() {
     const [classMonHoc, setClassMonHoc] = useState();
     const [chooseClass, setChooseClass] = useState();
     const [danhlopdadangky, setdsachlop] = useState();
-    const host='https://tuanhiepprot3api.onrender.com'
+    const host=process.env.REACT_APP_DB_HOST;
 
     const ChooseMonHocChange = (e) => {
         setChooseMonHoc(e.target.value)

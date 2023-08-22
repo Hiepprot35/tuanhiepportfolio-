@@ -8,6 +8,8 @@ export const useRefresh = () => {
   const { AccessToken, setAccessToken } = UseToken();
   const cookieValue = Cookies.get("RefreshToken") || "";
   const {RefreshToken}=UseRfLocal();
+  const host=process.env.REACT_APP_DB_HOST;
+
   const refreshAccessToken = async () => {
     
       const response = await fetch('http://localhost:4000/api/rfAccessToken', {

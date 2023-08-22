@@ -18,7 +18,7 @@ function Header(props) {
     const apiKey = "e9f7e8aac0662b6cfe1bb2d11bbb7042";
     // const bufferString = user2 ? Buffer.from(user2.img).toString('base64') : "11111";
     const cityInputRef = useRef(null); // Tạo một tham chiếu useRef
-    const host='https://tuanhiepprot3api.onrender.com'
+    const host=process.env.REACT_APP_DB_HOST;
 
     const handleSumbit = () => {
         setCity(cityInputRef.current.value);

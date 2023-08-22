@@ -30,7 +30,7 @@ export default function CreateStudent() {
     const [classFlowKhoa, setClassFlowKhoa] = useState();
     const [avatarURL, setAvatarURL] = useState();
     const [dataimg, setDataimg] = useState();
-    const host='https://tuanhiepprot3api.onrender.com'
+    const host=process.env.REACT_APP_DB_HOST;
 
     const refreshAccessToken = useRefresh();
     const imgInput = (e) => {

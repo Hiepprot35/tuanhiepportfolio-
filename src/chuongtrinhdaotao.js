@@ -4,11 +4,13 @@ import useAuth from "./hook/useAuth";
 import { IsLoading } from "./components/Loading";
 import Header from "./components/header";
 export default function Chuongtrinhdaotao() {
+    const host=process.env.REACT_APP_DB_HOST;
+
     const { auth } = useAuth();
     const [dsmon, setDsachMon] = useState();
     const [Loadng, setLoading] = useState(true)
     useEffect(() => {
-        const URL = "http://localhost:4000/api/danhsachmontheokhoa";
+        const URL = `${host}/api/danhsachmontheokhoa`;
         const getAPi = async () => {
             const sendApi = await fetch(URL, {
                 method: "POST",

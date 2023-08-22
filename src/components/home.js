@@ -11,7 +11,7 @@ const { Buffer } = require('buffer');
 export default function Home(props) {
     const { AccessToken, setAccessToken } = UseToken();
     const { auth, setAuth } = useAuth();
-    const host='https://tuanhiepprot3api.onrender.com'
+    const host=process.env.REACT_APP_DB_HOST;
 
     const [isLoading, setIsLoading] = useState(true)
     const refreshAccessToken = useRefresh()
