@@ -38,7 +38,7 @@ export default function DangKiLopHoc() {
     useEffect(() => {
         const getApi = async () => {
 
-            const getMonhocFetch = await fetch('http://localhost:4000/api/getClassMonHoc',
+            const getMonhocFetch = await fetch(`${host}/api/getClassMonHoc`,
                 {
                     method: "POST",
                     headers: {
@@ -58,7 +58,7 @@ export default function DangKiLopHoc() {
     useEffect(() => {
         const sendDataApi = async () => {
             try {
-                const URL = 'http://localhost:4000/api/lopdadangky'
+                const URL = `${host}/api/lopdadangky`
                 const sendToApi = await fetch(URL,
                     {
                         method: "POST",
@@ -84,7 +84,7 @@ export default function DangKiLopHoc() {
     function handleDangKy() {
         const sendDataApi = async () => {
             try {
-                const URL = 'http://localhost:4000/api/dangkihoc'
+                const URL = `${host}/api/dangkihoc`
                 const sendToApi = await fetch(URL,
                     {
                         method: "POST",
