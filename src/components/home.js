@@ -11,7 +11,7 @@ const { Buffer } = require('buffer');
 export default function Home(props) {
     const { AccessToken, setAccessToken } = UseToken();
     const { auth, setAuth } = useAuth();
-    const host=process.env.REACT_APP_DB_HOST;
+    const host = process.env.REACT_APP_DB_HOST;
 
     const [isLoading, setIsLoading] = useState(true)
     const refreshAccessToken = useRefresh()
@@ -142,7 +142,7 @@ export default function Home(props) {
     return (
 
         <>
-            <Header  />
+            <Header />
             <div className="container_main">
                 {
                     isLoading ? <IsLoading></IsLoading> :
@@ -200,7 +200,6 @@ export default function Home(props) {
                         </button>
                     ))}
                 </div>
-
             </div>
         </>
     )

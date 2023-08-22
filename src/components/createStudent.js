@@ -142,7 +142,7 @@ export default function CreateStudent() {
                             <input
                                 type="text"
                                 name="Name"
-                                className="form-control"
+                                className="form-control dangnhapinput 2"
                                 id="exampleInputEmail1"
                                 aria-describedby="emailHelp"
                             />
@@ -154,7 +154,7 @@ export default function CreateStudent() {
                             <input
                                 type="text"
                                 name="SDT"
-                                className="form-control"
+                                className="form-control dangnhapinput 2"
                                 id="exampleInputEmail1"
                                 aria-describedby="emailHelp"
                             />
@@ -172,7 +172,7 @@ export default function CreateStudent() {
                             <input
                                 type="text"
                                 name="Address"
-                                className="form-control"
+                                className="form-control dangnhapinput 2"
                                 id="exampleInputPassword1"
 
                             />
@@ -186,7 +186,7 @@ export default function CreateStudent() {
 
                                 type="date"
                                 name="Birthday"
-                                className="form-control"
+                                className="form-control dangnhapinput-2"
                                 id="exampleInputEmail1"
                                 aria-describedby="emailHelp"
 
