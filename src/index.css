@@ -11,6 +11,7 @@ body {
   height: 100vh;
   background-image:url("https://antimatter.vn/wp-content/uploads/2022/05/background-dep-1.jpg") ;
   background-size: cover;
+  z-index: -50;
 }
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',

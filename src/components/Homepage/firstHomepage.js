@@ -745,6 +745,10 @@ export default function FistHomePage() {
                                     </div>
                                 </div>
                             </section>
+                            <div>
+                                <img className="backtaudichuyen" src="./images/backtau.png"
+                                ></img>
+                            </div>
                         </div>
                     </div>
                 </div>
