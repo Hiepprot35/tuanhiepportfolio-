@@ -19,31 +19,35 @@ function App() {
   const { isLogin, setIsLogin } = useRFToken(); // Sử dụng hook và nhận trạng thái và hàm cập nhật trạng thái
   const [user, setUser] = useState('');
   const { auth } = useAuth()
-  const { setAccessToken } = UseToken();
+  const { AccessToken,setAccessToken } = UseToken();
+  console.log(AccessToken)
   const ROLES = [1, 2]
   useEffect(() => {
     setIsLoading(false);
   }, [isLogin]);
   useEffect(()=>{
     console.log(auth)
-    
+    console.log(isLogin)
     console.log(isLoading)
   },[])
-  const refreshAccessToken = useRefresh()
-  useEffect(() => {
-    async function fetchData() {
-        try {
-            const refreshedData = await refreshAccessToken();
-            refreshedData.AccessToken ? setAccessToken(refreshedData.AccessToken) : console.log("OKE")
+//   const refreshAccessToken = useRefresh()
+//   useEffect(() => {
+//     async function fetchData() {
+//         try {
+//             const refreshedData = await refreshAccessToken();
+//             refreshedData.AccessToken ? setAccessToken(refreshedData.AccessToken) : console.log("OKE")
 
-        } catch (error) {
-            // Xử lý lỗi nếu cần
-        }
-    }
+//         } catch (error) {
+//             // Xử lý lỗi nếu cần
+//         }
+//     }
+//     if(AccessToken)
+//     {
 
-    fetchData();
+//       fetchData();
+//     }
 
-}, []);
+// }, []);
   if (isLoading) {
     return <IsLoading></IsLoading>
   }

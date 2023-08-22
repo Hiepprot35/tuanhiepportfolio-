@@ -9,7 +9,7 @@ export  const LogOut=() =>{
      localStorage.removeItem("RefreshToken")
 
      window.location.reload();
-     navigate("/login", { replace: true });
+     navigate("/home", { replace: true });
         
     }
     return(
