@@ -9,18 +9,20 @@ export const useRefresh = () => {
   const cookieValue = Cookies.get("RefreshToken") || "";
   const {RefreshToken}=UseRfLocal();
   const host=process.env.REACT_APP_DB_HOST;
-
+  const tokenString = localStorage.getItem('RefreshToken');
+  console.log(tokenString)
   const refreshAccessToken = async () => {
-    
-      const response = await fetch('http://localhost:4000/api/rfAccessToken', {
+      const response = await fetch(`${host}/api/rfAccessToken`, {
         method: 'POST',
         credentials: 'include', // Đảm bảo gửi cookie khi gọi API
         headers:
         {
-          'Authorization': `Bearer ${AccessToken}`
+          'Authorization': `Bearer ${AccessToken}`,
+          "RefreshToken": RefreshToken
+
         },
         body: JSON.stringify({
-          "RefreshToken": RefreshToken
+          "RefreshToken": "1"
         })
       });
 
