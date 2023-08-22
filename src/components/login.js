@@ -3,7 +3,8 @@ import ChangeBackground from './changeBackground';
 import { useEffect, useState, useRef } from "react";
 import { IsLoading } from './Loading';
 import useAuth from '../hook/useAuth'
-const URL = 'https://tuanhiepprot3api.onrender.com/api/login';
+import UseRfLocal from '../hook/useRFLocal';
+const URL = 'http://localhost:4000/api/login';
 const imgLinkBasic =
 {
   link: "https://pbs.twimg.com/media/EnOnhlSWEAEeYB3?format=jpg&name=large"
@@ -13,7 +14,7 @@ export default function Login({ setAccessToken,setIsLogin }) {
   const { auth, setAuth } = useAuth();
   const location = useLocation();
   const from = location.state?.from?.pathname || "/";
-
+  const {setRefreshToken}=UseRfLocal()
   const [isLoading, setIsLoading] = useState(false)
   const [message, setMessage] = useState();
   const [loginImgBackground, setLoginImgBackground] = useState(imgLinkBasic);
@@ -43,12 +44,14 @@ export default function Login({ setAccessToken,setIsLogin }) {
       const user = dataRes;
       // setAuth({user.RoleID})
       setAccessToken(dataRes.AccessToken);
+      setRefreshToken(dataRes.RefreshToken);
+
       const role=dataRes.Role
       const username=dataRes.Username
       const userID=dataRes.UserID
-      setAuth({role,username,userID})
       setIsLogin(true)
-      navigate(from, { replace: true });
+      setAuth({role,username,userID})
+      navigate("/", { replace: true });
 
       // navigate('/home', { state: { user } });
     }

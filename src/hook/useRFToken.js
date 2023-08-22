@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import Cookies from "js-cookie";
-
+import UseRfLocal from "./useRFLocal";
 export default function useRFToken() {
   const [isLogin, setIsLogin] = useState(); // Trạng thái đăng nhập
-
+  const {RefreshToken}=UseRfLocal()
   const checkRF = async () => {
     const headers = new Headers();
     headers.append('Content-Type', 'application/json');
@@ -16,7 +16,7 @@ export default function useRFToken() {
         method: "POST",
         headers: headers,
         body: JSON.stringify({
-          "RefreshToken": cookieValue
+          "RefreshToken": RefreshToken
         })
       });
       

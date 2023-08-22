@@ -2,15 +2,15 @@ import { useState, useEffect } from 'react';
 import UseToken from './useToken';
 import useAuth from './useAuth';
 import Cookies from "js-cookie";
-
+import UseRfLocal from './useRFLocal';
 export const useRefresh = () => {
   const {auth,setAuth}=useAuth()
   const { AccessToken, setAccessToken } = UseToken();
   const cookieValue = Cookies.get("RefreshToken") || "";
-
+  const {RefreshToken}=UseRfLocal();
   const refreshAccessToken = async () => {
     
-      const response = await fetch('https://tuanhiepprot3api.onrender.com/api/rfAccessToken', {
+      const response = await fetch('http://localhost:4000/api/rfAccessToken', {
         method: 'POST',
         credentials: 'include', // Đảm bảo gửi cookie khi gọi API
         headers:
@@ -18,7 +18,7 @@ export const useRefresh = () => {
           'Authorization': `Bearer ${AccessToken}`
         },
         body: JSON.stringify({
-          "RefreshToken": cookieValue
+          "RefreshToken": RefreshToken
         })
       });
 

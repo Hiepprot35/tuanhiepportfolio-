@@ -13,19 +13,37 @@ import FistHomePage from './components/Homepage/firstHomepage';
 import { IsLoading } from './components/Loading';
 import DangKiLopHoc from './components/dangkilophoc';
 import Chuongtrinhdaotao from './chuongtrinhdaotao';
-
+import { useRefresh } from './hook/useRefresh';
 function App() {
   const [isLoading, setIsLoading] = useState(true); // Thêm trạng thái loading
   const { isLogin, setIsLogin } = useRFToken(); // Sử dụng hook và nhận trạng thái và hàm cập nhật trạng thái
   const [user, setUser] = useState('');
   const { auth } = useAuth()
   const { setAccessToken } = UseToken();
-
   const ROLES = [1, 2]
   useEffect(() => {
     setIsLoading(false);
   }, [isLogin]);
+  useEffect(()=>{
+    console.log(auth)
+    
+    console.log(isLoading)
+  },[])
+  const refreshAccessToken = useRefresh()
+  useEffect(() => {
+    async function fetchData() {
+        try {
+            const refreshedData = await refreshAccessToken();
+            refreshedData.AccessToken ? setAccessToken(refreshedData.AccessToken) : console.log("OKE")
 
+        } catch (error) {
+            // Xử lý lỗi nếu cần
+        }
+    }
+
+    fetchData();
+
+}, []);
   if (isLoading) {
     return <IsLoading></IsLoading>
   }

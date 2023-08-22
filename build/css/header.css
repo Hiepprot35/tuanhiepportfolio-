@@ -16,7 +16,7 @@
     position: absolute;
 }
 
-.header-left img {
+.list img {
     width: 15%;
     left:10px;
 }
@@ -32,8 +32,10 @@
     padding: 10px;
 }
 
-.center img {
-    width: 10px;
+.dangnhap img {
+    height: 50px;
+    width: 50px;
+    border-radius: 50%;
 }
 
 .center button {
