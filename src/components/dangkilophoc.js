@@ -11,6 +11,8 @@ export default function DangKiLopHoc() {
     const [classMonHoc, setClassMonHoc] = useState();
     const [chooseClass, setChooseClass] = useState();
     const [danhlopdadangky, setdsachlop] = useState();
+    const host='https://tuanhiepprot3api.onrender.com'
+
     const ChooseMonHocChange = (e) => {
         setChooseMonHoc(e.target.value)
         setChooseClass(null)
@@ -19,7 +21,7 @@ export default function DangKiLopHoc() {
     useEffect(() => {
         const getApi = async () => {
 
-            const getMonhocFetch = await fetch('http://localhost:4000/api/getMonHoc',
+            const getMonhocFetch = await fetch(`${host}/api/getMonHoc`,
                 {
                     method: "GET",
                     headers: {

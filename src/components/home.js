@@ -11,6 +11,7 @@ const { Buffer } = require('buffer');
 export default function Home(props) {
     const { AccessToken, setAccessToken } = UseToken();
     const { auth, setAuth } = useAuth();
+    const host='https://tuanhiepprot3api.onrender.com'
 
     const [isLoading, setIsLoading] = useState(true)
     const refreshAccessToken = useRefresh()
@@ -21,7 +22,7 @@ export default function Home(props) {
     const startIndex = (currentPage - 1) * DataPerPage;
     const endIndex = startIndex + DataPerPage
     useEffect(() => {
-        fetch('http://localhost:4000/api/getAllClass')
+        fetch(`${host}/api/getAllClass`)
             .then(res => res.json())
             .then(Classes => {
                 setClass(Classes);
@@ -48,7 +49,7 @@ export default function Home(props) {
     // Function để fetch danh sách sinh viên
     const location = useLocation();
     const user = location.state?.user || {}; // Sử dụng state?.user để tránh lỗi khi state không tồn tại
-    const URL = `http://localhost:4000/getallstudent`;
+    const URL = `${host}/getallstudent`;
     let isCancel = false
     const getData = async () => {
 

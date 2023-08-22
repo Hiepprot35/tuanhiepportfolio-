@@ -4,7 +4,8 @@ import { useEffect, useState, useRef } from "react";
 import { IsLoading } from './Loading';
 import useAuth from '../hook/useAuth'
 import UseRfLocal from '../hook/useRFLocal';
-const URL = 'http://localhost:4000/api/login';
+const host='https://tuanhiepprot3api.onrender.com'
+const URL = `${host}/api/login`;
 const imgLinkBasic =
 {
   link: "https://pbs.twimg.com/media/EnOnhlSWEAEeYB3?format=jpg&name=large"

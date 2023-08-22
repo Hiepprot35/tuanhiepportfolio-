@@ -6,8 +6,9 @@ export  const LogOut=() =>{
     const LogoutClick=()=>
     {
      localStorage.removeItem("AccessToken")
+     localStorage.removeItem("RefreshToken")
+
      window.location.reload();
-     document.cookie = 'RefreshToken=; Max-Age=0;secure';
      navigate("/login", { replace: true });
         
     }

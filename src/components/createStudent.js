@@ -30,6 +30,7 @@ export default function CreateStudent() {
     const [classFlowKhoa, setClassFlowKhoa] = useState();
     const [avatarURL, setAvatarURL] = useState();
     const [dataimg, setDataimg] = useState();
+    const host='https://tuanhiepprot3api.onrender.com'
 
     const refreshAccessToken = useRefresh();
     const imgInput = (e) => {
@@ -39,14 +40,14 @@ export default function CreateStudent() {
         setDataimg(img);
     };
     useEffect(() => {
-        fetch('http://localhost:4000/api/getAllClass')
+        fetch(`${host}/api/getAllClass`)
             .then(res => res.json())
             .then(contents => {
                 setClass(contents);
             });
     }, []);
     useEffect(() => {
-        fetch('http://localhost:4000/api/getAllKhoa')
+        fetch(`${host}/api/getAllKhoa`)
             .then(res => res.json())
             .then(contents => {
                 setKhoa(contents);
@@ -57,7 +58,7 @@ export default function CreateStudent() {
     const sendData = async (data) => {
         try {
             console.log("join")
-            const res = await fetch('http://localhost:4000/api/createStudent', {
+            const res = await fetch(`${host}/api/createStudent`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
