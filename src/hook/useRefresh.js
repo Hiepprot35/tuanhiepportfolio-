@@ -16,6 +16,8 @@ export const useRefresh = () => {
         headers: {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${AccessToken}`,
+          "RefreshToken": RefreshToken
+
         },
         body: JSON.stringify({
           "RefreshToken": RefreshToken

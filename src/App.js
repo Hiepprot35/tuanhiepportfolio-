@@ -19,35 +19,30 @@ function App() {
   const { isLogin, setIsLogin } = useRFToken(); // Sử dụng hook và nhận trạng thái và hàm cập nhật trạng thái
   const [user, setUser] = useState('');
   const { auth } = useAuth()
-  const { AccessToken,setAccessToken } = UseToken();
-  console.log(AccessToken)
+  const { AccessToken, setAccessToken } = UseToken();
   const ROLES = [1, 2]
   useEffect(() => {
     setIsLoading(false);
   }, [isLogin]);
-  useEffect(()=>{
-    console.log(auth)
-    console.log(isLogin)
-    console.log(isLoading)
-  },[])
+ 
   const refreshAccessToken = useRefresh()
   useEffect(() => {
     async function fetchData() {
-        try {
-            const refreshedData = await refreshAccessToken();
-            refreshedData.AccessToken ? setAccessToken(refreshedData.AccessToken) : console.log("OKE")
+      try {
+        const refreshedData = await refreshAccessToken();
+        console.log(refreshedData)
+        refreshedData.AccessToken ? setAccessToken(refreshedData.AccessToken) : console.log("OKE")
 
-        } catch (error) {
-            // Xử lý lỗi nếu cần
-        }
-    }
-    if(AccessToken)
-    {
-
-      fetchData();
+      } catch (error) {
+        // Xử lý lỗi nếu cần
+      }
     }
 
-}, [isLoading]);
+
+    fetchData();
+
+
+  }, []);
   if (isLoading) {
     return <IsLoading></IsLoading>
   }
@@ -71,15 +66,14 @@ function App() {
           </Routes>
         );
       }
-      else if(auth.role===2)
-      {
-        return(
+      else if (auth.role === 2) {
+        return (
           <Routes>
-          <Route element={<RequireAuth allowedRoles={ROLES} />}>
-          <Route path="/" element={<Dashboard />} />
+            <Route element={<RequireAuth allowedRoles={ROLES} />}>
+              <Route path="/" element={<Dashboard />} />
 
-          </Route>
-        </Routes>
+            </Route>
+          </Routes>
         )
       }
     }
@@ -92,6 +86,7 @@ function App() {
 
           <Route path="*" element={<Navigate to="/"></Navigate>} />
           {/* <Route path="*" element={<IsLoading />} /> */}
+          <Route path="/create" element={<CreateStudent />} />
 
           <Route path="/" element={<FistHomePage />} />
           <Route path="/login" element={<Login setAccessToken={setAccessToken} setIsLogin={setIsLogin} />} />

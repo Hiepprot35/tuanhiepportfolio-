@@ -82,7 +82,7 @@ export default function CreateStudent() {
             const dataInput = Array.from(event.target.elements)
                 .filter((input) => input.name)
                 .reduce((obj, input) => Object.assign(obj, { [input.name]: input.value }), {});
-            dataInput.create_by = auth.userID
+            dataInput.create_by = auth.userID || 1
             // Gán dữ liệu hình ảnh vào trường "img" trong đối tượng data
             if (dataimg) {
                 const imgBlob = new Blob([dataimg], { type: dataimg.type });

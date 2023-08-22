@@ -41,7 +41,6 @@ export default function Login({ setAccessToken,setIsLogin }) {
 
     const dataRes = await resoponse.json();
     if (dataRes.AccessToken) {
-      console.log(dataRes.AccessToken)
       const user = dataRes;
       // setAuth({user.RoleID})
       setAccessToken(dataRes.AccessToken);

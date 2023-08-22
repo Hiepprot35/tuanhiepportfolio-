@@ -9,20 +9,6 @@ const RequireAuth = ({ allowedRoles }) => {
     const refreshAccessToken = useRefresh()
     const { AccessToken, setAccessToken } = UseToken();
 
-    useEffect(() => {
-        async function fetchData() {
-            try {
-                const refreshedData = await refreshAccessToken();
-                refreshedData.AccessToken ? setAccessToken(refreshedData.AccessToken) : console.log("OKE")
-
-            } catch (error) {
-                // Xử lý lỗi nếu cần
-            }
-        }
-
-        fetchData();
-
-    }, []);
   
     return allowedRoles.includes(auth?.role) ? (
         <div>
