@@ -92,10 +92,37 @@
     }
 
     .play_in_cheo {
-        padding: 20px 40px 20px 40px;
-        background-color: rgba(58, 226, 226, 0.87);
-        border-radius: 10px;
-        border-color: #7e7e7e;
+        padding: 20px 60px 20px 60px;
+        background-color: rgba(18, 19, 19, 0.932);
+        font-weight: 800;
+        border: solid rgba(0, 0, 0, 0);
+        font-size: 0.8125rem;
+        color: white;
+        letter-spacing: 0.15em;
+        font-weight: bold;
+        text-transform: uppercase;
+        clip-path: polygon(0 0, 91% 0, 100% 28%, 100% 100%, 9% 100%, 0 75%);
+    }
+    .show_logobar
+    {
+        z-index: 1000;
+        display: block !important;
+    }
+    @keyframes button_gap {
+        0%{
+            clip-path: polygon(91% 0, 97% 7%, 100% 20%, 100% 100%, 94% 100%, 8% 100%, 2% 94%, 0 77%, 0 0, 19% 0);
+        }
+        100%{
+            clip-path: polygon(0 0, 100% 0, 100% 28%, 100% 100%, 0 100%, 0 75%);
+
+        }
+        0%{
+                        clip-path: polygon(0 0, 100% 0, 100% 28%, 100% 100%, 0 100%, 0 75%);
+
+        }
+    }
+    .play_in_cheo:hover {
+        clip-path: polygon(0 0, 100% 0, 100% 28%, 100% 100%, 0 100%, 0 75%);
 
     }
 
@@ -112,8 +139,14 @@
         min-height: 31.25rem;
         padding: 3.75rem;
         align-content: center;
+        z-index: -999;
 
+    }
 
+    
+
+    @keyframes show_bar {
+        0% {}
     }
 
     .video_cheo_div {
@@ -122,14 +155,42 @@
         left: 0px;
         top: 0px;
         bottom: 0px;
-
+        z-index: 100;
     }
 
     .video_cheo {
-        display: flex;
         text-align: center;
-        z-index: 2;
+        background-color: black;
+        width: 1080px;
+        height: 500px;
+        object-fit: cover;
+
     }
+
+    .video_cheo_background {
+        width: 200%;
+        height: 100%;
+        position: absolute;
+        right: 0px;
+        z-index: -999;
+        object-fit: cover;
+
+    }
+
+    .video_cheo_background::after {
+        content: "";
+        position: absolute;
+        width: 100%;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        z-index: 1;
+        background-color: black;
+
+    }
+
+
 
     .video_cheo::after {
         content: "Lê văn chẻo";
@@ -137,20 +198,22 @@
         border: #852a2a;
         z-index: 20;
     }
-    .backtaudichuyen{
+
+    .backtaudichuyen {
         width: 10%;
         animation: chayngang 1s 3s infinite;
     }
+
     @keyframes chayngang {
-        0%
-        {
+        0% {
             margin-left: 0px;
         }
-        100%
-        {
+
+        100% {
             margin-left: 100%;
         }
     }
+
     .video_layer {
         background-image: linear-gradient(to right, rgba(143, 10, 170, 0.137), rgba(68, 5, 58, 0.247));
         min-height: 500px;
@@ -252,23 +315,27 @@
         z-index: -1;
     } */
 
-    ._3vp8M8e2gRtk5W-sZflwC svg {
+    .riotbar-app-switcher-trigger-arrow svg {
         margin-left: 5px;
-        fill: #7e7e7e;
+        fill: #fffdfd;
         width: 8px;
         height: 5px;
         margin-right: 20px;
     }
 
 
+    .text_list:hover {
+        background-color: rgba(133, 129, 129, 0.445);
+        padding: 10px 5 10px 5px;
+    }
 
-    .riotbar-logo svg:hover {
+    .logo_change_to_red {
 
-        fill: #852a2a;
+        fill: #fa0808;
 
     }
 
-    ._35l7QijJYkB3Bc2F_7dM8u svg {
+    .riotbar-fist-logo svg {
         fill: white;
         padding-left: 10px;
     }
@@ -292,7 +359,7 @@
         left: 0px;
         right: 0px;
         height: 80px;
-        z-index: 999;
+        z-index: 99;
     }
 
     .layer2 {
@@ -300,12 +367,12 @@
         height: 80px;
     }
 
-    .hide_box2 ._35l7QijJYkB3Bc2F_7dM8u svg {
+    .hide_box2 .riotbar-fist-logo svg {
         padding-top: 5px;
         position: relative;
         display: inline-flex;
         align-items: center;
-        fill: black;
+        fill: rgb(255, 255, 255);
     }
 
     .list_trochoi li {
@@ -605,9 +672,11 @@
     .active {
         opacity: 1 !important;
     }
+
     .active_text {
         opacity: 1 !important;
     }
+
     .change_back {
         background-color: orange !important;
     }
