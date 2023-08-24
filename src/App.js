@@ -14,6 +14,7 @@ import { IsLoading } from './components/Loading';
 import DangKiLopHoc from './components/dangkilophoc';
 import Chuongtrinhdaotao from './chuongtrinhdaotao';
 import { useRefresh } from './hook/useRefresh';
+import ChatApp from './components/chatApp';
 function App() {
   const [isLoading, setIsLoading] = useState(true); // Thêm trạng thái loading
   const { isLogin, setIsLogin } = useRFToken(); // Sử dụng hook và nhận trạng thái và hàm cập nhật trạng thái
@@ -57,8 +58,8 @@ function App() {
               <Route path="/dashboard" element={<Dashboard />} />
               <Route path="/dangkilop" element={<DangKiLopHoc />} />
               <Route path="/chuongtrinhdaotao" element={<Chuongtrinhdaotao />} />
-
-              <Route path="/home" element={<Home props={user} />} />
+              <Route path="/chat" element={<ChatApp />} />
+              <Route path="/home" element={<Home  />} />
               <Route path="/" element={<Navigate to="/home"></Navigate>} />
               <Route path="/create" element={<CreateStudent />} />
               <Route path="/*" element={<Navigate to="/"></Navigate>} />
@@ -70,7 +71,8 @@ function App() {
         return (
           <Routes>
             <Route element={<RequireAuth allowedRoles={ROLES} />}>
-              <Route path="/" element={<Dashboard />} />
+              {/* <Route path="/" element={<Dashboard />} /> */}
+              <Route path="/" element={<Home/>} />
 
             </Route>
           </Routes>
@@ -83,6 +85,7 @@ function App() {
 
 
         <Routes>
+              <Route path="/chat" element={<ChatApp />} />
 
           <Route path="*" element={<Navigate to="/"></Navigate>} />
           {/* <Route path="*" element={<IsLoading />} /> */}

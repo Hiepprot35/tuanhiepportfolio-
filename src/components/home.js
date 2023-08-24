@@ -4,11 +4,11 @@ import { useRefresh } from "../hook/useRefresh";
 import { useLocation } from 'react-router-dom';
 import Header from "./header";
 import { IsLoading } from "./Loading";
-import CreateStudent from './createStudent';
 import useAuth from "../hook/useAuth";
+import ChatApp from "./chatApp";
 const { Buffer } = require('buffer');
 
-export default function Home(props) {
+export default function Home() {
     const { AccessToken, setAccessToken } = UseToken();
     const { auth, setAuth } = useAuth();
     const host = process.env.REACT_APP_DB_HOST;
@@ -200,7 +200,9 @@ export default function Home(props) {
                         </button>
                     ))}
                 </div>
+            <ChatApp user={auth}/>
             </div>
+          
         </>
     )
 }

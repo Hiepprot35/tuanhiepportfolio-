@@ -102,25 +102,17 @@
         font-weight: bold;
         text-transform: uppercase;
         clip-path: polygon(0 0, 91% 0, 100% 28%, 100% 100%, 9% 100%, 0 75%);
+        transition:all .2s linear
+
     }
-    .show_logobar
-    {
+
+    .show_logobar {
         z-index: 1000;
         display: block !important;
     }
-    @keyframes button_gap {
-        0%{
-            clip-path: polygon(91% 0, 97% 7%, 100% 20%, 100% 100%, 94% 100%, 8% 100%, 2% 94%, 0 77%, 0 0, 19% 0);
-        }
-        100%{
-            clip-path: polygon(0 0, 100% 0, 100% 28%, 100% 100%, 0 100%, 0 75%);
 
-        }
-        0%{
-                        clip-path: polygon(0 0, 100% 0, 100% 28%, 100% 100%, 0 100%, 0 75%);
 
-        }
-    }
+
     .play_in_cheo:hover {
         clip-path: polygon(0 0, 100% 0, 100% 28%, 100% 100%, 0 100%, 0 75%);
 
@@ -143,7 +135,7 @@
 
     }
 
-    
+
 
     @keyframes show_bar {
         0% {}
@@ -611,6 +603,8 @@
     .section_body {
         padding: 140px 0px 15vw;
         background-color: white;
+        height: 1000px;
+        display: block;
     }
 
     .circle_div {
@@ -662,8 +656,8 @@
     }
 
     .canvas_2 {
-        width: 637.463px;
-        height: 638px;
+        width: 100%;
+        height: 100%;
         position: absolute;
         display: flex;
         justify-content: center;
@@ -950,6 +944,20 @@
     .animate2 {
         animation: animate2 1s;
         transition: all 1s;
+    }
+
+    .Container {
+        border: 1px solid black;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .main_firstHomepage {
+        display: block;
+        position: absolute;
+        top: 80px;
+        left: 0;
+        right: 0;
     }
 
     @keyframes rotate_x {
