@@ -6,12 +6,50 @@
 }
 .ChatApp input
 {
+    padding:5px;
+    border-radius: 10px;
     width: 250px;
 }
 .myChatbox
 {
+    background-color: #0099FF;
+    color: white;
+
+    margin: 10px;
+    max-width: 70%;
+    border-radius: 10px;
+    padding:10px;
+    display: inline-block;
+    text-align: right; /* Đặt canh lề văn bản sang phải */
+
+
+}
+.box_right
+{
     display: flex;
-    flex-direction: row-reverse;
+    flex-direction: column;
+    align-items: flex-end; /* Căn phía bên phải */
+    max-width: 80%;
+    margin: 0 auto;
+}
+.box_left
+{
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    max-width: 80%;
     align-items: center;
-    padding-right: 20px;
+    margin: 0 auto;
+}
+.guestChatbox
+{
+    background-color: #ffffff;
+    color: rgb(8, 8, 8);
+
+    margin: 10px;
+    max-width: 70%;
+    border-radius: 10px;
+    padding: 5px;
+    display: inline-block;
+    text-align: left;
 }

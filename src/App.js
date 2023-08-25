@@ -4,7 +4,7 @@ import CreateStudent from './components/createStudent';
 import { BrowserRouter as Router, Routes, Route, Navigate, Link } from 'react-router-dom';
 import UseToken from './hook/useToken';
 import { useState } from 'react';
-import useRFToken from './hook/useRFToken';
+import useLogin from './hook/useLogin';
 import { useEffect } from 'react';
 import RequireAuth from './components/requireAuth';
 import useAuth from './hook/useAuth';
@@ -17,7 +17,7 @@ import { useRefresh } from './hook/useRefresh';
 import ChatApp from './components/chatApp';
 function App() {
   const [isLoading, setIsLoading] = useState(true); // Thêm trạng thái loading
-  const { isLogin, setIsLogin } = useRFToken(); // Sử dụng hook và nhận trạng thái và hàm cập nhật trạng thái
+  const { isLogin, setIsLogin } = useLogin(); // Sử dụng hook và nhận trạng thái và hàm cập nhật trạng thái
   const [user, setUser] = useState('');
   const { auth } = useAuth()
   const { AccessToken, setAccessToken } = UseToken();

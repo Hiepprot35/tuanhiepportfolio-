@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import Cookies from "js-cookie";
 import UseRfLocal from "./useRFLocal";
 import { useRefresh } from "./useRefresh";
-export default function useRFToken() {
+export default function useLogin() {
   const [isLogin, setIsLogin] = useState(); // Trạng thái đăng nhập
   const {RefreshToken}=UseRfLocal()
   const checkRF = async () => {

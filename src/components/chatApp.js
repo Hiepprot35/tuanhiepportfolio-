@@ -66,21 +66,27 @@ const ChatApp = (prop) => {
       <div>
         {messages.map((message, index) => (
           <div key={index}>
-            {message.UserID===auth.userID && 
-            <div className='myChatbox'>
+            {message.UserID === auth.userID &&
+  <div className='box_right'>
 
-            {/* <img src={`${BlobtoBase64(message.img)}`} className='avatarImage' alt='User Avatar' /> */}
-            {message.Message}:
-            </div>
-            } 
+              <div className='myChatbox'>
+
+                {/* <img src={`${BlobtoBase64(message.img)}`} className='avatarImage' alt='User Avatar' /> */}
+                  {message.Message}
+              </div>
+  </div>
+            }
 
 
 
-            { message.UserID!==auth.userID &&
-            <div className='guestChatbox'>
+            {message.UserID !== auth.userID &&
+            <div className='box_left'>
+                <img src={`${BlobtoBase64(message.img)}`} className='avatarImage' alt='User Avatar' />
 
-            <img src={`${BlobtoBase64(message.img)}`} className='avatarImage' alt='User Avatar' />
-            :{message.Message}
+              <div className='guestChatbox'>
+
+                {message.Message}
+              </div>
             </div>
             }
 
