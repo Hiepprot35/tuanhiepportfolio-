@@ -2,8 +2,9 @@ import React, { useEffect, useState } from 'react';
 import io from 'socket.io-client';
 import useAuth from '../hook/useAuth';
 import BlobtoBase64 from '../function/BlobtoBase64';
-
+import { useRef } from 'react';
 const ChatApp = (prop) => {
+  const inputMess=useRef(null)
   const { auth } = useAuth()
   const [isLoading, setIsLoading] = useState(true)
   const [user, setUser] = useState()
@@ -53,12 +54,14 @@ const ChatApp = (prop) => {
   }, [messages]);
 
   const sendMessage = () => {
+    setInputMessage(inputMess.current.value)
     socket.emit('SendMessage', {
       UserID: prop.user.userID,
       Message: inputMessage,
       img: user.img
     });
-    setInputMessage('');
+    inputMess.current.focus()
+    inputMess.current.value=''
   };
 
   return (
@@ -94,8 +97,9 @@ const ChatApp = (prop) => {
         ))}
       </div>
       <input
+      ref={inputMess}
         type="text"
-        value={inputMessage}
+        // value={inputMessage}
         onChange={(e) => setInputMessage(e.target.value)}
       />
       <button onClick={sendMessage}>Send</button>
