@@ -70,7 +70,9 @@ const ChatApp = (prop) => {
         {messages.map((message, index) => (
           <div key={index}>
             {
-              console.log(message) &&
+              console.log(message)
+            }
+            {
               message.UserID === auth.userID &&
               <div className='box_right'>
 
