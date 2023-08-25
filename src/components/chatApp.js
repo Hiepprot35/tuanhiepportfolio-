@@ -6,6 +6,7 @@ import { useRef } from 'react';
 const ChatApp = (prop) => {
   const inputMess = useRef(null)
   const { auth } = useAuth()
+  const [isClicked, setIsClicked] = useState(false)
   const [isLoading, setIsLoading] = useState(true)
   const [user, setUser] = useState()
   const [messages, setMessages] = useState([]);
@@ -49,15 +50,22 @@ const ChatApp = (prop) => {
   }, []);
   useEffect(() => {
     socket.on('recevie_messsage', (message) => {
-      setMessages([...messages, message]);
+      console.log(message);
+      setMessages((prevMessages) => [...prevMessages, message]);
     });
-  }, [messages]);
+    
+    return () => {
+      socket.off('recevie_messsage');
+    };
+  }, []);
 
+  useEffect(()=>{
+    console.log(messages)
+  },[messages])
   const sendMessage = () => {
-    setInputMessage(inputMess.current.value)
     socket.emit('SendMessage', {
       UserID: prop.user.userID,
-      Message: inputMessage,
+      Message: inputMess.current.value,
       img: user.img
     });
     inputMess.current.focus()
@@ -69,9 +77,7 @@ const ChatApp = (prop) => {
       <div>
         {messages.map((message, index) => (
           <div key={index}>
-            {
-              console.log(message)
-            }
+
             {
               message.UserID === auth.userID &&
               <div className='box_right'>
@@ -100,8 +106,8 @@ const ChatApp = (prop) => {
       <input
         ref={inputMess}
         type="text"
-        // value={inputMessage}
-        // onChange={(e) => setInputMessage(e.target.value)}
+      // value={inputMessage}
+      // onChange={(e) => setInputMessage(e.target.value)}
       />
       <button onClick={sendMessage}>Send</button>
     </div>
