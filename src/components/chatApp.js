@@ -4,7 +4,7 @@ import useAuth from '../hook/useAuth';
 import BlobtoBase64 from '../function/BlobtoBase64';
 import { useRef } from 'react';
 const ChatApp = (prop) => {
-  const inputMess=useRef(null)
+  const inputMess = useRef(null)
   const { auth } = useAuth()
   const [isLoading, setIsLoading] = useState(true)
   const [user, setUser] = useState()
@@ -61,7 +61,7 @@ const ChatApp = (prop) => {
       img: user.img
     });
     inputMess.current.focus()
-    inputMess.current.value=''
+    inputMess.current.value = ''
   };
 
   return (
@@ -69,35 +69,34 @@ const ChatApp = (prop) => {
       <div>
         {messages.map((message, index) => (
           <div key={index}>
-            {message.UserID === auth.userID &&
-  <div className='box_right'>
+            {
+              console.log(message) &&
+              message.UserID === auth.userID &&
+              <div className='box_right'>
 
-              <div className='myChatbox'>
+                <div className='myChatbox'>
 
-                {/* <img src={`${BlobtoBase64(message.img)}`} className='avatarImage' alt='User Avatar' /> */}
+                  {/* <img src={`${BlobtoBase64(message.img)}`} className='avatarImage' alt='User Avatar' /> */}
                   {message.Message}
+                </div>
               </div>
-  </div>
             }
-
-
-
             {message.UserID !== auth.userID &&
-            <div className='box_left'>
+              <div className='box_left'>
                 <img src={`${BlobtoBase64(message.img)}`} className='avatarImage' alt='User Avatar' />
 
-              <div className='guestChatbox'>
+                <div className='guestChatbox'>
 
-                {message.Message}
+                  {message.Message}
+                </div>
               </div>
-            </div>
             }
 
           </div>
         ))}
       </div>
       <input
-      ref={inputMess}
+        ref={inputMess}
         type="text"
         // value={inputMessage}
         onChange={(e) => setInputMessage(e.target.value)}
