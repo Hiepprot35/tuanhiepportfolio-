@@ -15,6 +15,12 @@
     
     background-color: white;
 }
+.CreateStudentForm input
+{
+    
+    background-color: white;
+    color: black;
+}
 .CreateStudentForm 
 {
     left: 20px;

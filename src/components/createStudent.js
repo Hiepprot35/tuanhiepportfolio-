@@ -30,7 +30,7 @@ export default function CreateStudent() {
     const [classFlowKhoa, setClassFlowKhoa] = useState();
     const [avatarURL, setAvatarURL] = useState();
     const [dataimg, setDataimg] = useState();
-    const host=process.env.REACT_APP_DB_HOST;
+    const host = process.env.REACT_APP_DB_HOST;
 
     const refreshAccessToken = useRefresh();
     const imgInput = (e) => {
@@ -39,6 +39,29 @@ export default function CreateStudent() {
         setAvatarURL(imgLink);
         setDataimg(img);
     };
+    const ResizeImg = (imgBlob, callback) => {
+        const img = new Image();
+        img.onload = () => {
+          const canvas = document.createElement('canvas');
+          const newWidth = 100;
+          const newHeight = 100;
+      
+          canvas.width = newWidth;
+          canvas.height = newHeight;
+          const ctx = canvas.getContext('2d');
+          ctx.drawImage(img, 0, 0, newWidth, newHeight);
+      
+          canvas.toBlob((blob) => {
+            callback(blob);
+          }, 'image/jpeg', 0.7);
+        };
+
+        const reader = new FileReader();
+        reader.onload = (event) => {
+          img.src = event.target.result;
+        };
+        reader.readAsDataURL(imgBlob);
+      };
     useEffect(() => {
         fetch(`${host}/api/getAllClass`)
             .then(res => res.json())
@@ -85,18 +108,24 @@ export default function CreateStudent() {
             dataInput.create_by = auth.userID || 1
             // Gán dữ liệu hình ảnh vào trường "img" trong đối tượng data
             if (dataimg) {
-                const imgBlob = new Blob([dataimg], { type: dataimg.type });
-                const imgBuffer = await blobToBuffer(dataimg);
+                ResizeImg(dataimg, async  (newBlob)=>{
+                    const imgBufer= await blobToBuffer(newBlob)
+                    dataInput.img=imgBufer;
+                    console.log(dataInput.img)
+                    setData(dataInput)
+                    setIsMounted(!isMounted)
 
-                dataInput.img = imgBuffer;
+                })
+            
+                // const imgBlob = new Blob([dataimg], { type: dataimg.type });
+                // const imgBuffer = await blobToBuffer(dataimg);
+
+                // dataInput.img = imgBuffer;
             }
-
-            setData(dataInput)
         }
         catch (error) {
             console.error(error);
         }
-        setIsMounted(!isMounted)
     }
     useEffect(() => {
         async function fetchData() {
@@ -111,7 +140,9 @@ export default function CreateStudent() {
         fetchData();
 
     }, [])
-
+    useEffect(()=>{
+        console.log(data)
+    },[data])
 
     const handleChooseKhoa = (e) => {
 
@@ -162,7 +193,7 @@ export default function CreateStudent() {
 
                         <div className="mb-3">
                             <input type="file" name="img" onChange={imgInput} />
-                            {avatarURL && <img className="avatarImage" src={avatarURL} alt="Avatar"></img>
+                            {avatarURL && <img className="avatarImage" src={avatarURL} style={{width:"40px",height:"40px"}} alt="Avatar"></img>
                             }
                         </div>
                         <div className="mb-3">
