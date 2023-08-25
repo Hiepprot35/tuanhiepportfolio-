@@ -99,7 +99,7 @@ const ChatApp = (prop) => {
         ref={inputMess}
         type="text"
         // value={inputMessage}
-        onChange={(e) => setInputMessage(e.target.value)}
+        // onChange={(e) => setInputMessage(e.target.value)}
       />
       <button onClick={sendMessage}>Send</button>
     </div>
