@@ -1,36 +1,62 @@
 .ChatApp
 {
-    width: 300px;
-    height: 500px;
-    overflow: scroll;
+    width: 100%;
+    height: 250px;
+    overflow: auto;
+    scroll-behavior: smooth;
+    overflow-y: scroll; /* Hiển thị thanh cuộn */
+
 }
-.ChatApp input
+.inputValue input
 {
     padding:5px;
     border-radius: 10px;
-    width: 250px;
+    width: 70%;
+    border: none;
+    
+}
+.inputValue button
+{
+    width: 30%;
+    border-radius: 10px;
+    padding: 5px;
+    background-color: rgb(39, 185, 204);
+    color: white;
+    border: none;
+    
+}
+.Main_ChatApp
+{
+    border: 1px solid black;
+    width: 300px;
+}
+.inputValue
+{
+  
 }
 .myChatbox
 {
     background-color: #0099FF;
     color: white;
+    overflow-wrap: break-word;
+    overflow-wrap: break-word; 
 
     margin: 10px;
-    max-width: 70%;
+    max-width: 80%;
     border-radius: 10px;
     padding:10px;
     display: inline-block;
-    text-align: right; /* Đặt canh lề văn bản sang phải */
-
-
 }
+
 .box_right
 {
     display: flex;
     flex-direction: column;
     align-items: flex-end; /* Căn phía bên phải */
     max-width: 80%;
+    height: auto;
     margin: 0 auto;
+
 }
 .box_left
 {
@@ -40,6 +66,7 @@
     max-width: 80%;
     align-items: center;
     margin: 0 auto;
+    height: auto;
 }
 .guestChatbox
 {

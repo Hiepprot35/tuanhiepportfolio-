@@ -4,6 +4,8 @@ import { useEffect, useState, useRef } from "react";
 import { IsLoading } from './Loading';
 import useAuth from '../hook/useAuth'
 import UseRfLocal from '../hook/useRFLocal';
+import io from 'socket.io-client';
+
 const host=process.env.REACT_APP_DB_HOST;
 const URL = `${host}/api/login`;
 const imgLinkBasic =
@@ -11,6 +13,8 @@ const imgLinkBasic =
   link: "https://pbs.twimg.com/media/EnOnhlSWEAEeYB3?format=jpg&name=large"
 }
 export default function Login({ setAccessToken,setIsLogin }) {
+  const socket = io.connect(process.env.REACT_APP_DB_HOST); // Replace with your server URL
+
   const navigate = useNavigate();
   const { auth, setAuth } = useAuth();
   const location = useLocation();
@@ -51,6 +55,7 @@ export default function Login({ setAccessToken,setIsLogin }) {
       const userID=dataRes.UserID
       setIsLogin(true)
       setAuth({role,username,userID})
+      socket.emit('userLogin',{username,socket})
       navigate("/", { replace: true });
 
       // navigate('/home', { state: { user } });

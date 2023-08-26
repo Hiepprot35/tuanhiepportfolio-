@@ -15,7 +15,10 @@ import DangKiLopHoc from './components/dangkilophoc';
 import Chuongtrinhdaotao from './chuongtrinhdaotao';
 import { useRefresh } from './hook/useRefresh';
 import ChatApp from './components/chatApp';
+import io from 'socket.io-client';
+
 function App() {
+
   const [isLoading, setIsLoading] = useState(true); // Thêm trạng thái loading
   const { isLogin, setIsLogin } = useLogin(); // Sử dụng hook và nhận trạng thái và hàm cập nhật trạng thái
   const [user, setUser] = useState('');

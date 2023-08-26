@@ -5,10 +5,14 @@ import { useLocation } from 'react-router-dom';
 import Header from "./header";
 import { IsLoading } from "./Loading";
 import useAuth from "../hook/useAuth";
+import io from 'socket.io-client';
+
 import ChatApp from "./chatApp";
 const { Buffer } = require('buffer');
 
 export default function Home() {
+    const socket = io.connect(process.env.REACT_APP_DB_HOST); // Replace with your server URL
+
     const { AccessToken, setAccessToken } = UseToken();
     const { auth, setAuth } = useAuth();
     const host = process.env.REACT_APP_DB_HOST;
@@ -129,9 +133,15 @@ export default function Home() {
         fetchData();
         console.log("ok")
     }, []);
+    const [room, setRoom] = useState()
     useEffect(() => {
         getData()
     }, [AccessToken])
+    const join_room = (room) => {
+        
+            setRoom(room)
+        
+    }
     document.title = "Home"
     const currentData = posts.slice(startIndex, endIndex)
     const totalPages = Math.ceil(posts.length / DataPerPage);
@@ -170,7 +180,9 @@ export default function Home() {
                                                 <td>{post.MSSV}</td>
                                                 <td>{post.Name}</td>
                                                 <td>
-                                                    <img className="avatarImage" src={`data:image/jpeg;base64,${bufferString}`} alt="{index}" />
+                                                    <img className="avatarImage" src={`data:image/jpeg;base64,${bufferString}`}
+                                                     alt="{index}" 
+                                                     onClick={() => join_room(`${post.MSSV}`)} />
                                                 </td>
 
                                                 <td>
@@ -200,9 +212,9 @@ export default function Home() {
                         </button>
                     ))}
                 </div>
-            <ChatApp user={auth}/>
+                <ChatApp user={auth} room={room} />
             </div>
-          
+
         </>
     )
 }
