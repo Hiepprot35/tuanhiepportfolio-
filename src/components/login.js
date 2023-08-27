@@ -55,7 +55,6 @@ export default function Login({ setAccessToken,setIsLogin }) {
       const userID=dataRes.UserID
       setIsLogin(true)
       setAuth({role,username,userID})
-      socket.emit('userLogin',{username,socket})
       navigate("/", { replace: true });
 
       // navigate('/home', { state: { user } });

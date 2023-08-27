@@ -66,13 +66,12 @@ function Header(props) {
                             }
                         )
                 });
-                if (isAlivew) {
 
                     const student = await studentApi.json();
 
                     setUser(student)
                     setIsLoading(false)
-                }
+                
             } catch (error) {
                 console.error(error);
             }
@@ -102,7 +101,7 @@ function Header(props) {
                                 <Link to="/dangkilop" className='Link'>Đăng ký học</Link>
 
                             </li>  <li>
-                                <Link to="/chuongtrinhdaotao" className='Link'>Chương trình đào tạo</Link>
+                                <Link to="/message" className='Link'>Nhắn tin</Link>
 
                             </li>
                             <li>

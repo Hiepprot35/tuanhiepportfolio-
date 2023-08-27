@@ -27,14 +27,14 @@ function App() {
   const ROLES = [1, 2]
   useEffect(() => {
     setIsLoading(false);
-  }, [isLogin]);
+  }, [AccessToken]);
  
   const refreshAccessToken = useRefresh()
   useEffect(() => {
     async function fetchData() {
       try {
         const refreshedData = await refreshAccessToken();
-        console.log(refreshedData)
+        console.log(auth)
         refreshedData.AccessToken ? setAccessToken(refreshedData.AccessToken) : console.log("OKE")
 
       } catch (error) {
@@ -52,7 +52,7 @@ function App() {
   }
 
   if (!isLoading) {
-    if (isLogin) {
+    if (AccessToken) {
       if (auth.role === 1) {
 
         return (
@@ -63,6 +63,8 @@ function App() {
               <Route path="/chuongtrinhdaotao" element={<Chuongtrinhdaotao />} />
               <Route path="/chat" element={<ChatApp />} />
               <Route path="/home" element={<Home  />} />
+              <Route path="/message" element={<ChatApp />} />
+
               <Route path="/" element={<Navigate to="/home"></Navigate>} />
               <Route path="/create" element={<CreateStudent />} />
               <Route path="/*" element={<Navigate to="/"></Navigate>} />
@@ -76,6 +78,7 @@ function App() {
             <Route element={<RequireAuth allowedRoles={ROLES} />}>
               {/* <Route path="/" element={<Dashboard />} /> */}
               <Route path="/" element={<Home/>} />
+              <Route path="/message" element={<ChatApp />} />
 
             </Route>
           </Routes>
@@ -88,11 +91,9 @@ function App() {
 
 
         <Routes>
-              <Route path="/chat" element={<ChatApp />} />
 
           <Route path="*" element={<Navigate to="/"></Navigate>} />
           {/* <Route path="*" element={<IsLoading />} /> */}
-          <Route path="/create" element={<CreateStudent />} />
 
           <Route path="/" element={<FistHomePage />} />
           <Route path="/login" element={<Login setAccessToken={setAccessToken} setIsLogin={setIsLogin} />} />

@@ -28,17 +28,27 @@
 
 .Main_ChatApp {
     border: 1px solid black;
-    width: 300px;
 }
 
-.inputValue {}
-
+.Container_ChatApp
+{
+    margin-top: 80px;
+    display: flex;
+    justify-content: flex-start;
+}
 .myChatbox {
     background-color: #0099FF;
     color: white;
 
 }
-
+.Narbar_ChatApp
+{
+    width: 20%;
+}
+.Main_ChatApp
+{
+    width: 60%;
+}
 .box_right {
     display: flex;
     flex-direction: column;
@@ -56,7 +66,14 @@
     margin: 0 auto;
     height: auto;
 }
-
+.Header_ChatApp
+{
+    width: 300px;
+    display: flex;
+    text-align: center;
+    align-items: center;
+    background-color: rgb(7, 243, 239);
+}
 .guestChatbox {
     background-color: #ffffff;
     color: rgb(8, 8, 8);

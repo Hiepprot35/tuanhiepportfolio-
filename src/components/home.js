@@ -15,7 +15,6 @@ export default function Home() {
 
     const { AccessToken, setAccessToken } = UseToken();
     const { auth, setAuth } = useAuth();
-    const host = process.env.REACT_APP_DB_HOST;
 
     const [isLoading, setIsLoading] = useState(true)
     const refreshAccessToken = useRefresh()
@@ -26,7 +25,7 @@ export default function Home() {
     const startIndex = (currentPage - 1) * DataPerPage;
     const endIndex = startIndex + DataPerPage
     useEffect(() => {
-        fetch(`${host}/api/getAllClass`)
+        fetch(`${process.env.REACT_APP_DB_HOST}/api/getAllClass`)
             .then(res => res.json())
             .then(Classes => {
                 setClass(Classes);
@@ -53,7 +52,7 @@ export default function Home() {
     // Function để fetch danh sách sinh viên
     const location = useLocation();
     const user = location.state?.user || {}; // Sử dụng state?.user để tránh lỗi khi state không tồn tại
-    const URL = `${host}/getallstudent`;
+    const URL = `${process.env.REACT_APP_DB_HOST}/getallstudent`;
     let isCancel = false
     const getData = async () => {
 
@@ -212,7 +211,7 @@ export default function Home() {
                         </button>
                     ))}
                 </div>
-                <ChatApp user={auth} room={room} />
+                {/* <ChatApp user={auth} room={room} /> */}
             </div>
 
         </>
