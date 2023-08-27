@@ -11,7 +11,6 @@ import { data, post } from 'jquery';
 import { Buffer } from 'buffer';
 import Conversation from './conversation/conversations';
 import Message from './message/Message';
-import { json } from 'react-router-dom';
 const ChatApp = (prop) => {
   const inputMess = useRef(null)
   const { AccessToken, setAccessToken } = UseToken();
@@ -19,7 +18,7 @@ const ChatApp = (prop) => {
 
   const { auth } = useAuth()
   const chatboxRef = useRef(null)
-  const [isClicked, setIsClicked] = useState(false)
+  const [MSSVReceived, setMSSVReceived] = useState()
   const [isLoading, setIsLoading] = useState(true)
   const [user, setUser] = useState()
   const [posts, setPosts] = useState([]);
@@ -44,9 +43,9 @@ const ChatApp = (prop) => {
       });
     });
   }, []);
-  
 
- 
+
+
   useEffect(() => {
     socket.emit("addUser", auth.userID);
 
@@ -80,35 +79,34 @@ const ChatApp = (prop) => {
     getConversation()
   }, [])
   useEffect(() => {
+    const studentInfo = async (data) => {
+      console.log(data)
 
-    const studentInfo = async () => {
-        const URL = `${process.env.REACT_APP_DB_HOST}/api/getStudentbyID`;
-        try {
-            const studentApi = await fetch(URL, {
-                method: "POST",
-                headers: {
-                    'Content-Type': 'application/json',
 
-                },
-                body:
-                    JSON.stringify(
-                        {
-                            "username": "SV1001001"
-                        }
-                    )
-            });
+      const URL = `${process.env.REACT_APP_DB_HOST}/api/getStudentbyID/SV1001001 `;
+      const URL2 = `${process.env.REACT_APP_DB_HOST}/api/getStudentbyID/${data} `;
 
-                const student = await studentApi.json();
+      console.log(URL2)
+      try {
+        const studentApi = await fetch(URL2);
 
-                setGuestImg(student)
-            
-        } catch (error) {
-            console.error(error);
-        }
+        const student = await studentApi.json();
+
+        setGuestImg(student)
+
+      } catch (error) {
+        console.error(error);
+      }
+
     };
-    studentInfo();
-  
-}, [currentChat]);
+    if (MSSVReceived) {
+      const data = MSSVReceived[0]?.username;
+      studentInfo(data);
+    }
+
+
+
+  }, [MSSVReceived,currentChat]);
   const getData = async () => {
 
     try {
@@ -132,6 +130,7 @@ const ChatApp = (prop) => {
       console.error(error)
     }
   }
+  console.log(currentChat)
   const handleSubmit = async (e) => {
     e.preventDefault();
     const message = {
@@ -175,7 +174,24 @@ const ChatApp = (prop) => {
     };
     getMessages();
   }, [currentChat]);
+  useEffect(() => {
+    const user12 = [currentChat?.user1, currentChat?.user2]
+    const receiverId = user12.find(
+      (member) => member !== auth.userID
+    );
 
+    const getUser = async () => {
+      try {
+        const res = await fetch(`${process.env.REACT_APP_DB_HOST}/api/username?id=${receiverId}`);
+        const data2 = await res.json();
+        setMSSVReceived(data2);
+      } catch (err) {
+        console.log(err);
+      }
+    };
+
+    getUser();
+  }, [currentChat]);
   useEffect(() => {
     let isAlivew = true;
 
@@ -271,27 +287,41 @@ const ChatApp = (prop) => {
 
 
               </div>
-              <div className='ChatApp' ref={chatboxRef}>
-                <div>
-                  {messages.map((message, index) => (
+              {
+                !currentChat ? <div>cac</div> :
 
-                    <Message key={index} message={message} guest={currentChat} my={auth.userID} own={message.sender_id === auth.userID} student={guestImg}></Message>
-                  ))
-                  }
-                </div>
+                  <div className='Body_Chatpp'>
+                    <div className='ChatApp' ref={chatboxRef}>
+                      <div>
+
+                        <div>
+                          {messages.map((message, index) => (
+
+                            guestImg &&
+                            <Message key={index} message={message}
+                              guest={currentChat}
+                              my={auth.userID} own={message.sender_id === auth.userID} student={guestImg}></Message>
+                          ))
+                          }
+                        </div>
 
 
-              </div>
-              <div className='inputValue'>
+                      </div>
 
-                <input
-                  ref={inputMess}
-                  type="text"
-                // value={inputMessage}
-                // onChange={(e) => setInputMessage(e.target.value)}
-                />
-                <button onClick={handleSubmit}>Send</button>
-              </div>
+
+                    </div>
+                    <div className='inputValue'>
+
+                      <input
+                        ref={inputMess}
+                        type="text"
+                      // value={inputMessage}
+                      // onChange={(e) => setInputMessage(e.target.value)}
+                      />
+                      <button onClick={handleSubmit}>Send</button>
+                    </div>
+                  </div>
+              }
             </div>
           </div>
         </>

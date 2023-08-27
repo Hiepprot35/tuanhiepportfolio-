@@ -51,21 +51,9 @@ function Header(props) {
         let isAlivew = true;
 
         const studentInfo = async () => {
-            const URL = `${host}/api/getStudentbyID`;
+            const URL = `${host}/api/getStudentbyID/${auth.username}`;
             try {
-                const studentApi = await fetch(URL, {
-                    method: "POST",
-                    headers: {
-                        'Content-Type': 'application/json',
-
-                    },
-                    body:
-                        JSON.stringify(
-                            {
-                                "username": auth.username
-                            }
-                        )
-                });
+                const studentApi = await fetch(URL);
 
                     const student = await studentApi.json();
 
