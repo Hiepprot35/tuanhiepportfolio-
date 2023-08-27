@@ -15,6 +15,7 @@ import { json } from 'react-router-dom';
 const ChatApp = (prop) => {
   const inputMess = useRef(null)
   const { AccessToken, setAccessToken } = UseToken();
+  const [guestImg, setGuestImg] = useState();
 
   const { auth } = useAuth()
   const chatboxRef = useRef(null)
@@ -78,7 +79,36 @@ const ChatApp = (prop) => {
     }
     getConversation()
   }, [])
+  useEffect(() => {
 
+    const studentInfo = async () => {
+        const URL = `${process.env.REACT_APP_DB_HOST}/api/getStudentbyID`;
+        try {
+            const studentApi = await fetch(URL, {
+                method: "POST",
+                headers: {
+                    'Content-Type': 'application/json',
+
+                },
+                body:
+                    JSON.stringify(
+                        {
+                            "username": "SV1001001"
+                        }
+                    )
+            });
+
+                const student = await studentApi.json();
+
+                setGuestImg(student)
+            
+        } catch (error) {
+            console.error(error);
+        }
+    };
+    studentInfo();
+  
+}, [currentChat]);
   const getData = async () => {
 
     try {
@@ -245,7 +275,7 @@ const ChatApp = (prop) => {
                 <div>
                   {messages.map((message, index) => (
 
-                    <Message key={index} message={message} guest={currentChat} my={auth.userID} own={message.sender_id === auth.userID} MSSV={auth.username}></Message>
+                    <Message key={index} message={message} guest={currentChat} my={auth.userID} own={message.sender_id === auth.userID} student={guestImg}></Message>
                   ))
                   }
                 </div>
