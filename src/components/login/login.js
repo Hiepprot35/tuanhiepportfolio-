@@ -6,7 +6,6 @@ import useAuth from '../../hook/useAuth'
 import UseRfLocal from '../../hook/useRFLocal';
 import io from 'socket.io-client';
 import './login.css'
-import loginFB from '../facebookLogin/loginFB';
 const host=process.env.REACT_APP_DB_HOST;
 const URL = `${host}/api/login`;
 const imgLinkBasic =

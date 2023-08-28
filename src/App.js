@@ -76,6 +76,8 @@ function App() {
         return (
           <Routes>
             <Route path="/dangkilop" element={<DangKiLopHoc />} />
+            <Route path="/create" element={<CreateStudent />} />
+
             <Route path="/chuongtrinhdaotao" element={<Chuongtrinhdaotao />} />
             <Route element={<RequireAuth allowedRoles={ROLES} />}>
               {/* <Route path="/" element={<Dashboard />} /> */}

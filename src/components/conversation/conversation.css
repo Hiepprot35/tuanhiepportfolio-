@@ -19,11 +19,17 @@
   }
   
   .conversationName {
-    font-weight: 500;
+    font-weight: bold;
+    margin: 0.5rem;
   }
   
   @media screen and (max-width: 768px) {
     .conversationName {
       display: none;
     }
+  }
+  .messConversation span
+  {
+    color: gray;
+    margin: 0.5rem;
   }

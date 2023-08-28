@@ -4,13 +4,13 @@ import "./conversation.css";
 import io from 'socket.io-client';
 
 import BlobtoBase64 from "../../function/BlobtoBase64";
-export default function Conversation({ conversation, currentUser,mess }) {
+export default function Conversation({ conversation, currentUser, Arrivalmess, mess }) {
     const socket = io.connect(process.env.REACT_APP_DB_HOST); // Replace with your server URL
     const [arrivalMessage, setArrivalMessage] = useState(null);
     const [user, setUser] = useState();
     const [isLoading, setIsLoading] = useState(true);
-    const [username,setUsername]=useState()
-    const [NewestMess,setNewestMesst]=useState()
+    const [username, setUsername] = useState()
+    const [NewestMess, setNewestMesst] = useState()
 
     // useEffect(() => {
     //     socket.on("getMessage", (data) => {
@@ -26,18 +26,17 @@ export default function Conversation({ conversation, currentUser,mess }) {
     // {
     //     console.log(arrivalMessage)
     // },[arrivalMessage])
-    
-    useEffect(()=>{
 
-        const getUsername= () => {
-            let friendId=conversation.user1;
-            if(conversation.user1!=conversation.user2)
-            {
-                
+    useEffect(() => {
+
+        const getUsername = () => {
+            let friendId = conversation.user1;
+            if (conversation.user1 != conversation.user2) {
+
                 const data = [conversation.user1, conversation.user2];
                 friendId = data.find((m) => m !== currentUser);
             }
-            
+
             const getUser = async () => {
                 try {
                     const res = await fetch(`${process.env.REACT_APP_DB_HOST}/api/username?id=${friendId}`);
@@ -48,21 +47,20 @@ export default function Conversation({ conversation, currentUser,mess }) {
                 }
             };
             getUser()
-            
+
         }
         getUsername()
-    },[conversation, currentUser])
-    useEffect(()=>{
+    }, [conversation, currentUser])
+    useEffect(() => {
 
-        const getMess= () => {
-            let friendId=conversation.user1;
-            if(conversation.user1!=conversation.user2)
-            {
-                
+        const getMess = () => {
+            let friendId = conversation.user1;
+            if (conversation.user1 != conversation.user2) {
+
                 const data = [conversation.user1, conversation.user2];
                 friendId = data.find((m) => m !== currentUser);
             }
-            
+
             const resApi = async () => {
                 try {
                     const res = await fetch(`${process.env.REACT_APP_DB_HOST}/api/message/newest/${conversation.id}`);
@@ -73,53 +71,62 @@ export default function Conversation({ conversation, currentUser,mess }) {
                 }
             };
             resApi()
-            
+
         }
         getMess()
-    },[conversation, currentUser,mess])
-  
-    useEffect( () => {
-        
+    }, [conversation, currentUser, Arrivalmess, mess])
+
+    useEffect(() => {
+
         const studentInfo = async () => {
-            if(username)
-            {
+            if (username) {
 
                 const URL2 = `${process.env.REACT_APP_DB_HOST}/api/getStudentbyID/${username[0].username} `;
-                
+
                 try {
                     const studentApi = await fetch(URL2);
-                    
+
                     const student = await studentApi.json();
-                    
+
                     setUser(student)
                     setIsLoading(false)
-                    
+
                 } catch (error) {
                     console.error(error);
                 }
-                
-            }
-            };
-        
-          studentInfo();
 
-        
-      }, [username]);
-     
-      return (
+            }
+        };
+
+        studentInfo();
+
+
+    }, [username]);
+    return (
         <>
             {isLoading ? <IsLoading /> :
                 <div className="conversation">
                     <img src={`${BlobtoBase64(user.img)}`} className="avatarImage" alt="uer avatar"></img>
                     <div className="text_conversation">
 
-                    <span className="conversationName">{user.Name}</span>
-                    <div>
-                        {
-                            NewestMess &&
-                            <span> {NewestMess?.sender_id}: {NewestMess?.content}</span>
-                        }
-                    </div>
+                        <span className="conversationName">{user.Name}</span>
+                        <div className="messConversation">
+                            {
+                                NewestMess &&
+                                <>
+                                    {
+                                        NewestMess?.sender_id === currentUser ? <>
+                                            <span>Bạn: {NewestMess?.content}</span></> :
+
+
+                                            <>
+                                                <span> {user.Name}: {NewestMess?.content}</span>
+
+                                            </>
+                                    }
+                                </>
+                            }
+                        </div>
                     </div>
                 </div>
             }

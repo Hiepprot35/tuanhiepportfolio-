@@ -1,9 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import io from 'socket.io-client';
 import useAuth from '../../hook/useAuth';
 import BlobtoBase64 from '../../function/BlobtoBase64';
 import Header from '../Layout/header/header';
-import { useRef } from 'react';
 import { useRefresh } from "../../hook/useRefresh";
 import UseToken from '../../hook/useToken';
 import { IsLoading } from '../Loading';
@@ -25,9 +24,9 @@ const ChatApp = (prop) => {
   const refreshAccessToken = useRefresh()
   const [currentChat, setCurrentChat] = useState(null);
   const [arrivalMessage, setArrivalMessage] = useState(null);
-
+  const ChoosenUser = useRef()
   const [messages, setMessages] = useState([]);
-  const socket = io.connect(process.env.REACT_APP_DB_HOST); // Replace with your server URL
+  const socket = useRef(); // Replace with your server URL
   let isCancel = false
   const URL = `${process.env.REACT_APP_DB_HOST}/getallstudent`;
   const handleKeyPress = async (event) => {
@@ -41,7 +40,7 @@ const ChatApp = (prop) => {
       const receiverId = user12.find(
         (member) => member !== auth.userID
       );
-      socket.emit("sendMessage", {
+      socket.current.emit("sendMessage", {
         sender_id: auth.userID,
         receiverId,
         content: inputMess.current.value,
@@ -64,19 +63,26 @@ const ChatApp = (prop) => {
     }
   }
   useEffect(() => {
-    socket.on("getMessage", (data) => {
+    socket.current = io(process.env.REACT_APP_DB_HOST);
+    socket.current.on("getMessage", (data) => {
+
       setArrivalMessage({
         sender_id: data.sender_id,
         content: data.content,
         create_at: Date.now(),
       });
     });
-  }, []);
+
+    return () => {
+      socket.current.disconnect();
+    }
+  }, []
+  )
 
 
 
   useEffect(() => {
-    socket.emit("addUser", auth.userID);
+    socket.current.emit("addUser", auth.userID);
 
   }, [auth]);
   useEffect(() => {
@@ -157,7 +163,7 @@ const ChatApp = (prop) => {
     const receiverId = user12.find(
       (member) => member !== auth.userID
     );
-    socket.emit("sendMessage", {
+    socket.current.emit("sendMessage", {
       sender_id: auth.userID,
       receiverId,
       content: inputMess.current.value,
@@ -178,6 +184,7 @@ const ChatApp = (prop) => {
       console.log(err);
     }
   };
+
   useEffect(() => {
     const getMessages = async () => {
       try {
@@ -251,21 +258,7 @@ const ChatApp = (prop) => {
   }, [])
 
 
-  const sendMessage = () => {
-    // if (prop.room !== "") {
-    //   socket.emit("join_room", prop.room);
-    // }
-    socket.emit('send_message', {
-      UserID: auth.userID,
-      Message: inputMess.current.value,
-      img: user.img,
-      // room: prop.room
-    });
-
-    inputMess.current.focus()
-    inputMess.current.value = ''
-  };
-
+  
   useEffect(() => {
 
     chatboxRef.current && chatboxRef.current.scrollTo({
@@ -285,8 +278,8 @@ const ChatApp = (prop) => {
               <input placeholder="Search for friends" className="chatMenuInput" />
 
               {conversations.map((c, index) => (
-                <div onClick={() => setCurrentChat(c)} key={index}>
-                  <Conversation conversation={c} currentUser={auth.userID} mess={messages}  />
+                <div onClick={() => setCurrentChat(c)} key={index} style={currentChat === c ? { backgroundColor: "rgb(245, 243, 243)" } : {}} >
+                  <Conversation conversation={c} currentUser={auth.userID} Arrivalmess={arrivalMessage} mess={messages.length} />
                 </div>
               ))}
 
@@ -298,16 +291,16 @@ const ChatApp = (prop) => {
                 !currentChat ? <div>Chọn người nhận</div> :
                   <>
                     <div className='Header_ChatApp'>
-                <a href='cac'>
+                      <a href='cac'>
 
-                      {
-                        
-                        guestImg &&
-                        < >
-                          <img className='avatarImage' src={`${BlobtoBase64(guestImg.img)}`}></img>
-                          <p> {guestImg.Name}</p>
-                        </>
-                      }
+                        {
+
+                          guestImg &&
+                          < >
+                            <img className='avatarImage' src={`${BlobtoBase64(guestImg.img)}`}></img>
+                            <p> {guestImg.Name}</p>
+                          </>
+                        }
                       </a>
                     </div>
 
