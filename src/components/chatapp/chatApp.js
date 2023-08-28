@@ -1,16 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import io from 'socket.io-client';
-import useAuth from '../hook/useAuth';
-import BlobtoBase64 from '../function/BlobtoBase64';
-import Header from './header';
+import useAuth from '../../hook/useAuth';
+import BlobtoBase64 from '../../function/BlobtoBase64';
+import Header from '../Layout/header/header';
 import { useRef } from 'react';
-import { useRefresh } from "../hook/useRefresh";
-import UseToken from '../hook/useToken';
-import { IsLoading } from './Loading';
-import { data, post } from 'jquery';
-import { Buffer } from 'buffer';
-import Conversation from './conversation/conversations';
-import Message from './message/Message';
+import { useRefresh } from "../../hook/useRefresh";
+import UseToken from '../../hook/useToken';
+import { IsLoading } from '../Loading';
+import './chatApp.css'
+import Conversation from '../conversation/conversations';
+import Message from '../message/Message';
 const ChatApp = (prop) => {
   const inputMess = useRef(null)
   const { AccessToken, setAccessToken } = UseToken();
@@ -23,19 +22,49 @@ const ChatApp = (prop) => {
   const [user, setUser] = useState()
   const [posts, setPosts] = useState([]);
   const [conversations, setConversation] = useState([])
-  const [guest, setGuest] = useState()
   const refreshAccessToken = useRefresh()
   const [currentChat, setCurrentChat] = useState(null);
   const [arrivalMessage, setArrivalMessage] = useState(null);
 
   const [messages, setMessages] = useState([]);
-  const [isSent, setIsSent] = useState('');
   const socket = io.connect(process.env.REACT_APP_DB_HOST); // Replace with your server URL
   let isCancel = false
   const URL = `${process.env.REACT_APP_DB_HOST}/getallstudent`;
+  const handleKeyPress = async (event) => {
+    if (event.key === 'Enter') {
+      const message = {
+        sender_id: auth.userID,
+        content: inputMess.current.value,
+        conversation_id: currentChat.id,
+      };
+      const user12 = [currentChat?.user1, currentChat?.user2]
+      const receiverId = user12.find(
+        (member) => member !== auth.userID
+      );
+      socket.emit("sendMessage", {
+        sender_id: auth.userID,
+        receiverId,
+        content: inputMess.current.value,
+      });
+      try {
+        const res = await fetch(`${process.env.REACT_APP_DB_HOST}/api/message`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(message)
+        });
+        console.log(currentChat)
+        const data = await res.json()
+        setMessages([...messages, data]);
+        inputMess.current.value = "";
+      } catch (err) {
+        console.log(err);
+      }
+    }
+  }
   useEffect(() => {
     socket.on("getMessage", (data) => {
-      console.log("Received data:", data);
       setArrivalMessage({
         sender_id: data.sender_id,
         content: data.content,
@@ -51,6 +80,7 @@ const ChatApp = (prop) => {
 
   }, [auth]);
   useEffect(() => {
+    console.log(arrivalMessage)
     if (arrivalMessage) {
       const data = [currentChat?.user1, currentChat?.user2];
       data.includes(arrivalMessage.sender_id) &&
@@ -81,32 +111,23 @@ const ChatApp = (prop) => {
   useEffect(() => {
     const studentInfo = async (data) => {
       console.log(data)
+      if (data) {
 
-
-      const URL = `${process.env.REACT_APP_DB_HOST}/api/getStudentbyID/SV1001001 `;
-      const URL2 = `${process.env.REACT_APP_DB_HOST}/api/getStudentbyID/${data} `;
-
-      console.log(URL2)
-      try {
-        const studentApi = await fetch(URL2);
-
-        const student = await studentApi.json();
-
-        setGuestImg(student)
-
-      } catch (error) {
-        console.error(error);
-      }
-
-    };
+        const URL2 = `${process.env.REACT_APP_DB_HOST}/api/getStudentbyID/${data} `;
+        try {
+          const studentApi = await fetch(URL2);
+          const student = await studentApi.json();
+          setGuestImg(student)
+        } catch (error) {
+          console.error(error);
+        }
+      };
+    }
     if (MSSVReceived) {
       const data = MSSVReceived[0]?.username;
       studentInfo(data);
     }
-
-
-
-  }, [MSSVReceived,currentChat]);
+  }, [MSSVReceived, currentChat]);
   const getData = async () => {
 
     try {
@@ -117,20 +138,14 @@ const ChatApp = (prop) => {
         }
       });
       if (response.ok) {
-
         const data = await response.json()
-
-
         setIsLoading(false)
         setPosts(data)
       }
-
     } catch (error) {
-
       console.error(error)
     }
   }
-  console.log(currentChat)
   const handleSubmit = async (e) => {
     e.preventDefault();
     const message = {
@@ -142,7 +157,6 @@ const ChatApp = (prop) => {
     const receiverId = user12.find(
       (member) => member !== auth.userID
     );
-
     socket.emit("sendMessage", {
       sender_id: auth.userID,
       receiverId,
@@ -156,6 +170,7 @@ const ChatApp = (prop) => {
         },
         body: JSON.stringify(message)
       });
+      console.log(currentChat)
       const data = await res.json()
       setMessages([...messages, data]);
       inputMess.current.value = "";
@@ -175,10 +190,13 @@ const ChatApp = (prop) => {
     getMessages();
   }, [currentChat]);
   useEffect(() => {
-    const user12 = [currentChat?.user1, currentChat?.user2]
-    const receiverId = user12.find(
-      (member) => member !== auth.userID
-    );
+    let receiverId;
+
+
+    const user12 = [currentChat?.user1, currentChat?.user2];
+
+    currentChat?.user1 !== currentChat?.user2 ? receiverId = user12.find((member) => member !== auth.userID) : receiverId = auth.userID;
+    console.log(auth.receiverId)
 
     const getUser = async () => {
       try {
@@ -231,15 +249,7 @@ const ChatApp = (prop) => {
   useEffect(() => {
     getData()
   }, [])
-  useEffect(() => {
-    socket.on('receive_message', (message) => {
-      setMessages((pre) => [...pre, message])
-    }
-    )
-    return () => {
-      socket.off('receive_message')
-    }
-  }, []);
+
 
   const sendMessage = () => {
     // if (prop.room !== "") {
@@ -276,28 +286,39 @@ const ChatApp = (prop) => {
 
               {conversations.map((c, index) => (
                 <div onClick={() => setCurrentChat(c)} key={index}>
-                  <Conversation conversation={c} currentUser={auth.userID} />
+                  <Conversation conversation={c} currentUser={auth.userID} mess={messages}  />
                 </div>
               ))}
 
             </div>
             <div className='Main_ChatApp'>
 
-              <div className='Header_ChatApp'>
 
-
-              </div>
               {
-                !currentChat ? <div>cac</div> :
+                !currentChat ? <div>Chọn người nhận</div> :
+                  <>
+                    <div className='Header_ChatApp'>
+                <a href='cac'>
 
-                  <div className='Body_Chatpp'>
-                    <div className='ChatApp' ref={chatboxRef}>
-                      <div>
+                      {
+                        
+                        guestImg &&
+                        < >
+                          <img className='avatarImage' src={`${BlobtoBase64(guestImg.img)}`}></img>
+                          <p> {guestImg.Name}</p>
+                        </>
+                      }
+                      </a>
+                    </div>
+
+                    <div className='Body_Chatpp'>
+                      <div className='ChatApp' ref={chatboxRef}>
+
+
 
                         <div>
-                          {messages.map((message, index) => (
 
-                            guestImg &&
+                          {messages.map((message, index) => (
                             <Message key={index} message={message}
                               guest={currentChat}
                               my={auth.userID} own={message.sender_id === auth.userID} student={guestImg}></Message>
@@ -306,21 +327,34 @@ const ChatApp = (prop) => {
                         </div>
 
 
+
+
                       </div>
+                      <div className='inputValue'>
+                        <div className='feature_field'>
+                          <input
+                            type='file'></input>
+                        </div>
+                        <div className='text_field'>
 
+                          <input
+                            onKeyPress={handleKeyPress}
+                            ref={inputMess}
+                            placeholder='Send a messsage'
+                            type="text"
+                            required
+                          // value={inputMessage}
+                          // onChange={(e) => setInputMessage(e.target.value)}
+                          />
+                        </div>
+                        <div className='button_field'>
 
+                          <button onClick={handleSubmit} >Send</button>
+                        </div>
+                      </div>
                     </div>
-                    <div className='inputValue'>
+                  </>
 
-                      <input
-                        ref={inputMess}
-                        type="text"
-                      // value={inputMessage}
-                      // onChange={(e) => setInputMessage(e.target.value)}
-                      />
-                      <button onClick={handleSubmit}>Send</button>
-                    </div>
-                  </div>
               }
             </div>
           </div>

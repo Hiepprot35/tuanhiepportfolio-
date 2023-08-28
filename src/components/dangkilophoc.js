@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from "react"
 import { useRefresh } from "../hook/useRefresh";
 import useAuth from '../hook/useAuth'
-import Header from "./header";
+import Header from "./Layout/header/header";
 import { IsLoading } from "./Loading";
 export default function DangKiLopHoc() {
     const { auth } = useAuth()

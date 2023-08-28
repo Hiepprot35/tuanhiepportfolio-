@@ -2,12 +2,11 @@ import { useEffect, useState } from "react";
 import UseToken from '../hook/useToken';
 import { useRefresh } from "../hook/useRefresh";
 import { useLocation } from 'react-router-dom';
-import Header from "./header";
+import Header from "./Layout/header/header";
 import { IsLoading } from "./Loading";
 import useAuth from "../hook/useAuth";
 import io from 'socket.io-client';
 
-import ChatApp from "./chatApp";
 const { Buffer } = require('buffer');
 
 export default function Home() {
@@ -15,7 +14,7 @@ export default function Home() {
 
     const { AccessToken, setAccessToken } = UseToken();
     const { auth, setAuth } = useAuth();
-
+    const [userID,setuserID]=useState()
     const [isLoading, setIsLoading] = useState(true)
     const refreshAccessToken = useRefresh()
     const [posts, setPosts] = useState([]);
@@ -47,8 +46,30 @@ export default function Home() {
         );
     };
 
-
-
+const handleAddChat= async (MSSV)=>
+{
+    const userID=await getUserID(MSSV)
+    console.log(userID)
+    try {
+        
+            const res=await fetch(`${process.env.REACT_APP_DB_HOST}/api/conversations`,{
+                method:'POST',
+                headers:{
+                    'Content-Type': 'application/json',
+                },
+                body:JSON.stringify({
+                    "user1":auth.userID,
+                    "user2":userID[0].UserID
+                })
+            })
+            const data=await res.json()
+            console.log(data)
+    } catch (error) {
+        console.log(error)
+        
+    }
+}
+    useEffect(()=>{console.log(userID)},[userID])
     // Function để fetch danh sách sinh viên
     const location = useLocation();
     const user = location.state?.user || {}; // Sử dụng state?.user để tránh lỗi khi state không tồn tại
@@ -75,6 +96,18 @@ export default function Home() {
         } catch (error) {
 
             console.error(error)
+        }
+    }
+    const getUserID= async(MSSV)=>
+    {
+        try {
+            const res=await fetch(`${process.env.REACT_APP_DB_HOST}/api/userID/${MSSV}`)
+            const userID=await res.json()
+            return userID
+           // return userID
+         
+        } catch (error) {
+            console.log(error)
         }
     }
     // useEffect(() => {
@@ -175,13 +208,13 @@ export default function Home() {
                                     currentData.map((post, index) => {
                                         const bufferString = post.img && Buffer.from(post.img).toString('base64');
                                         return (
-                                            <tr key={index}>
+                                            <tr key={index} onClick={()=>{handleAddChat(post.MSSV)}}>
                                                 <td>{post.MSSV}</td>
                                                 <td>{post.Name}</td>
                                                 <td>
                                                     <img className="avatarImage" src={`data:image/jpeg;base64,${bufferString}`}
                                                      alt="{index}" 
-                                                     onClick={() => join_room(`${post.MSSV}`)} />
+                                                     onClick={() => join_room(`${post.userID}`)} />
                                                 </td>
 
                                                 <td>

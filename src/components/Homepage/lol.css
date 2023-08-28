@@ -910,6 +910,11 @@
         position: relative;
         
     } */
+    .content
+    {
+        height: 1000px;
+        width: 100%;
+    }
     .text_haychontuong {
         display: flex;
         align-items: center;

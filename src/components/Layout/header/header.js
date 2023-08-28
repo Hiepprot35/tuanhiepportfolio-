@@ -1,9 +1,10 @@
 import React, { useEffect, useRef, useState ,memo} from 'react';
 import { Buffer } from 'buffer';
 import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
-import useAuth from '../hook/useAuth';
-import { LogOut } from "./logout";
-import BlobtoBase64 from '../function/BlobtoBase64';
+import useAuth from '../../../hook/useAuth';
+import { LogOut } from "../../logout";
+import BlobtoBase64 from '../../../function/BlobtoBase64';
+import './header.css'
 function Header(props) {
     const [weather, setWeather] = useState({
         city: "",
@@ -126,7 +127,7 @@ function Header(props) {
                                     <div>
                                         <ul>
                                             <li>
-                                            <p style={{ color: 'white' }}> Hello {auth.username}</p>
+                                            <p className='username_header'> Hello {auth.username}</p>
 
                                             </li>
                                             <li>

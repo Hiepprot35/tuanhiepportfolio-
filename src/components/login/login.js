@@ -1,11 +1,12 @@
 import { useNavigate,useLocation  } from 'react-router-dom';
-import ChangeBackground from './changeBackground';
+import ChangeBackground from '../changeBackground';
 import { useEffect, useState, useRef } from "react";
-import { IsLoading } from './Loading';
-import useAuth from '../hook/useAuth'
-import UseRfLocal from '../hook/useRFLocal';
+import { IsLoading } from '../Loading';
+import useAuth from '../../hook/useAuth'
+import UseRfLocal from '../../hook/useRFLocal';
 import io from 'socket.io-client';
-
+import './login.css'
+import loginFB from '../facebookLogin/loginFB';
 const host=process.env.REACT_APP_DB_HOST;
 const URL = `${host}/api/login`;
 const imgLinkBasic =
@@ -190,6 +191,7 @@ export default function Login({ setAccessToken,setIsLogin }) {
                 id="sumbit_btn"
                 defaultValue="Đăng nhập"
               > Submit </button>
+              <loginFB></loginFB>
             </div>
             <div className="forget_pass dangky_href">
               <a href="/dangky" className="forget_pass_text">

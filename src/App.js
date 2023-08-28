@@ -1,8 +1,9 @@
-import Login from './components/login';
+import Login from './components/login/login';
 import Home from './components/home';
 import CreateStudent from './components/createStudent';
 import { BrowserRouter as Router, Routes, Route, Navigate, Link } from 'react-router-dom';
 import UseToken from './hook/useToken';
+
 import { useState } from 'react';
 import useLogin from './hook/useLogin';
 import { useEffect } from 'react';
@@ -14,7 +15,7 @@ import { IsLoading } from './components/Loading';
 import DangKiLopHoc from './components/dangkilophoc';
 import Chuongtrinhdaotao from './chuongtrinhdaotao';
 import { useRefresh } from './hook/useRefresh';
-import ChatApp from './components/chatApp';
+import ChatApp from './components/chatapp/chatApp';
 import io from 'socket.io-client';
 
 function App() {
@@ -28,7 +29,7 @@ function App() {
   useEffect(() => {
     setIsLoading(false);
   }, [AccessToken]);
- 
+
   const refreshAccessToken = useRefresh()
   useEffect(() => {
     async function fetchData() {
@@ -59,10 +60,9 @@ function App() {
           <Routes>
             <Route element={<RequireAuth allowedRoles={ROLES} />}>
               <Route path="/dashboard" element={<Dashboard />} />
-              <Route path="/dangkilop" element={<DangKiLopHoc />} />
-              <Route path="/chuongtrinhdaotao" element={<Chuongtrinhdaotao />} />
+
               <Route path="/chat" element={<ChatApp />} />
-              <Route path="/home" element={<Home  />} />
+              <Route path="/home" element={<Home />} />
               <Route path="/message" element={<ChatApp />} />
 
               <Route path="/" element={<Navigate to="/home"></Navigate>} />
@@ -75,10 +75,13 @@ function App() {
       else if (auth.role === 2) {
         return (
           <Routes>
+            <Route path="/dangkilop" element={<DangKiLopHoc />} />
+            <Route path="/chuongtrinhdaotao" element={<Chuongtrinhdaotao />} />
             <Route element={<RequireAuth allowedRoles={ROLES} />}>
               {/* <Route path="/" element={<Dashboard />} /> */}
-              <Route path="/" element={<Home/>} />
+              <Route path="/" element={<Home />} />
               <Route path="/message" element={<ChatApp />} />
+              <Route path="*" element={<Home />} />
 
             </Route>
           </Routes>

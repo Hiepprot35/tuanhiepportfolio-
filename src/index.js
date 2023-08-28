@@ -3,9 +3,7 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import { BrowserRouter } from 'react-router-dom';
 import { AuthProvider } from './context/authProvider';
-import Footer from './components/footer';
 import App from './App';
-import ChatApp from './components/chatApp';
 import './index.css';
 import reportWebVitals from './reportWebVitals';
 document.title="Login"

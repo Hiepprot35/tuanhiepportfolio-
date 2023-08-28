@@ -1,8 +1,8 @@
 import { useEffect, useRef } from "react";
 import $ from 'jquery';
 
-import Footer from "../footer";
-const { Buffer } = require('buffer');
+import './lol.css'
+
 export default function FistHomePage() {
     const titleHeader = [
         "Trò chơi", "Tin Tức", "Chi tiết cập nhât", "Esport", "Vũ trụ", "Hỗ trợ"

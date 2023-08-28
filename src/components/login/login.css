@@ -3,19 +3,14 @@
 
     }
 
-    body {
-        font-family: 'Courier New', Courier, monospace;
-        font-size: 4px;
-        width: 100%;
-
-    }
+ 
 
     a {
         text-decoration-line: none;
     }
 
     .dangnhap_text h1 {
-        font-size: 6em;
+        font-size: 3rem;
         color: rgb(15, 3, 3);
     }
 
