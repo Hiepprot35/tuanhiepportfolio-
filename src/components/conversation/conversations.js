@@ -108,8 +108,10 @@ export default function Conversation({ conversation, currentUser, Arrivalmess, m
         <>
             {isLoading ? <IsLoading /> :
                 <div className="conversation">
-
-                    <img src={`${BlobtoBase64(user.img)}`} className={`avatarImage ${ListusersOnline.includes(setOnlineUser) ? "online" : {}}`} alt="uer avatar"></img>
+                    <div className="Avatar_status">
+                    <img src={`${BlobtoBase64(user.img)}`} className={`avatarImage`} alt="uer avatar"></img>
+                    <span className={`dot ${ListusersOnline.includes(setOnlineUser) ? "activeOnline" : {}}`}> </span>
+                    </div>
                     <div className="text_conversation">
 
                         <span className="conversationName">{user.Name}</span>

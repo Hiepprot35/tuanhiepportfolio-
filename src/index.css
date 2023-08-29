@@ -22,12 +22,14 @@ code {
 .avatarImage {
   width: 40px;
   height: 40px;
-  border: 3px rgb(48, 69, 96) solid;
-  border-radius: 6px;
+  border: 1px rgb(7, 7, 7) solid;
+  border-radius: 50%;
+  
   position: relative;
   background-size: cover;
   background-position: center;
 }
+
 /* .status {
   width: 6px;
   height: 6px;
@@ -39,8 +41,20 @@ code {
   transform: translate(40%, -40%);
   background-color: rgb(33, 34, 35);
 } */
-.online {
-  border: solid 3px rgb(48, 249, 75) !important;
+.dot {
+  border: 1px solid white;
+  position: relative;
+  z-index: 10;
+  margin-left:-10px;
+  height: 0.8rem;
+  width: 0.8rem;
+  background-color: #bbb;
+  border-radius: 50%;
+  display: inline-block;
+}
+.activeOnline
+{
+  background-color: rgb(33, 150, 9);
 }
 
 .Loading_container {
