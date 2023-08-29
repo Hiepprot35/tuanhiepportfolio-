@@ -69,12 +69,35 @@ input[type=text]:focus {
 
 .Narbar_ChatApp {
     overflow: hidden;
-    
+
     width: 20%;
+}
+.header_text
+{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin-left: 1rem;
+}
+.header_online
+{
+    display: flex;
+    align-items: center;
 }
 
 .Main_ChatApp {
     width: 100%;
+}
+
+.Header_ChatApp .header_online h3 {
+    font-size: 20px;
+}
+
+.Header_ChatApp .header_online text {
+    font-weight: 100;
+    font-size: 12px;
+    color: gray;
+    padding:0
 }
 
 .box_right {
@@ -94,9 +117,8 @@ input[type=text]:focus {
     margin: 0 auto;
     height: auto;
 }
-.chatbox_res
 
-{
+.chatbox_res {
     height: 800px;
     font-size: 2rem;
     color: rgba(255, 255, 255, 0.733);
@@ -106,16 +128,17 @@ input[type=text]:focus {
     justify-content: center;
     background-color: rgb(92, 89, 89);
 }
-.chatbox_res a
-{
-    margin-top:5rem;
+
+.chatbox_res a {
+    margin-top: 5rem;
     padding: 1rem;
     border: solid 2px rgba(0, 0, 0, 0);
     background: rgb(0, 247, 255);
     text-transform: uppercase;
     color: rgb(247, 248, 248);
-    
+
 }
+
 .Header_ChatApp p {
     font-size: 1.5rem;
     font-weight: bold;
@@ -134,10 +157,11 @@ input[type=text]:focus {
 .Header_ChatApp a:hover {
     background-color: rgba(148, 144, 144, 0.5);
 }
-.converrsation_chat
-{
+
+.converrsation_chat {
     transition: 0.5s;
 }
+
 .Header_ChatApp {
     position: relative;
     z-index: 15;

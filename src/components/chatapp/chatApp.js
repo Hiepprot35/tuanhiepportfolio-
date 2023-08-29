@@ -28,6 +28,8 @@ const ChatApp = (prop) => {
   const [messages, setMessages] = useState([]);
   const socket = useRef(); // Replace with your server URL
   let isCancel = false
+  const ListusersOnline = onlineUser && onlineUser.map(item => item.userId) || [];
+
   const URL = `${process.env.REACT_APP_DB_HOST}/getallstudent`;
   const handleKeyPress = async (event) => {
     if (event.key === 'Enter') {
@@ -116,13 +118,14 @@ const ChatApp = (prop) => {
     console.log(arrivalMessage)
   }, [arrivalMessage])
   useEffect(() => {
-    const studentInfo = async (data) => {
+    const studentInfo = async (data, userID) => {
       if (data) {
 
         const URL2 = `${process.env.REACT_APP_DB_HOST}/api/getStudentbyID/${data} `;
         try {
           const studentApi = await fetch(URL2);
           const student = await studentApi.json();
+          student.userID = userID
           setGuestImg(student)
         } catch (error) {
           console.error(error);
@@ -131,7 +134,8 @@ const ChatApp = (prop) => {
     }
     if (MSSVReceived) {
       const data = MSSVReceived[0]?.username;
-      studentInfo(data);
+      const userid = MSSVReceived[0]?.UserID;
+      studentInfo(data, userid);
     }
   }, [MSSVReceived, currentChat]);
   const getData = async () => {
@@ -263,7 +267,7 @@ const ChatApp = (prop) => {
             <div className='Narbar_ChatApp'>
               <input placeholder="Search for friends" className="chatMenuInput" />
 
-              {conversations && Array.isArray(conversations) &&conversations.length!==0  && conversations.map((c, index) => (
+              {conversations && Array.isArray(conversations) && conversations.length !== 0 && conversations.map((c, index) => (
                 <div onClick={() => setCurrentChat(c)} key={index} className='converrsation_chat' style={currentChat === c ? { backgroundColor: "rgb(245, 243, 243)" } : {}} >
                   <Conversation conversation={c} currentUser={auth.userID} Arrivalmess={arrivalMessage} mess={messages.length} Online={onlineUser} />
                 </div>
@@ -271,60 +275,73 @@ const ChatApp = (prop) => {
             </div>
             <div className='Main_ChatApp'>
               {
-                conversations.length===0?<div className='chatbox_res'>Kết bạn đi anh bạn <a href='/home'>kết bạn</a></div>:
-              <>
-                  {
-                    !currentChat ? <div className='chatbox_res'>Hãy chọn một đoạn chat hoặc bắt đầu cuộc trò chuyện mới</div> :
-                      <>
-                        <div className='Header_ChatApp'>
-                          <a href='cac'>
-                            {
-                              guestImg &&
-                              < >
-                                <img className='avatarImage' src={`${BlobtoBase64(guestImg.img)}`}></img>
-                                <p> {guestImg.Name}</p>
-                              </>
-                            }
-                          </a>
-                        </div>
+                conversations.length === 0 ? <div className='chatbox_res'>Kết bạn đi anh bạn <a href='/home'>kết bạn</a></div> :
+                  <>
+                    {
+                      !currentChat ? <div className='chatbox_res'>Hãy chọn một đoạn chat hoặc bắt đầu cuộc trò chuyện mới</div> :
+                        <>
+                          <div className='Header_ChatApp'>
+                            <a href='cac'>
+                              {
+                                guestImg &&
+                                <>
+                                  <div className='header_online'>
+                                <div className='avatar_dot'>
 
-                        <div className='Body_Chatpp'>
-                          <div className='ChatApp' ref={chatboxRef}>
-                            <div>
-                              {messages.map((message, index) => (
-                                <Message key={index} message={message}
-                                  guest={currentChat}
-                                  my={auth.userID} own={message.sender_id === auth.userID} student={guestImg}></Message>
-                              ))
+                                    <img className='avatarImage' alt='Avatar' src={`${BlobtoBase64(guestImg.img)}` }></img>
+                                    <span className={`dot ${ListusersOnline.includes(guestImg.userID) ? "activeOnline" : {}}`}>  </span>
+                                </div>
+
+                                  <div className='header_text'>
+
+                                    <div style={{fontSize:"1.5rem",color:"black",fontWeight:"bold"}}> {guestImg.Name}</div>
+                                    {
+                                      <text>{ListusersOnline.includes(guestImg.userID) &&  <>Đang hoạt động</>}</text>
+                                    }
+                                    </div>
+                                  </div>
+                                </>
                               }
+                            </a>
+                          </div>
+
+                          <div className='Body_Chatpp'>
+                            <div className='ChatApp' ref={chatboxRef}>
+                              <div>
+                                {messages.map((message, index) => (
+                                  <Message key={index} message={message}
+                                    guest={currentChat}
+                                    my={auth.userID} own={message.sender_id === auth.userID} student={guestImg} Online={onlineUser} currentUser={auth.userID} ></Message>
+                                ))
+                                }
+                              </div>
+                            </div>
+                            <div className='inputValue'>
+                              <div className='feature_field'>
+                                <input
+                                  type='file'></input>
+                              </div>
+                              <div className='text_field'>
+
+                                <input
+                                  onKeyPress={handleKeyPress}
+                                  ref={inputMess}
+                                  placeholder='Send a messsage'
+                                  type="text"
+                                  required
+                                // value={inputMessage}
+                                // onChange={(e) => setInputMessage(e.target.value)}
+                                />
+                              </div>
+                              <div className='button_field'>
+
+                                <button onClick={handleSubmit} >Send</button>
+                              </div>
                             </div>
                           </div>
-                          <div className='inputValue'>
-                            <div className='feature_field'>
-                              <input
-                                type='file'></input>
-                            </div>
-                            <div className='text_field'>
-
-                              <input
-                                onKeyPress={handleKeyPress}
-                                ref={inputMess}
-                                placeholder='Send a messsage'
-                                type="text"
-                                required
-                              // value={inputMessage}
-                              // onChange={(e) => setInputMessage(e.target.value)}
-                              />
-                            </div>
-                            <div className='button_field'>
-
-                              <button onClick={handleSubmit} >Send</button>
-                            </div>
-                          </div>
-                        </div>
-                      </>
-                  }
-                </>
+                        </>
+                    }
+                  </>
               }
 
             </div>
