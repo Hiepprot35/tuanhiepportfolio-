@@ -190,7 +190,6 @@ export default function Login({ setAccessToken,setIsLogin }) {
                 id="sumbit_btn"
                 defaultValue="Đăng nhập"
               > Submit </button>
-              <loginFB></loginFB>
             </div>
             <div className="forget_pass dangky_href">
               <a href="/dangky" className="forget_pass_text">
