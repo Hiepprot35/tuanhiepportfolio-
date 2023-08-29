@@ -74,7 +74,7 @@ input[type=text]:focus {
 }
 
 .Main_ChatApp {
-    width: 60%;
+    width: 100%;
 }
 
 .box_right {
@@ -94,7 +94,28 @@ input[type=text]:focus {
     margin: 0 auto;
     height: auto;
 }
+.chatbox_res
 
+{
+    height: 800px;
+    font-size: 2rem;
+    color: rgba(255, 255, 255, 0.733);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: rgb(92, 89, 89);
+}
+.chatbox_res a
+{
+    margin-top:5rem;
+    padding: 1rem;
+    border: solid 2px rgba(0, 0, 0, 0);
+    background: rgb(0, 247, 255);
+    text-transform: uppercase;
+    color: rgb(247, 248, 248);
+    
+}
 .Header_ChatApp p {
     font-size: 1.5rem;
     font-weight: bold;

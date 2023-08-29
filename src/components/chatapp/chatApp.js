@@ -24,7 +24,7 @@ const ChatApp = (prop) => {
   const [currentChat, setCurrentChat] = useState(null);
   const [arrivalMessage, setArrivalMessage] = useState(null);
   const ChoosenUser = useRef()
-  const [onlineUser,setOnlineUser]=useState()
+  const [onlineUser, setOnlineUser] = useState()
   const [messages, setMessages] = useState([]);
   const socket = useRef(); // Replace with your server URL
   let isCancel = false
@@ -81,8 +81,7 @@ const ChatApp = (prop) => {
   )
   useEffect(() => {
     socket.current.emit("addUser", auth.userID);
-    socket.current.on("getUsers",(data)=>
-    {
+    socket.current.on("getUsers", (data) => {
       setOnlineUser(data)
     })
 
@@ -112,10 +111,10 @@ const ChatApp = (prop) => {
       }
     }
     getConversation()
-  }, [messages,arrivalMessage])
-  useEffect(()=>{
+  }, [messages, arrivalMessage])
+  useEffect(() => {
     console.log(arrivalMessage)
-  },[arrivalMessage])
+  }, [arrivalMessage])
   useEffect(() => {
     const studentInfo = async (data) => {
       if (data) {
@@ -247,6 +246,9 @@ const ChatApp = (prop) => {
     getData()
   }, [])
   useEffect(() => {
+    console.log(conversations)
+  }, [conversations])
+  useEffect(() => {
     chatboxRef.current && chatboxRef.current.scrollTo({
       top: chatboxRef.current.scrollHeight,
       behavior: 'smooth', // Tạo hiệu ứng cuộn mượt
@@ -261,7 +263,7 @@ const ChatApp = (prop) => {
             <div className='Narbar_ChatApp'>
               <input placeholder="Search for friends" className="chatMenuInput" />
 
-              {conversations && conversations.map((c, index) => (
+              {conversations.length!==0  && conversations.map((c, index) => (
                 <div onClick={() => setCurrentChat(c)} key={index} className='converrsation_chat' style={currentChat === c ? { backgroundColor: "rgb(245, 243, 243)" } : {}} >
                   <Conversation conversation={c} currentUser={auth.userID} Arrivalmess={arrivalMessage} mess={messages.length} Online={onlineUser} />
                 </div>
@@ -269,56 +271,62 @@ const ChatApp = (prop) => {
             </div>
             <div className='Main_ChatApp'>
               {
-                !currentChat ? <div>Chọn người nhận</div> :
-                  <>
-                    <div className='Header_ChatApp'>
-                      <a href='cac'>
-                        {
-                          guestImg &&
-                          < >
-                            <img className='avatarImage' src={`${BlobtoBase64(guestImg.img)}`}></img>
-                            <p> {guestImg.Name}</p>
-                          </>
-                        }
-                      </a>
-                    </div>
+                conversations.length===0?<div className='chatbox_res'>Kết bạn đi anh bạn <a href='/home'>kết bạn</a></div>:
+              <>
+                  {
+                    !currentChat ? <div className='chatbox_res'>Hãy chọn một đoạn chat hoặc bắt đầu cuộc trò chuyện mới</div> :
+                      <>
+                        <div className='Header_ChatApp'>
+                          <a href='cac'>
+                            {
+                              guestImg &&
+                              < >
+                                <img className='avatarImage' src={`${BlobtoBase64(guestImg.img)}`}></img>
+                                <p> {guestImg.Name}</p>
+                              </>
+                            }
+                          </a>
+                        </div>
 
-                    <div className='Body_Chatpp'>
-                      <div className='ChatApp' ref={chatboxRef}>
-                        <div>
-                          {messages.map((message, index) => (
-                            <Message key={index} message={message}
-                              guest={currentChat}
-                              my={auth.userID} own={message.sender_id === auth.userID} student={guestImg}></Message>
-                          ))
-                          }
-                        </div>
-                      </div>
-                      <div className='inputValue'>
-                        <div className='feature_field'>
-                          <input
-                            type='file'></input>
-                        </div>
-                        <div className='text_field'>
+                        <div className='Body_Chatpp'>
+                          <div className='ChatApp' ref={chatboxRef}>
+                            <div>
+                              {messages.map((message, index) => (
+                                <Message key={index} message={message}
+                                  guest={currentChat}
+                                  my={auth.userID} own={message.sender_id === auth.userID} student={guestImg}></Message>
+                              ))
+                              }
+                            </div>
+                          </div>
+                          <div className='inputValue'>
+                            <div className='feature_field'>
+                              <input
+                                type='file'></input>
+                            </div>
+                            <div className='text_field'>
 
-                          <input
-                            onKeyPress={handleKeyPress}
-                            ref={inputMess}
-                            placeholder='Send a messsage'
-                            type="text"
-                            required
-                          // value={inputMessage}
-                          // onChange={(e) => setInputMessage(e.target.value)}
-                          />
-                        </div>
-                        <div className='button_field'>
+                              <input
+                                onKeyPress={handleKeyPress}
+                                ref={inputMess}
+                                placeholder='Send a messsage'
+                                type="text"
+                                required
+                              // value={inputMessage}
+                              // onChange={(e) => setInputMessage(e.target.value)}
+                              />
+                            </div>
+                            <div className='button_field'>
 
-                          <button onClick={handleSubmit} >Send</button>
+                              <button onClick={handleSubmit} >Send</button>
+                            </div>
+                          </div>
                         </div>
-                      </div>
-                    </div>
-                  </>
+                      </>
+                  }
+                </>
               }
+
             </div>
           </div>
         </>
