@@ -13,7 +13,6 @@ const ChatApp = (prop) => {
   const inputMess = useRef(null)
   const { AccessToken, setAccessToken } = UseToken();
   const [guestImg, setGuestImg] = useState();
-
   const { auth } = useAuth()
   const chatboxRef = useRef(null)
   const [MSSVReceived, setMSSVReceived] = useState()
@@ -25,6 +24,7 @@ const ChatApp = (prop) => {
   const [currentChat, setCurrentChat] = useState(null);
   const [arrivalMessage, setArrivalMessage] = useState(null);
   const ChoosenUser = useRef()
+  const [onlineUser,setOnlineUser]=useState()
   const [messages, setMessages] = useState([]);
   const socket = useRef(); // Replace with your server URL
   let isCancel = false
@@ -62,6 +62,7 @@ const ChatApp = (prop) => {
       }
     }
   }
+  useEffect(() => { console.log(conversations) }, [conversations])
   useEffect(() => {
     socket.current = io(process.env.REACT_APP_DB_HOST);
     socket.current.on("getMessage", (data) => {
@@ -72,29 +73,27 @@ const ChatApp = (prop) => {
         create_at: Date.now(),
       });
     });
-
     return () => {
+
       socket.current.disconnect();
     }
   }, []
   )
-
-
-
   useEffect(() => {
     socket.current.emit("addUser", auth.userID);
+    socket.current.on("getUsers",(data)=>
+    {
+      setOnlineUser(data)
+    })
 
   }, [auth]);
   useEffect(() => {
-    console.log(arrivalMessage)
     if (arrivalMessage) {
       const data = [currentChat?.user1, currentChat?.user2];
       data.includes(arrivalMessage.sender_id) &&
         setMessages((prev) => [...prev, arrivalMessage]);
     }
   }, [arrivalMessage, currentChat]);
-
-
   useEffect(() => {
     const getConversation = async () => {
       try {
@@ -113,10 +112,12 @@ const ChatApp = (prop) => {
       }
     }
     getConversation()
-  }, [])
+  }, [messages,arrivalMessage])
+  useEffect(()=>{
+    console.log(arrivalMessage)
+  },[arrivalMessage])
   useEffect(() => {
     const studentInfo = async (data) => {
-      console.log(data)
       if (data) {
 
         const URL2 = `${process.env.REACT_APP_DB_HOST}/api/getStudentbyID/${data} `;
@@ -176,7 +177,6 @@ const ChatApp = (prop) => {
         },
         body: JSON.stringify(message)
       });
-      console.log(currentChat)
       const data = await res.json()
       setMessages([...messages, data]);
       inputMess.current.value = "";
@@ -184,7 +184,6 @@ const ChatApp = (prop) => {
       console.log(err);
     }
   };
-
   useEffect(() => {
     const getMessages = async () => {
       try {
@@ -198,12 +197,8 @@ const ChatApp = (prop) => {
   }, [currentChat]);
   useEffect(() => {
     let receiverId;
-
-
     const user12 = [currentChat?.user1, currentChat?.user2];
-
     currentChat?.user1 !== currentChat?.user2 ? receiverId = user12.find((member) => member !== auth.userID) : receiverId = auth.userID;
-    console.log(auth.receiverId)
 
     const getUser = async () => {
       try {
@@ -214,12 +209,10 @@ const ChatApp = (prop) => {
         console.log(err);
       }
     };
-
     getUser();
   }, [currentChat]);
   useEffect(() => {
     let isAlivew = true;
-
     const studentInfo = async () => {
       const URL = `${process.env.REACT_APP_DB_HOST}/api/getStudentbyID`;
       try {
@@ -237,9 +230,7 @@ const ChatApp = (prop) => {
             )
         });
         if (isAlivew) {
-
           const student = await studentApi.json();
-
           setUser(student)
           setIsLoading(false)
         }
@@ -252,21 +243,14 @@ const ChatApp = (prop) => {
       isAlivew = false
     }
   }, []);
-
   useEffect(() => {
     getData()
   }, [])
-
-
-  
   useEffect(() => {
-
     chatboxRef.current && chatboxRef.current.scrollTo({
       top: chatboxRef.current.scrollHeight,
       behavior: 'smooth', // Tạo hiệu ứng cuộn mượt
     }) || <div>cac</div>
-
-
   }, [messages]);
   return (
     <>
@@ -278,23 +262,18 @@ const ChatApp = (prop) => {
               <input placeholder="Search for friends" className="chatMenuInput" />
 
               {conversations.map((c, index) => (
-                <div onClick={() => setCurrentChat(c)} key={index} style={currentChat === c ? { backgroundColor: "rgb(245, 243, 243)" } : {}} >
-                  <Conversation conversation={c} currentUser={auth.userID} Arrivalmess={arrivalMessage} mess={messages.length} />
+                <div onClick={() => setCurrentChat(c)} key={index} className='converrsation_chat' style={currentChat === c ? { backgroundColor: "rgb(245, 243, 243)" } : {}} >
+                  <Conversation conversation={c} currentUser={auth.userID} Arrivalmess={arrivalMessage} mess={messages.length} Online={onlineUser} />
                 </div>
               ))}
-
             </div>
             <div className='Main_ChatApp'>
-
-
               {
                 !currentChat ? <div>Chọn người nhận</div> :
                   <>
                     <div className='Header_ChatApp'>
                       <a href='cac'>
-
                         {
-
                           guestImg &&
                           < >
                             <img className='avatarImage' src={`${BlobtoBase64(guestImg.img)}`}></img>
@@ -306,11 +285,7 @@ const ChatApp = (prop) => {
 
                     <div className='Body_Chatpp'>
                       <div className='ChatApp' ref={chatboxRef}>
-
-
-
                         <div>
-
                           {messages.map((message, index) => (
                             <Message key={index} message={message}
                               guest={currentChat}
@@ -318,10 +293,6 @@ const ChatApp = (prop) => {
                           ))
                           }
                         </div>
-
-
-
-
                       </div>
                       <div className='inputValue'>
                         <div className='feature_field'>
@@ -347,7 +318,6 @@ const ChatApp = (prop) => {
                       </div>
                     </div>
                   </>
-
               }
             </div>
           </div>

@@ -1,18 +1,23 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState,useRef } from "react";
 import { IsLoading } from "../Loading";
 import "./conversation.css";
 import io from 'socket.io-client';
 
 import BlobtoBase64 from "../../function/BlobtoBase64";
-export default function Conversation({ conversation, currentUser, Arrivalmess, mess }) {
+export default function Conversation({ conversation, currentUser, Arrivalmess, mess,Online }) {
     const socket = io.connect(process.env.REACT_APP_DB_HOST); // Replace with your server URL
     const [arrivalMessage, setArrivalMessage] = useState(null);
     const [user, setUser] = useState();
     const [isLoading, setIsLoading] = useState(true);
     const [username, setUsername] = useState()
     const [NewestMess, setNewestMesst] = useState()
-
-    // useEffect(() => {
+    const data = [conversation.user1, conversation.user2];
+    const setOnlineUser=data.find((m) => m !== currentUser)
+      
+      const ListusersOnline =  Online.map(item => item.userId) || [];
+      console.log(ListusersOnline)
+      
+          // useEffect(() => {
     //     socket.on("getMessage", (data) => {
     //       console.log("Received data:", data);
     //       setArrivalMessage({
@@ -26,14 +31,13 @@ export default function Conversation({ conversation, currentUser, Arrivalmess, m
     // {
     //     console.log(arrivalMessage)
     // },[arrivalMessage])
-
+   
     useEffect(() => {
 
         const getUsername = () => {
             let friendId = conversation.user1;
             if (conversation.user1 != conversation.user2) {
 
-                const data = [conversation.user1, conversation.user2];
                 friendId = data.find((m) => m !== currentUser);
             }
 
@@ -57,7 +61,6 @@ export default function Conversation({ conversation, currentUser, Arrivalmess, m
             let friendId = conversation.user1;
             if (conversation.user1 != conversation.user2) {
 
-                const data = [conversation.user1, conversation.user2];
                 friendId = data.find((m) => m !== currentUser);
             }
 
@@ -106,7 +109,8 @@ export default function Conversation({ conversation, currentUser, Arrivalmess, m
         <>
             {isLoading ? <IsLoading /> :
                 <div className="conversation">
-                    <img src={`${BlobtoBase64(user.img)}`} className="avatarImage" alt="uer avatar"></img>
+                   
+                    <img src={`${BlobtoBase64(user.img)}`} className={`avatarImage ${ListusersOnline.includes(setOnlineUser) ?"online":{}}`} alt="uer avatar"></img>
                     <div className="text_conversation">
 
                         <span className="conversationName">{user.Name}</span>

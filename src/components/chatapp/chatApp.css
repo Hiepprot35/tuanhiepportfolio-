@@ -113,7 +113,10 @@ input[type=text]:focus {
 .Header_ChatApp a:hover {
     background-color: rgba(148, 144, 144, 0.5);
 }
-
+.converrsation_chat
+{
+    transition: 0.5s;
+}
 .Header_ChatApp {
     position: relative;
     z-index: 15;

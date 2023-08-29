@@ -2,10 +2,10 @@ import { useState, useEffect,useRef } from "react";
 import BlobtoBase64 from "../../function/BlobtoBase64";
 import './message.css';
 import { format } from "timeago.js";
-
-export default function Message({ message, own, guest, student }) {
+import { IsLoading } from "../Loading";
+export default function Message({ message, own, student }) {
     const [isHovered, setIsHovered] = useState(false);
-
+    const [isLoading,setIsLoading]=useState(true)
     const [guestImg, setGuestImg] = useState();
     const [myImg, setMyImg] = useState();
     const [mssvUser, setMssvUser] = useState();
@@ -38,7 +38,9 @@ export default function Message({ message, own, guest, student }) {
 
             <div className="containerMessage">
                 
-                   
+                {
+                    message?
+               
                 
                 <div className={own ? "message own" : "message"}>
 
@@ -57,7 +59,8 @@ export default function Message({ message, own, guest, student }) {
                    
                    <div className="messageBottom" ref={time}>{format(message.created_at)}</div>
                    
-                </div>
+                </div>:<IsLoading/>
+                 }
             </div>
         </>
     );

@@ -22,7 +22,25 @@ code {
 .avatarImage {
   width: 40px;
   height: 40px;
+  border: 3px rgb(48, 69, 96) solid;
+  border-radius: 6px;
+  position: relative;
+  background-size: cover;
+  background-position: center;
+}
+/* .status {
+  width: 6px;
+  height: 6px;
+  border: 2px solid rgb(48, 69, 96);
   border-radius: 50%;
+  position: absolute;
+  right: 0px;
+  top: 0px;
+  transform: translate(40%, -40%);
+  background-color: rgb(33, 34, 35);
+} */
+.online {
+  border: solid 3px rgb(48, 249, 75) !important;
 }
 
 .Loading_container {
