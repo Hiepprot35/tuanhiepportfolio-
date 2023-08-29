@@ -261,7 +261,7 @@ const ChatApp = (prop) => {
             <div className='Narbar_ChatApp'>
               <input placeholder="Search for friends" className="chatMenuInput" />
 
-              {conversations.map((c, index) => (
+              {conversations && conversations.map((c, index) => (
                 <div onClick={() => setCurrentChat(c)} key={index} className='converrsation_chat' style={currentChat === c ? { backgroundColor: "rgb(245, 243, 243)" } : {}} >
                   <Conversation conversation={c} currentUser={auth.userID} Arrivalmess={arrivalMessage} mess={messages.length} Online={onlineUser} />
                 </div>
