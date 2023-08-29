@@ -14,7 +14,7 @@ export default function Home() {
 
     const { AccessToken, setAccessToken } = UseToken();
     const { auth, setAuth } = useAuth();
-    const [userID,setuserID]=useState()
+    const [userID, setuserID] = useState()
     const [isLoading, setIsLoading] = useState(true)
     const refreshAccessToken = useRefresh()
     const [posts, setPosts] = useState([]);
@@ -46,30 +46,29 @@ export default function Home() {
         );
     };
 
-const handleAddChat= async (MSSV)=>
-{
-    const userID=await getUserID(MSSV)
-    console.log(userID)
-    try {
-        
-            const res=await fetch(`${process.env.REACT_APP_DB_HOST}/api/conversations`,{
-                method:'POST',
-                headers:{
+    const handleAddChat = async (MSSV) => {
+        const userID = await getUserID(MSSV)
+        console.log(userID)
+        try {
+
+            const res = await fetch(`${process.env.REACT_APP_DB_HOST}/api/conversations`, {
+                method: 'POST',
+                headers: {
                     'Content-Type': 'application/json',
                 },
-                body:JSON.stringify({
-                    "user1":auth.userID,
-                    "user2":userID[0].UserID
+                body: JSON.stringify({
+                    "user1": auth.userID,
+                    "user2": userID[0].UserID
                 })
             })
-            const data=await res.json()
+            const data = await res.json()
             console.log(data)
-    } catch (error) {
-        console.log(error)
-        
+        } catch (error) {
+            console.log(error)
+
+        }
     }
-}
-    useEffect(()=>{console.log(userID)},[userID])
+    useEffect(() => { console.log(userID) }, [userID])
     // Function để fetch danh sách sinh viên
     const location = useLocation();
     const user = location.state?.user || {}; // Sử dụng state?.user để tránh lỗi khi state không tồn tại
@@ -98,14 +97,13 @@ const handleAddChat= async (MSSV)=>
             console.error(error)
         }
     }
-    const getUserID= async(MSSV)=>
-    {
+    const getUserID = async (MSSV) => {
         try {
-            const res=await fetch(`${process.env.REACT_APP_DB_HOST}/api/userID/${MSSV}`)
-            const userID=await res.json()
+            const res = await fetch(`${process.env.REACT_APP_DB_HOST}/api/userID/${MSSV}`)
+            const userID = await res.json()
             return userID
-           // return userID
-         
+            // return userID
+
         } catch (error) {
             console.log(error)
         }
@@ -170,9 +168,9 @@ const handleAddChat= async (MSSV)=>
         getData()
     }, [AccessToken])
     const join_room = (room) => {
-        
-            setRoom(room)
-        
+
+        setRoom(room)
+
     }
     document.title = "Home"
     const currentData = posts.slice(startIndex, endIndex)
@@ -198,7 +196,7 @@ const handleAddChat= async (MSSV)=>
                                     <th>Avatar</th>
                                     <th>Giới tính</th>
                                     <th>Lớp</th>
-
+                                    <th>Add mess</th>
 
                                 </tr>
 
@@ -208,13 +206,13 @@ const handleAddChat= async (MSSV)=>
                                     currentData.map((post, index) => {
                                         const bufferString = post.img && Buffer.from(post.img).toString('base64');
                                         return (
-                                            <tr key={index} onClick={()=>{handleAddChat(post.MSSV)}}>
+                                            <tr key={index} >
                                                 <td>{post.MSSV}</td>
                                                 <td>{post.Name}</td>
                                                 <td>
                                                     <img className="avatarImage" src={`data:image/jpeg;base64,${bufferString}`}
-                                                     alt="{index}" 
-                                                     onClick={() => join_room(`${post.userID}`)} />
+                                                        alt="{index}"
+                                                        onClick={() => join_room(`${post.userID}`)} />
                                                 </td>
 
                                                 <td>
@@ -225,7 +223,7 @@ const handleAddChat= async (MSSV)=>
                                                     getClassName(post.Class)
                                                 }
 
-
+                                                <td> <button onClick={() => { handleAddChat(post.MSSV) }}> add</button></td>
 
 
                                             </tr>

@@ -54,7 +54,10 @@ export default function Message({ message, own, student }) {
                             
                             src={`${BlobtoBase64(student?.img)}`} alt="sender" />
                         }
-                        <p className="messageText"  onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>{message.content }</p>
+                        {
+                        message.content !=null?
+                            <p className="messageText"  onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>{message.content }</p>:<></>
+                        }
                     </div>
                    
                    <div className="messageBottom" ref={time}>{format(message.created_at)}</div>

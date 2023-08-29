@@ -1,10 +1,10 @@
-import { useEffect, useState,useRef } from "react";
+import { useEffect, useState, useRef } from "react";
 import { IsLoading } from "../Loading";
 import "./conversation.css";
 import io from 'socket.io-client';
 
 import BlobtoBase64 from "../../function/BlobtoBase64";
-export default function Conversation({ conversation, currentUser, Arrivalmess, mess,Online }) {
+export default function Conversation({ conversation, currentUser, Arrivalmess, mess, Online }) {
     const socket = io.connect(process.env.REACT_APP_DB_HOST); // Replace with your server URL
     const [arrivalMessage, setArrivalMessage] = useState(null);
     const [user, setUser] = useState();
@@ -12,12 +12,11 @@ export default function Conversation({ conversation, currentUser, Arrivalmess, m
     const [username, setUsername] = useState()
     const [NewestMess, setNewestMesst] = useState()
     const data = [conversation.user1, conversation.user2];
-    const setOnlineUser=data.find((m) => m !== currentUser)
-      
-      const ListusersOnline =  Online.map(item => item.userId) || [];
-      console.log(ListusersOnline)
-      
-          // useEffect(() => {
+    const setOnlineUser = data.find((m) => m !== currentUser)
+
+    const ListusersOnline = Online && Online.map(item => item.userId) || [];
+
+    // useEffect(() => {
     //     socket.on("getMessage", (data) => {
     //       console.log("Received data:", data);
     //       setArrivalMessage({
@@ -31,7 +30,7 @@ export default function Conversation({ conversation, currentUser, Arrivalmess, m
     // {
     //     console.log(arrivalMessage)
     // },[arrivalMessage])
-   
+
     useEffect(() => {
 
         const getUsername = () => {
@@ -109,8 +108,8 @@ export default function Conversation({ conversation, currentUser, Arrivalmess, m
         <>
             {isLoading ? <IsLoading /> :
                 <div className="conversation">
-                   
-                    <img src={`${BlobtoBase64(user.img)}`} className={`avatarImage ${ListusersOnline.includes(setOnlineUser) ?"online":{}}`} alt="uer avatar"></img>
+
+                    <img src={`${BlobtoBase64(user.img)}`} className={`avatarImage ${ListusersOnline.includes(setOnlineUser) ? "online" : {}}`} alt="uer avatar"></img>
                     <div className="text_conversation">
 
                         <span className="conversationName">{user.Name}</span>
@@ -119,8 +118,12 @@ export default function Conversation({ conversation, currentUser, Arrivalmess, m
                                 NewestMess &&
                                 <>
                                     {
-                                        NewestMess?.sender_id === currentUser ? <>
-                                            <span>Bạn: {NewestMess?.content}</span></> :
+                                        NewestMess?.sender_id === currentUser ? <> {
+                                            NewestMess.content !=null ?
+                                            <span>Bạn: {NewestMess?.content}</span>:<></>
+
+                                        }
+                                        </> :
 
 
                                             <>
