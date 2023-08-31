@@ -173,6 +173,10 @@ const ChatApp = (prop) => {
     }
     getConversation()
   }, [messages, arrivalMessage])
+  useEffect(()=>{
+
+    console.log(conversations)
+  },[conversations])
   useEffect(() => {
 
 
