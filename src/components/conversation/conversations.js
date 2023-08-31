@@ -2,8 +2,9 @@ import { useEffect, useState, useRef } from "react";
 import { IsLoading } from "../Loading";
 import "./conversation.css";
 import io from 'socket.io-client';
-
 import BlobtoBase64 from "../../function/BlobtoBase64";
+import getTime from "../../function/getTime";
+import { get } from "jquery";
 export default function Conversation({ conversation, currentUser, Arrivalmess, mess, Online }) {
     const socket = io.connect(process.env.REACT_APP_DB_HOST); // Replace with your server URL
     const [arrivalMessage, setArrivalMessage] = useState(null);
@@ -56,6 +57,7 @@ export default function Conversation({ conversation, currentUser, Arrivalmess, m
     }, [conversation, currentUser])
     useEffect(() => {
 
+        
         const getMess = () => {
             let friendId = conversation.user1;
             if (conversation.user1 != conversation.user2) {
@@ -109,8 +111,8 @@ export default function Conversation({ conversation, currentUser, Arrivalmess, m
             {isLoading ? <IsLoading /> :
                 <div className="conversation">
                     <div className="Avatar_status">
-                    <img src={`${BlobtoBase64(user.img)}`} className={`avatarImage`} alt="uer avatar"></img>
-                    <span className={`dot ${ListusersOnline.includes(setOnlineUser) ? "activeOnline" : {}}`}> </span>
+                        <img src={`${BlobtoBase64(user.img)}`} className={`avatarImage`} alt="uer avatar"></img>
+                        <span className={`dot ${ListusersOnline.includes(setOnlineUser) ? "activeOnline" : {}}`}> </span>
                     </div>
                     <div className="text_conversation">
 
@@ -121,15 +123,25 @@ export default function Conversation({ conversation, currentUser, Arrivalmess, m
                                 <>
                                     {
                                         NewestMess?.sender_id === currentUser ? <> {
-                                            NewestMess.content !=null ?
-                                            <span>Bạn: {NewestMess?.content}</span>:<></>
-
+                                            NewestMess.content ?
+                                                <>
+                                                    <span>Bạn: {NewestMess?.content} </span>
+                                                    <span>{getTime(NewestMess.created_at)}</span>
+                                                </>
+                                                : <></>
                                         }
                                         </> :
 
 
                                             <>
-                                                <span> {user.Name}: {NewestMess?.content}</span>
+                                                {
+                                                    NewestMess.content ?
+                                                        <>
+                                                            <span> {NewestMess?.content} </span>
+                                                            <span>{getTime(NewestMess.created_at)}</span>
+                                                        </>
+                                                        : <></>
+                                                }
 
                                             </>
                                     }
