@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState ,memo} from 'react';
+import React, { useEffect, useRef, useState, memo } from 'react';
 import { Buffer } from 'buffer';
 import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
 import useAuth from '../../../hook/useAuth';
@@ -19,7 +19,7 @@ function Header(props) {
     const apiKey = "e9f7e8aac0662b6cfe1bb2d11bbb7042";
     // const bufferString = user2 ? Buffer.from(user2.img).toString('base64') : "11111";
     const cityInputRef = useRef(null); // Tạo một tham chiếu useRef
-    const host=process.env.REACT_APP_DB_HOST;
+    const host = process.env.REACT_APP_DB_HOST;
 
     const handleSumbit = () => {
         setCity(cityInputRef.current.value);
@@ -56,11 +56,11 @@ function Header(props) {
             try {
                 const studentApi = await fetch(URL);
 
-                    const student = await studentApi.json();
+                const student = await studentApi.json();
 
-                    setUser(student)
-                    setIsLoading(false)
-                
+                setUser(student)
+                setIsLoading(false)
+
             } catch (error) {
                 console.error(error);
             }
@@ -82,10 +82,13 @@ function Header(props) {
                                 <Link to="/home" className='Link'>Home</Link>
 
                             </li>
-                            <li>
-                                <Link to="/create" className='Link'>Create</Link>
-
-                            </li>
+                            {
+                                auth.role == 1 ?
+                                    <li>
+                                        <a href="/create" className='Link'>Create</a>
+                                    </li> : <><a href={`/profile/${auth.username}`} className='Link'>Thay đổi thông tin cá nhân</a>
+                                    </>
+                            }
                             <li>
                                 <Link to="/dangkilop" className='Link'>Đăng ký học</Link>
 
@@ -127,21 +130,21 @@ function Header(props) {
                                     <div>
                                         <ul>
                                             <li>
-                                            <p className='username_header'> Hello {auth.username}</p>
+                                                <p className='username_header'> Hello {auth.username}</p>
 
                                             </li>
                                             <li>
-                                            {user.img && <img src={`${BlobtoBase64(user.img)}`} alt='User Avatar'/>}
+                                                {user.img && <img src={`${BlobtoBase64(user.img)}`} alt='User Avatar' />}
 
                                             </li>
                                         </ul>
                                     </div>
                                 }
 
-                                <LogOut />
                             </>
                         )}
 
+                        <LogOut />
                     </div>
                 </div>
             </div>

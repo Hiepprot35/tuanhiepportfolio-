@@ -1,4 +1,4 @@
-import { useNavigate,useLocation  } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import ChangeBackground from '../changeBackground';
 import { useEffect, useState, useRef } from "react";
 import { IsLoading } from '../Loading';
@@ -6,26 +6,50 @@ import useAuth from '../../hook/useAuth'
 import UseRfLocal from '../../hook/useRFLocal';
 import io from 'socket.io-client';
 import './login.css'
-const host=process.env.REACT_APP_DB_HOST;
+const host = process.env.REACT_APP_DB_HOST;
 const URL = `${host}/api/login`;
 const imgLinkBasic =
 {
   link: "https://pbs.twimg.com/media/EnOnhlSWEAEeYB3?format=jpg&name=large"
 }
-export default function Login({ setAccessToken,setIsLogin }) {
+export default function Login({ setAccessToken, setIsLogin }) {
   const socket = io.connect(process.env.REACT_APP_DB_HOST); // Replace with your server URL
 
   const navigate = useNavigate();
   const { auth, setAuth } = useAuth();
   const location = useLocation();
   const from = location.state?.from?.pathname || "/";
-  const {setRefreshToken}=UseRfLocal()
+  const { setRefreshToken } = UseRfLocal()
   const [isLoading, setIsLoading] = useState(false)
   const [message, setMessage] = useState();
   const [loginImgBackground, setLoginImgBackground] = useState(imgLinkBasic);
+  const [verifyCode, setverifyCode] = useState();
+  const [infoToSendGmail, setinfoToSendGmail] = useState();
+  const verifyCodeInput = useRef()
+  const [ResApi, setResApi] = useState()
+  useEffect(() => {
+    const data = {
+      "to": infoToSendGmail?.to,
+      "subject": 'Verify Tuanhiepprot3'
+
+    }
+    const sendEmail = async () => {
+      const res = await fetch(`${process.env.REACT_APP_DB_HOST}/send-email`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+      })
+      const resApi = await res.json()
+      setverifyCode(resApi)
+    };
+    ResApi?.isVerify && sendEmail()
+    console.log(data)
+  }, [infoToSendGmail])
   async function handleSubmit(e) {
     e.preventDefault();
-    setIsLoading(true)
+    setIsLoading(false)
     var headers = new Headers();
     headers.append('Content-Type', 'application/json');
     headers.append('Accept', 'application/json');
@@ -47,15 +71,20 @@ export default function Login({ setAccessToken,setIsLogin }) {
     if (dataRes.AccessToken) {
       const user = dataRes;
       // setAuth({user.RoleID})
-      setAccessToken(dataRes.AccessToken);
-      setRefreshToken(dataRes.RefreshToken);
 
-      const role=dataRes.Role
-      const username=dataRes.Username
-      const userID=dataRes.UserID
-      setIsLogin(true)
-      setAuth({role,username,userID})
-      navigate("/", { replace: true });
+      setResApi(dataRes)
+      const role = dataRes.Role
+      const username = dataRes.Username
+      const userID = dataRes.UserID
+      if (dataRes?.isVerify === 0) {
+        setAccessToken(dataRes.AccessToken);
+        setRefreshToken(dataRes.RefreshToken)
+      }
+      else if (dataRes?.isVerify === 1) {
+
+        setinfoToSendGmail({ to: dataRes.Email })
+      }
+      setAuth({ role, username, userID })
 
       // navigate('/home', { state: { user } });
     }
@@ -100,7 +129,18 @@ export default function Login({ setAccessToken,setIsLogin }) {
     ToggleCss(labelElement, InputElement)
   })
   //-------------------------------------------------------------------------------//
+  const submitVerifycode = () => {
+    console.log(verifyCodeInput.current.value)
 
+    if (verifyCodeInput.current.value = verifyCode) {
+      setAccessToken(ResApi.AccessToken);
+      setRefreshToken(ResApi.RefreshToken)
+    }
+    else {
+      console.log("sai")
+      setMessage("Sai mã xác thực")
+    }
+  }
   const handleBackground = (newImg) => {
     setLoginImgBackground(newImg)
   }
@@ -119,86 +159,119 @@ export default function Login({ setAccessToken,setIsLogin }) {
       <title>ĐĂNG NHẬP</title>
       <link rel="stylesheet" href="/css/login.css" />
 
+
       <div className="container" style={{ zIndex: -1, backgroundImage: `url(${loginImgBackground.link})` }}>
         <div className="dangnhap_layer">
           <div className="dangnhap_text">
             <h1 id="gsap_id">ĐĂNG NHẬP</h1>
           </div>
-          <form className="form_dn" onSubmit={handleSubmit}>
+          {infoToSendGmail ? (
             <div className="dangnhap_input_div">
-              <input
-                type="text"
-                name="username"
-                className="dangnhapinput 2"
-                defaultValue=""
-                id="input_tk"
+              <div className='verifycode_div' style={{ display: "flex" }}>
 
-              />
-              <label
+                <input
+                  type="password"
+                  name="password"
+                  className="dangnhapinput 1"
+                  defaultValue=""
+                  id="input_mk"
+                  ref={verifyCodeInput}
+                />
+                <label className="username" id="labelPassword" >
+                  Verify Code
+                </label>
 
-                className="username"
-                id="labelUsername"
-              >
-                TÊN NGƯỜI DÙNG
-              </label>
-
+                <button
+                  type="submit"
+                  className="sumbit"
+                  id="sumbit_btn"
+                  defaultValue="Đăng nhập"
+                  onClick={submitVerifycode}
+                  style={{ marginLeft: "1rem" }}
+                > Submit </button>
+              </div>
             </div>
-            <div className="dangnhap_input_div">
-              <input
+          )
+            :
+            <form className="form_dn" onSubmit={handleSubmit}>
+              <div className="dangnhap_input_div">
+                <input
+                  type="text"
+                  name="username"
+                  className="dangnhapinput 2"
+                  defaultValue=""
+                  id="input_tk"
 
-                type="password"
-                name="password"
-                className="dangnhapinput 1"
-                defaultValue=""
-                id="input_mk"
-              />
-              <label
-                className="username"
-                id="labelPassword"
-              >
-                mật khẩu
-              </label>
+                />
+                <label
 
-            </div>
+                  className="username"
+                  id="labelUsername"
+                >
+                  TÊN NGƯỜI DÙNG
+                </label>
 
-            <div className="">
+              </div>
+              <div className="dangnhap_input_div">
+                <input
 
-            </div>
+                  type="password"
+                  name="password"
+                  className="dangnhapinput 1"
+                  defaultValue=""
+                  id="input_mk"
+                />
+                <label
+                  className="username"
+                  id="labelPassword"
+                >
+                  mật khẩu
+                </label>
 
-            <div className="forget_save_div">
-              <div className="forget_pass">
-                <a href='/dangki' className="forget_pass_text">
-                  Quên mật khẩu
+              </div>
+
+              <div className="">
+
+              </div>
+
+              <div className="forget_save_div">
+                <div className="forget_pass">
+                  <a href='/dangki' className="forget_pass_text">
+                    Quên mật khẩu
+                  </a>
+                </div>
+                <div className="checkbox_div">
+                  <input type="checkbox" />
+                  <span className="checkbox_mk">Lưu mật khẩu</span>
+                </div>
+              </div>
+              <div className='warning'>
+                {message ? (
+                  <div>
+                    <h1 className='message'>{message}</h1>
+                  </div>
+                ) : null}
+              </div>
+              <div className="sumbit_button">
+                <button
+                  type="submit"
+                  className="sumbit"
+                  id="sumbit_btn"
+                  defaultValue="Đăng nhập"
+                > Submit </button>
+              </div>
+              <div className="forget_pass dangky_href">
+                <a href="/create" className="forget_pass_text">
+                  Đăng ký
                 </a>
               </div>
-              <div className="checkbox_div">
-                <input type="checkbox" />
-                <span className="checkbox_mk">Lưu mật khẩu</span>
-              </div>
-            </div>
-            <div className='warning'>
-              {message ? (
-                <div>
-                  <h1 className='message'>{message}</h1>
-                </div>
-              ) : null}
-            </div>
-            <div className="sumbit_button">
-              <button
-                type="submit"
-                className="sumbit"
-                id="sumbit_btn"
-                defaultValue="Đăng nhập"
-              > Submit </button>
-            </div>
-            <div className="forget_pass dangky_href">
-              <a href="/dangky" className="forget_pass_text">
-                Đăng ký
-              </a>
-            </div>
-          </form>
-          {/* <ChangeBackground onChangeBackground={handleBackground}>
+            </form>
 
+          }
+          {/* <ChangeBackground onChangeBackground={handleBackground}>
+          
+            
+          
           </ChangeBackground> */}
 
         </div>
