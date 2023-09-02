@@ -657,7 +657,7 @@ export default function FistHomePage() {
                 </div>
 
                     <div className="content">
-                        <div className="container">
+                        <div className="container_firsthomePage">
                             <div className="body_container">
                                 <div className="video_layer">
                                     <video

@@ -10,7 +10,9 @@ import './chatApp.css'
 import Conversation from '../conversation/conversations';
 import Message from '../message/Message';
 import getTime from '../../function/getTime';
-const ChatApp = (prop) => {
+
+const ChatApp = ({ messageId }) => {
+  document.title = "Message"
   const inputMess = useRef()
   const { AccessToken, setAccessToken } = UseToken();
   const [guestImg, setGuestImg] = useState();
@@ -30,7 +32,32 @@ const ChatApp = (prop) => {
   const [messages, setMessages] = useState([]);
   const [seenMess, setSeenMess] = useState([])
   const [isSeen, setisSeen] = useState(false)
+  const data = []
+  useEffect(() => {
+    if (messageId) {
+      const senApi = async () => {
 
+
+        try {
+          const res = await fetch(`${process.env.REACT_APP_DB_HOST}/api/conversations/mess/${messageId}`, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({"id":auth.userID})
+          });
+          const data = await res.json()
+          setCurrentChat(data)
+        } catch (err) {
+          console.log(err);
+        }
+      }
+      senApi()
+    }
+  }, [])
+  console.log(()=>
+  {          console.log(currentChat);
+  },[currentChat])
   const socket = useRef(); // Replace with your server URL
   let isCancel = false
   const ListusersOnline = onlineUser && onlineUser.map(item => item.userId) || [];
@@ -156,8 +183,10 @@ const ChatApp = (prop) => {
   }, [arrivalMessage, currentChat]);
   useEffect(() => {
     const getConversation = async () => {
+      const URL = `${process.env.REACT_APP_DB_HOST}/api/conversations/${auth.userID}`
       try {
-        const res = await fetch(`${process.env.REACT_APP_DB_HOST}/api/conversations/${auth.userID}`,
+
+        const res = await fetch(URL,
           {
             method: "GET",
             headers: {
@@ -167,16 +196,17 @@ const ChatApp = (prop) => {
 
         const respon = await res.json();
         setConversation(respon)
+        data = [respon]
       } catch (error) {
 
       }
     }
     getConversation()
   }, [messages, arrivalMessage])
-  useEffect(()=>{
+  useEffect(() => {
 
     console.log(conversations)
-  },[conversations])
+  }, [conversations])
   useEffect(() => {
 
 
@@ -347,9 +377,10 @@ const ChatApp = (prop) => {
 
 
 
-                                
+
                                     <Message key={index} message={message}
                                       my={auth.userID} own={message.sender_id === auth.userID} student={guestImg} Online={onlineUser} seen={seenMess} listSeen={userSeenAt} ></Message>
+
                                   </div>
 
                                 ))}
@@ -378,7 +409,7 @@ const ChatApp = (prop) => {
                                 <div className='button_field'>
 
                                   {
-                                    <button onClick={handleSubmit} >Send</button>
+                                    <button className='play_in_cheo' onClick={handleSubmit} >Send</button>
                                   }
                                 </div>
                               </div>
