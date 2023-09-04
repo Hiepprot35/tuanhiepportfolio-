@@ -107,6 +107,7 @@ export default function Home() {
         navigate(`/message/${userID[0].UserID}`)
     }
     const handleAddChat = async (MSSV) => {
+        console.log(MSSV)
         const userID = await getUserID(MSSV)
         console.log(userID)
         try {
@@ -131,7 +132,7 @@ export default function Home() {
     // Function để fetch danh sách sinh viên
     const location = useLocation();
     const user = location.state?.user || {}; // Sử dụng state?.user để tránh lỗi khi state không tồn tại
-    const URL = `${process.env.REACT_APP_DB_HOST}/getallstudent`;
+    const URL = `${process.env.REACT_APP_DB_HOST}/api/getallstudent`;
     let isCancel = false
     const getData = async () => {
 

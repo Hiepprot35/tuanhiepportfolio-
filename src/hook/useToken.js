@@ -4,7 +4,7 @@ import { useState } from "react";
 export default function UseToken() {
     const getToken = () => {
         const tokenString = localStorage.getItem('AccessToken');
-        const userToken = JSON.parse(tokenString);
+        const userToken = JSON?.parse(tokenString);
         return userToken
     }
     const [token, setToken] = useState(getToken())

@@ -54,7 +54,7 @@
         background: #0d0f11;
     }
 
-    .dangnhap a {
+    .header .dangnhap a {
         box-sizing: border-box;
         cursor: pointer;
         display: inline-block;

@@ -12,6 +12,7 @@ function Header(props) {
         temp: "",
         country: "",
     });
+    const Menu_profile_header = useRef()
     const [city, setCity] = useState("hanoi");
     const { auth } = useAuth()
     const [isLoading, setIsLoading] = useState(true)
@@ -119,32 +120,58 @@ function Header(props) {
                     </button>
                     <input ref={cityInputRef} type="text" placeholder="Enter city" />
                 </div> */}
-                    <div className="dangnhap">
+                    <div className="header_home_user">
 
                         {isLoading ? (
                             <p>Đang tải...</p>
                         ) : (
                             <>
                                 {user &&
-
-                                    <div>
-                                        <ul>
-                                            <li>
+                                    <>
+                                        <div >
+                                            {/* <li>
                                                 <p className='username_header'> Hello {auth.username}</p>
+                                                
+                                            </li> */}
+                                            {user.img && <img onClick={(e) => {
+                                                Menu_profile_header.current.classList.toggle("show_menu_profile");
+                                                e.target.classList.toggle('click_avatar');
 
-                                            </li>
-                                            <li>
-                                                {user.img && <img src={`${BlobtoBase64(user.img)}`} alt='User Avatar' />}
 
-                                            </li>
-                                        </ul>
-                                    </div>
+
+                                            }} src={`${BlobtoBase64(user.img)}`} alt='User Avatar' />}
+
+                                        </div>
+                                        <div className='Menu_profile_header' ref={Menu_profile_header}>
+
+                                            <div className='avatar_link'>
+                                                <div >
+
+                                                    <a className='Menu_a_link_profile' href={`/profile/${user.MSSV}`}>
+                                                        <div className='avatar_name'>
+
+
+                                                            <img src={`${BlobtoBase64(user.img)}`} alt='User Avatar' />
+                                                            <span>{user.Name}</span>
+                                                        </div>
+                                                    </a>
+                                                </div>
+                                                <hr style={{ borderColor: "black" }}></hr>
+                                                <div className='ShowAll_User'>
+
+                                                    <span>Xem tất cả thông tin cá nhân</span>
+                                                </div>
+                                            </div>
+
+                                            <LogOut />
+
+                                        </div>
+                                    </>
                                 }
 
                             </>
                         )}
 
-                        <LogOut />
                     </div>
                 </div>
             </div>

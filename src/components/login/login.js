@@ -34,7 +34,7 @@ export default function Login({ setAccessToken, setIsLogin }) {
 
     }
     const sendEmail = async () => {
-      const res = await fetch(`${process.env.REACT_APP_DB_HOST}/send-email`, {
+      const res = await fetch(`${process.env.REACT_APP_DB_HOST}/api/send-email`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -85,12 +85,12 @@ export default function Login({ setAccessToken, setIsLogin }) {
         setinfoToSendGmail({ to: dataRes.Email })
       }
       setAuth({ role, username, userID })
-
+      setMessage("")
       // navigate('/home', { state: { user } });
     }
     else {
       setIsLoading(false)
-      setMessage('Không có tài khoản hoặc mật khẩu')
+      setMessage(dataRes.message)
     }
   }
   //-------------------------------------------------------------------------------//
@@ -130,14 +130,14 @@ export default function Login({ setAccessToken, setIsLogin }) {
   })
   //-------------------------------------------------------------------------------//
   const submitVerifycode = () => {
-    console.log(verifyCodeInput.current.value)
-
-    if (verifyCodeInput.current.value = verifyCode) {
+    console.log("Code input:",verifyCodeInput.current.value)
+    console.log("Code in gmail",verifyCode)
+    console.log(ResApi.AccessToken)
+    if (verifyCodeInput.current.value === verifyCode.toString()) {
       setAccessToken(ResApi.AccessToken);
       setRefreshToken(ResApi.RefreshToken)
     }
     else {
-      console.log("sai")
       setMessage("Sai mã xác thực")
     }
   }
@@ -167,8 +167,8 @@ export default function Login({ setAccessToken, setIsLogin }) {
           </div>
           {infoToSendGmail ? (
             <div className="dangnhap_input_div">
+            {/* <p>Verify code sent to {infoToSendGmail?.to}</p> */}
               <div className='verifycode_div' style={{ display: "flex" }}>
-
                 <input
                   type="password"
                   name="password"
@@ -245,13 +245,7 @@ export default function Login({ setAccessToken, setIsLogin }) {
                   <span className="checkbox_mk">Lưu mật khẩu</span>
                 </div>
               </div>
-              <div className='warning'>
-                {message ? (
-                  <div>
-                    <h1 className='message'>{message}</h1>
-                  </div>
-                ) : null}
-              </div>
+            
               <div className="sumbit_button">
                 <button
                   type="submit"
@@ -268,13 +262,17 @@ export default function Login({ setAccessToken, setIsLogin }) {
             </form>
 
           }
-          {/* <ChangeBackground onChangeBackground={handleBackground}>
-          
-            
-          
-          </ChangeBackground> */}
+            <div className='warning'>
+                {message ? (
+                  <div>
+                    <h1 className='message'>{message}</h1>
+                  </div>
+                ) : null}
+              </div>
+         
 
         </div>
+        
       </div>
       {
 
