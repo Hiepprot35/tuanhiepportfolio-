@@ -3,12 +3,14 @@ import UseToken from './useToken';
 import useAuth from './useAuth';
 import Cookies from "js-cookie";
 import UseRfLocal from './useRFLocal';
+import { useNavigate } from 'react-router-dom';
 export const useRefresh = () => {
   const { auth, setAuth } = useAuth()
   const { AccessToken, setAccessToken } = UseToken();
   const cookieValue = Cookies.get("RefreshToken") || "";
   const { RefreshToken } = UseRfLocal();
   const host = process.env.REACT_APP_DB_HOST;
+  const navigate=useNavigate()
   const refreshAccessToken = async () => {
     try {
       const response = await fetch(`${host}/api/rfAccessToken`, {
@@ -34,7 +36,7 @@ export const useRefresh = () => {
       return data;
     } catch (error) {
       console.error('An error occurred:', error);
-      // Handle the error, perhaps by notifying the user or retrying
+      navigate("/login")
     }
   };
   return refreshAccessToken

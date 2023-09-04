@@ -12,28 +12,7 @@ export default function Message({ message, own, student, Online, listSeen }) {
     const seen_text = useRef(null)
 
     const ListusersOnline = Online && Online.map(item => item.userId) || [];
-    // const format=(time)=>
-    // {
-    //     const d=new Date()
-    //     const currentTime=d.getTime();
-
-    // }
-
-    const handle_Mouse_Enter_Seenimg = () => {
-        seen_text.current.style.opacity = 1;
-
-    }
-    const handle_Mouse_Leave_Seenimg = () => {
-        seen_text.current.style.opacity = 0;
-
-    }
-    const handleMouseEnterMess = () => {
-        time.current.style.opacity = 1;
-    };
-
-    const handleMouseLeaveMess = () => {
-        time.current.style.opacity = 0;
-    };
+ 
     return (
         <>
             {
@@ -51,7 +30,7 @@ export default function Message({ message, own, student, Online, listSeen }) {
 
                                     {
                                         !own &&
-                                        student.img && message.content !== null &&
+                                        student?.img && message.content !== null &&
                                         <>
                                             <div className='avatar_dot'>
 
@@ -59,7 +38,7 @@ export default function Message({ message, own, student, Online, listSeen }) {
                                                     className="avatarImage"
 
                                                     src={`${BlobtoBase64(student?.img)}`} alt="sender" />
-                                                <span className={`dot ${ListusersOnline.includes(student.userID) ? "activeOnline" : {}}`}> </span>
+                                                <span className={`dot ${ListusersOnline.includes(student?.userID) ? "activeOnline" : {}}`}> </span>
 
                                             </div>
                                         </>
@@ -67,7 +46,7 @@ export default function Message({ message, own, student, Online, listSeen }) {
                                     {
                                         message.content != null ?
                                             <div className="Mess_seen_text">
-                                                <p className="messageText" onMouseEnter={handleMouseEnterMess} onMouseLeave={handleMouseLeaveMess}>{message.content}</p>
+                                                <p className="messageText">{message.content}</p>
                                                 <p className="messageBottom" ref={time}>{getTime(message.created_at)}</p>
 
                                             </div>
@@ -79,12 +58,7 @@ export default function Message({ message, own, student, Online, listSeen }) {
                                     message?.id === listSeen?.id && listSeen &&
 
                                     <div className="Seen_field">
-
-
-
-                                        <img
-                                            onMouseEnter={handle_Mouse_Enter_Seenimg}
-                                            onMouseLeave={handle_Mouse_Leave_Seenimg}
+                                        <img                                       
                                             className="avatarImage"
                                             style={{ width: "20px", height: "20px" }}
                                             src={`${BlobtoBase64(student?.img)}`} alt="sender" />

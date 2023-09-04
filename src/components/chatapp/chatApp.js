@@ -10,7 +10,6 @@ import './chatApp.css'
 import Conversation from '../conversation/conversations';
 import Message from '../message/Message';
 import getTime from '../../function/getTime';
-
 const ChatApp = ({ messageId }) => {
   document.title = "Message"
   const inputMess = useRef()
@@ -36,15 +35,13 @@ const ChatApp = ({ messageId }) => {
   useEffect(() => {
     if (messageId) {
       const senApi = async () => {
-
-
         try {
           const res = await fetch(`${process.env.REACT_APP_DB_HOST}/api/conversations/mess/${messageId}`, {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
             },
-            body: JSON.stringify({"id":auth.userID})
+            body: JSON.stringify({ "id": auth.userID })
           });
           const data = await res.json()
           setCurrentChat(data)
@@ -55,17 +52,12 @@ const ChatApp = ({ messageId }) => {
       senApi()
     }
   }, [])
-  console.log(()=>
-  {          console.log(currentChat);
-  },[currentChat])
+  
   const socket = useRef(); // Replace with your server URL
   let isCancel = false
   const ListusersOnline = onlineUser && onlineUser.map(item => item.userId) || [];
-
-  const URL = `${process.env.REACT_APP_DB_HOST}/getallstudent`;
   const ClickChat = (data) => {
     setCurrentChat(data);
-
   }
   useEffect(() => {
     inputMess.current && inputMess.current.focus()
@@ -95,7 +87,6 @@ const ChatApp = ({ messageId }) => {
           body: JSON.stringify(message)
         });
         const data = await res.json()
-        console.log(data)
         setMessages([...messages, data]);
         inputMess.current.value = "";
       } catch (err) {
@@ -103,7 +94,6 @@ const ChatApp = ({ messageId }) => {
       }
     }
   }
-
   const clickConversation = async (data) => {
     const user12 = [data?.user1, data?.user2]
     const receiverId = user12.find(
@@ -112,10 +102,8 @@ const ChatApp = ({ messageId }) => {
     const sentToApi = {
       conversation_id: data?.id,
       sender_id: receiverId
-
     }
     const resFunctiongetNewestMessSeen = async () => {
-
       try {
         const res = await fetch(`${process.env.REACT_APP_DB_HOST}/api/message/seen`, {
           method: 'POST',
@@ -129,23 +117,15 @@ const ChatApp = ({ messageId }) => {
       }
     }
     resFunctiongetNewestMessSeen()
-
-
     const sendSocket = {
       sender_id: auth.userID,
       receiverId,
     }
     socket.current.emit("UserSeen", sendSocket)
-    console.log(sendSocket)
-
   }
-
-
-
   useEffect(() => {
     socket.current = io(process.env.REACT_APP_DB_HOST);
     socket.current.on("getMessage", (data) => {
-
       setArrivalMessage({
         sender_id: data.sender_id,
         content: data.content,
@@ -153,7 +133,6 @@ const ChatApp = ({ messageId }) => {
       });
     });
     return () => {
-
       socket.current.disconnect();
     }
   }, []
@@ -167,13 +146,8 @@ const ChatApp = ({ messageId }) => {
       setisSeen(
         data
       )
-
     })
   }, [auth]);
-  // useEffect(() => {
-
-
-  //   , [auth])
   useEffect(() => {
     if (arrivalMessage) {
       const data = [currentChat?.user1, currentChat?.user2];
@@ -203,18 +177,14 @@ const ChatApp = ({ messageId }) => {
     }
     getConversation()
   }, [messages, arrivalMessage])
-  useEffect(() => {
 
-    console.log(conversations)
-  }, [conversations])
   useEffect(() => {
 
 
     const getNewstMess = async () => {
       try {
 
-        console.log(`${process.env.REACT_APP_DB_HOST}/api/message/newest/seen/${currentChat.id}/${auth.userID}`)
-        const res = await fetch(`${process.env.REACT_APP_DB_HOST}/api/message/newest/seen/${currentChat.id}/${auth.userID}`)
+        const res = await fetch(`${process.env.REACT_APP_DB_HOST}/api/message/newest/seen/${currentChat?.id}/${auth?.userID}`)
         const getMess = await res.json();
         setuserSeenAt(getMess)
       } catch (error) {
@@ -280,13 +250,10 @@ const ChatApp = ({ messageId }) => {
       console.log(err);
     }
   };
-  // useEffect(()=>{
-  //   senewMessAllUsert(getUserSeen)
-  // },[getUserSeen,currentChat])
   useEffect(() => {
     const getMessages = async () => {
       try {
-        const res = await fetch(`${process.env.REACT_APP_DB_HOST}/api/message/${currentChat.id}`);
+        const res = await fetch(`${process.env.REACT_APP_DB_HOST}/api/message/${currentChat?.id}`);
         setMessages(await res.json());
       } catch (err) {
         console.log(err);
@@ -310,9 +277,6 @@ const ChatApp = ({ messageId }) => {
     };
     getUser();
   }, [currentChat]);
-
-
-
   useEffect(() => {
     chatboxRef.current && chatboxRef.current.scrollTo({
       top: chatboxRef.current.scrollHeight,
@@ -333,13 +297,13 @@ const ChatApp = ({ messageId }) => {
 
                 <div onClick={() => { ClickChat(c) }} key={index} className='converrsation_chat' style={currentChat === c ? { backgroundColor: "rgb(245, 243, 243)" } : {}} >
 
-                  <Conversation conversation={c} currentUser={auth.userID} Arrivalmess={arrivalMessage} mess={messages.length} Online={onlineUser} />
+                  <Conversation conversation={c} currentUser={auth.userID} Arrivalmess={arrivalMessage} mess={messages.length} Online={onlineUser} student={guestImg}  />
                 </div>
               ))}
             </div>
             <div className='Main_ChatApp'>
               {
-                conversations.length === 0 ? <div className='chatbox_res'>Kết bạn đi anh bạn <a href='/home'>kết bạn</a></div> :
+                conversations.length === 0 ? <div className='chatbox_res'>Kết bạn đi anh bạn <a href='/home' className='play_in_cheo'>kết bạn</a></div> :
                   <>
                     {
                       !currentChat ? <div className='chatbox_res'>Hãy chọn một đoạn chat hoặc bắt đầu cuộc trò chuyện mới</div> :
@@ -351,13 +315,10 @@ const ChatApp = ({ messageId }) => {
                                 <>
                                   <div className='header_online'>
                                     <div className='avatar_dot'>
-
                                       <img className='avatarImage' alt='Avatar' src={`${BlobtoBase64(guestImg.img)}`}></img>
                                       <span className={`dot ${ListusersOnline.includes(guestImg.userID) ? "activeOnline" : {}}`}>  </span>
                                     </div>
-
                                     <div className='header_text'>
-
                                       <div style={{ fontSize: "1.5rem", color: "black", fontWeight: "bold" }}> {guestImg.Name}</div>
                                       {
                                         <>{ListusersOnline.includes(guestImg.userID) ? <>Đang hoạt động</> : <>Không hoạt động</>}</>
@@ -368,24 +329,15 @@ const ChatApp = ({ messageId }) => {
                               }
                             </a>
                           </div>
-
                           <div className='Body_Chatpp'>
                             <div className='ChatApp' ref={chatboxRef}>
                               <div>
                                 {messages.map((message, index) => (
                                   <div className='message_content' key={index}>
-
-
-
-
                                     <Message key={index} message={message}
                                       my={auth.userID} own={message.sender_id === auth.userID} student={guestImg} Online={onlineUser} seen={seenMess} listSeen={userSeenAt} ></Message>
-
                                   </div>
-
                                 ))}
-
-
                               </div>
                               <div className='inputValue'>
                                 <div className='feature_field'>
@@ -393,7 +345,6 @@ const ChatApp = ({ messageId }) => {
                                     type='file'></input>
                                 </div>
                                 <div className='text_field'>
-
                                   <input
                                     onKeyPress={handleKeyPress}
                                     onClick={() => clickConversation(currentChat)}
@@ -402,12 +353,9 @@ const ChatApp = ({ messageId }) => {
                                     placeholder='Send a messsage'
                                     type="text"
                                     required
-                                  // value={inputMessage}
-                                  // onChange={(e) => setInputMessage(e.target.value)}
                                   />
                                 </div>
                                 <div className='button_field'>
-
                                   {
                                     <button className='play_in_cheo' onClick={handleSubmit} >Send</button>
                                   }

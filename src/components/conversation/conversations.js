@@ -1,37 +1,22 @@
 import { useEffect, useState, useRef } from "react";
 import { IsLoading } from "../Loading";
 import "./conversation.css";
-import io from 'socket.io-client';
+import useAuth from "../../hook/useAuth";
 import BlobtoBase64 from "../../function/BlobtoBase64";
 import getTime from "../../function/getTime";
-import { get } from "jquery";
-export default function Conversation({ conversation, currentUser, Arrivalmess, mess, Online }) {
-    const socket = io.connect(process.env.REACT_APP_DB_HOST); // Replace with your server URL
-    const [arrivalMessage, setArrivalMessage] = useState(null);
+export default function Conversation({ conversation, currentUser, Arrivalmess, mess,student ,Online }) {
+    console.log(conversation)
     const [user, setUser] = useState();
+    const {auth}=useAuth()
     const [isLoading, setIsLoading] = useState(true);
     const [username, setUsername] = useState()
     const [NewestMess, setNewestMesst] = useState()
     const data = [conversation.user1, conversation.user2];
     const setOnlineUser = data.find((m) => m !== currentUser)
-
     const ListusersOnline = Online && Online.map(item => item.userId) || [];
-
-    // useEffect(() => {
-    //     socket.on("getMessage", (data) => {
-    //       console.log("Received data:", data);
-    //       setArrivalMessage({
-    //         sender_id: data.sender_id,
-    //         content: data.content,
-    //         create_at: Date.now(),
-    //       });
-    //     });
-    //   }, []);
-    // useEffect(()=>
-    // {
-    //     console.log(arrivalMessage)
-    // },[arrivalMessage])
-
+    useEffect(() => {
+        console.log(Arrivalmess)
+    }, [Arrivalmess])
     useEffect(() => {
 
         const getUsername = () => {
@@ -57,7 +42,7 @@ export default function Conversation({ conversation, currentUser, Arrivalmess, m
     }, [conversation, currentUser])
     useEffect(() => {
 
-        
+
         const getMess = () => {
             let friendId = conversation.user1;
             if (conversation.user1 != conversation.user2) {
@@ -85,7 +70,7 @@ export default function Conversation({ conversation, currentUser, Arrivalmess, m
         const studentInfo = async () => {
             if (username) {
 
-                const URL2 = `${process.env.REACT_APP_DB_HOST}/api/getStudentbyID/${username[0].username} `;
+                const URL2 = `${process.env.REACT_APP_DB_HOST}/api/getStudentbyID/${username[0]?.username} `;
 
                 try {
                     const studentApi = await fetch(URL2);
@@ -146,6 +131,20 @@ export default function Conversation({ conversation, currentUser, Arrivalmess, m
                                             </>
                                     }
                                 </>
+                            }
+                            {
+                                  conversation.sender_id===auth.userID &&  conversation.isSeen===1 &&
+
+                                <div className="Seen_field">
+                                    <img
+                                        className="avatarImage"
+                                        style={{ width: "20px", height: "20px" }}
+                                        src={`${BlobtoBase64(student?.img)}`} alt="sender" />
+
+
+
+
+                                </div>
                             }
                         </div>
                     </div>

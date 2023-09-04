@@ -3,7 +3,9 @@
     margin-top: 20px;
     
 }
-
+.Mess_seen_text {
+    --opacityhover: hidden;
+  }
 .messageTop ,.messageBottom
 {
     display: flex;
@@ -23,15 +25,20 @@
 }
 .Seen_field
 {
-    
+    --hiden_seen:hidden;
     display: flex;
     align-items: center;
 
 }
+
+.Seen_field:hover
+{
+    --hiden_seen:visible
+}
 .Seen_field p
 {
-    opacity: 0;
-    transition: 1s linear;
+    visibility: var(--hiden_seen);
+    transition: 0.1s linear;
     padding-right: 0.4rem;
 }
 .message.own
@@ -57,6 +64,7 @@
     display: inline-block;
     overflow-wrap: break-word;
     margin: 0px;
+    z-index: 999;
 }
 .Mess_seen_text
 {
@@ -66,15 +74,19 @@
     border-radius: 10px;
     color: white !important;
     font-size: 0.7rem;
-    transition: 0.76s;
-    opacity: 0;
+    transition: 0.1s linear;
+    visibility: var(--opacityhover);
     padding: 0.3rem;
     background-color: rgba(141, 141, 141, 0.712);
     
 }
 
 
-
+.Mess_seen_text:hover{
+    --opacityhover:visible;
+    color: black;
+    
+}
 .message.own .messageText {
     background-color: rgb(2, 0, 0);
     color: rgb(255, 255, 255);
