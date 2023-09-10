@@ -2,7 +2,7 @@ import { useState } from "react"
 import { useEffect } from "react"
 import useAuth from "./hook/useAuth";
 import { IsLoading } from "./components/Loading";
-import Header from "./components/header";
+import Header from "./components/Layout/header/header";
 export default function Chuongtrinhdaotao() {
     const host=process.env.REACT_APP_DB_HOST;
 

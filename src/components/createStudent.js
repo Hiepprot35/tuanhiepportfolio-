@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { Buffer } from "buffer";
 import { useRefresh } from "../hook/useRefresh";
 import UseToken from "../hook/useToken";
-import Header from "./header";
+import Header from "./Layout/header/header";
 import useAuth from '../hook/useAuth'
 import SuccessNotification from "./Notification/successNotifi";
 function blobToBuffer(blob) {
@@ -42,26 +42,49 @@ export default function CreateStudent() {
     const ResizeImg = (imgBlob, callback) => {
         const img = new Image();
         img.onload = () => {
-          const canvas = document.createElement('canvas');
-          const newWidth = 100;
-          const newHeight = 100;
-      
-          canvas.width = newWidth;
-          canvas.height = newHeight;
-          const ctx = canvas.getContext('2d');
-          ctx.drawImage(img, 0, 0, newWidth, newHeight);
-      
-          canvas.toBlob((blob) => {
-            callback(blob);
-          }, 'image/jpeg', 0.7);
+            const canvas = document.createElement('canvas');
+            const newWidth = 100;
+            const newHeight = 100;
+
+            canvas.width = newWidth;
+            canvas.height = newHeight;
+            const ctx = canvas.getContext('2d');
+            ctx.drawImage(img, 0, 0, newWidth, newHeight);
+
+            canvas.toBlob((blob) => {
+                callback(blob);
+            }, 'image/jpeg', 0.7);
         };
 
         const reader = new FileReader();
         reader.onload = (event) => {
-          img.src = event.target.result;
+            img.src = event.target.result;
         };
         reader.readAsDataURL(imgBlob);
-      };
+    };
+    const ResizeImg400400 = (imgBlob, callback) => {
+        const img = new Image();
+        img.onload = () => {
+            const canvas = document.createElement('canvas');
+            const newWidth = 400;
+            const newHeight = 400;
+
+            canvas.width = newWidth;
+            canvas.height = newHeight;
+            const ctx = canvas.getContext('2d');
+            ctx.drawImage(img, 0, 0, newWidth, newHeight);
+
+            canvas.toBlob((blob) => {
+                callback(blob);
+            }, 'image/jpeg', 0.7);
+        };
+
+        const reader = new FileReader();
+        reader.onload = (event) => {
+            img.src = event.target.result;
+        };
+        reader.readAsDataURL(imgBlob);
+    };
     useEffect(() => {
         fetch(`${host}/api/getAllClass`)
             .then(res => res.json())
@@ -108,19 +131,21 @@ export default function CreateStudent() {
             dataInput.create_by = auth.userID || 1
             // Gán dữ liệu hình ảnh vào trường "img" trong đối tượng data
             if (dataimg) {
-                ResizeImg(dataimg, async  (newBlob)=>{
-                    const imgBufer= await blobToBuffer(newBlob)
-                    dataInput.img=imgBufer;
+
+                dataInput.backgroundimg=await blobToBuffer(dataimg)
+                ResizeImg(dataimg, async (newBlob) => {
+                    const imgBufer = await blobToBuffer(newBlob)
+                    dataInput.img = imgBufer;
+
                     console.log(dataInput.img)
                     setData(dataInput)
-                    setIsMounted(!isMounted)
 
                 })
-            
+                setIsMounted(!isMounted)
+
                 // const imgBlob = new Blob([dataimg], { type: dataimg.type });
                 // const imgBuffer = await blobToBuffer(dataimg);
 
-                // dataInput.img = imgBuffer;
             }
         }
         catch (error) {
@@ -140,9 +165,9 @@ export default function CreateStudent() {
         fetchData();
 
     }, [])
-    useEffect(()=>{
+    useEffect(() => {
         console.log(data)
-    },[data])
+    }, [data])
 
     const handleChooseKhoa = (e) => {
 
@@ -193,7 +218,7 @@ export default function CreateStudent() {
 
                         <div className="mb-3">
                             <input type="file" name="img" onChange={imgInput} />
-                            {avatarURL && <img className="avatarImage" src={avatarURL} style={{width:"40px",height:"40px"}} alt="Avatar"></img>
+                            {avatarURL && <img className="avatarImage" src={avatarURL} style={{ width: "40px", height: "40px" }} alt="Avatar"></img>
                             }
                         </div>
                         <div className="mb-3">

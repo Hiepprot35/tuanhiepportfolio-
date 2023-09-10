@@ -3,22 +3,23 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import { BrowserRouter } from 'react-router-dom';
 import { AuthProvider } from './context/authProvider';
-import Footer from './components/footer';
 import App from './App';
-import ChatApp from './components/chatApp';
 import './index.css';
 import reportWebVitals from './reportWebVitals';
-document.title="Login"
+import { ActiveSectionContextProvider } from './context/ActiveSectionContextProvider';
+document.title = "Login"
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-    <AuthProvider>
-    <BrowserRouter>
-    <App></App>
-    </BrowserRouter>
-    </AuthProvider>
+    <ActiveSectionContextProvider>
+        <AuthProvider>
+            <BrowserRouter>
+                <App></App>
+            </BrowserRouter>
+        </AuthProvider>
+    </ActiveSectionContextProvider>
 
- );
+);
 
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))

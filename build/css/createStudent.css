@@ -15,6 +15,12 @@
     
     background-color: white;
 }
+.username_header
+{
+    color: white;
+    font-size: 1rem;
+    margin: 0.5rem;
+}
 .CreateStudentForm input
 {
     

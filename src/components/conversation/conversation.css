@@ -4,6 +4,7 @@
     padding: 10px;
     cursor: pointer;
     margin-top: 20px;
+    width: 100%;
   }
   
   .conversation:hover {
@@ -17,13 +18,33 @@
     object-fit: cover;
     margin-right: 20px;
   }
-  
+  .text_conversation
+  {
+    max-width: 14rem;
+  }
   .conversationName {
-    font-weight: 500;
+    font-weight: bold;
+    margin: 0.5rem;
   }
   
   @media screen and (max-width: 768px) {
     .conversationName {
       display: none;
     }
+  }
+  .messConversation
+  {
+    display: flex;
+    align-items: center;
+  }
+  
+  .messConversation span
+  {
+    color: gray;
+    margin: 0.5rem;
+    max-width: 10rem;
+    display: inline-block;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
   }

@@ -54,7 +54,7 @@
         background: #0d0f11;
     }
 
-    .dangnhap a {
+    .header .dangnhap a {
         box-sizing: border-box;
         cursor: pointer;
         display: inline-block;
@@ -91,20 +91,7 @@
         flex-direction: column;
     }
 
-    .play_in_cheo {
-        padding: 20px 60px 20px 60px;
-        background-color: rgba(18, 19, 19, 0.932);
-        font-weight: 800;
-        border: solid rgba(0, 0, 0, 0);
-        font-size: 0.8125rem;
-        color: white;
-        letter-spacing: 0.15em;
-        font-weight: bold;
-        text-transform: uppercase;
-        clip-path: polygon(0 0, 91% 0, 100% 28%, 100% 100%, 9% 100%, 0 75%);
-        transition:all .2s linear
-
-    }
+    
 
     .show_logobar {
         z-index: 1000;
@@ -113,10 +100,7 @@
 
 
 
-    .play_in_cheo:hover {
-        clip-path: polygon(0 0, 100% 0, 100% 28%, 100% 100%, 0 100%, 0 75%);
-
-    }
+    
 
     .video_cheo_divsec {
         position: relative;
@@ -350,7 +334,7 @@
         top: 0px;
         left: 0px;
         right: 0px;
-        height: 80px;
+        height: 10vh;
         z-index: 99;
     }
 
@@ -910,6 +894,11 @@
         position: relative;
         
     } */
+    .content
+    {
+        height: 1000px;
+        width: 100vw;
+    }
     .text_haychontuong {
         display: flex;
         align-items: center;

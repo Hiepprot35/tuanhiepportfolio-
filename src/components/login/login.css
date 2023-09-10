@@ -3,19 +3,14 @@
 
     }
 
-    body {
-        font-family: 'Courier New', Courier, monospace;
-        font-size: 4px;
-        width: 100%;
-
-    }
+ 
 
     a {
         text-decoration-line: none;
     }
 
     .dangnhap_text h1 {
-        font-size: 6em;
+        font-size: 3rem;
         color: rgb(15, 3, 3);
     }
 
@@ -60,6 +55,7 @@
 
 
     .username {
+        pointer-events: none;
         position: absolute;
         left: 1rem;
         top: 1.5rem;
@@ -119,14 +115,9 @@
 
 
     
-:lang(vi)
-{
-    
-    font-family: 'Neue Frutiger World vi', sans-serif;
-}
-    .change1 {
+
+    .dangnhap_input_div input:focus~label,.dangnhap_input_div input:valid~label {
         transform: translateY(-20px) translateX(-5px) scale(1.1);
-        opacity: 1;
         color: black;
     }
 
@@ -137,10 +128,6 @@
 
 
 
-    .hidden1 {
-        transform: scale(1);
-        opacity: 0;
-    }
 
     .background_input {
         background-color: white !important;

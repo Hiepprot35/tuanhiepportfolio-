@@ -1,0 +1,166 @@
+
+.header_container {
+    font-family: "Gill Sans", sans-serif;
+
+    position: fixed;
+    top: 0;
+    width: 100%;
+    height: 76px;
+    background-color: black;
+    z-index: 100;
+
+}
+
+.header_home_user {
+
+    display: flex;
+    align-items: center;
+}
+
+.username_header {
+    color: white;
+}
+
+.right {
+    margin-left: 50px;
+    right: 50px;
+    position: absolute;
+}
+
+.avatar_name span {
+    font-size: 1.5rem;
+    font-weight: 600;
+}
+
+.list img {
+    width: 15%;
+    left: 10px;
+}
+
+.header-left {
+    display: inline-block;
+}
+
+.center {
+    align-items: center;
+}
+
+.center input {
+    padding: 10px;
+}
+
+.header_home_user img {
+    height: 50px;
+    width: 50px;
+    border-radius: 50%;
+}
+
+.center button {
+    border: none;
+    background-color: rgba(240, 248, 255, 0);
+}
+
+.Link,
+.City {
+    padding-right: 10px;
+    padding-left: 10px;
+    font: 14px/28px D-DIN-Bold, Arial, Verdana, sans-serif;
+    color: white;
+
+}
+
+.Link {
+    font-variation-settings: "wght" 582;
+    color: white;
+    text-decoration: none;
+    margin-right: 20px;
+    margin-left: 20px;
+    text-transform: uppercase;
+    font-weight: 700;
+
+}
+
+hr {
+    size: 10px;
+}
+
+.Link::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 1px;
+    border-bottom: 1px solid rgb(179, 53, 53);
+}
+
+ul {
+    display: flex;
+    /* Sử dụng hiển thị flex */
+    list-style: none;
+    /* Loại bỏ ký hiệu danh sách */
+    padding: 0;
+    /* Xóa khoảng cách */
+    margin: 0;
+    align-items: center;
+
+}
+
+.center {
+    left: 600px;
+    position: absolute;
+}
+
+.Menu_profile_header {
+    visibility: hidden;
+    background-color: white;
+    display: flex;
+    position: fixed;
+    top: 70px;
+    right: 60px;
+    flex-direction: column;
+    border-radius: 1rem;
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+
+}
+
+.show_menu_profile {
+    visibility: visible;
+
+}
+
+.avatar_name {
+    margin: 10px;
+    display: flex;
+    align-items: center;
+}
+
+.avatar_link .ShowAll_User {
+    margin: 10px;
+    color: rgb(0, 217, 255);
+}
+
+.avatar_name:hover,
+.avatar_link .ShowAll_User:hover {
+    background-color: rgba(128, 128, 128, 0.13);
+    border-radius: 1rem;
+}
+
+.avatar_link img {
+    margin: 10px;
+}
+
+.avatar_link {
+    margin: 1rem;
+    border-radius: 1rem;
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+}
+
+.Menu_a_link_profile {
+    display: block !important;
+    height: auto;
+}
+
+.click_avatar {
+    border: 4px solid white;
+}
