@@ -5,6 +5,7 @@ const ActiveSectionContext = createContext(null);
 export function ActiveSectionContextProvider({ children }) {
   const [activeSection, setActiveSection] = useState('Home');
   const [timeOfLastClick, setTimeOfLastClick] = useState(0);
+  console.log(activeSection)
 
   return (
     <ActiveSectionContext.Provider
