@@ -296,7 +296,7 @@ const ChatApp = ({ messageId }) => {
           <div className='Container_ChatApp'>
             <div className='Narbar_ChatApp'>
               <input placeholder="Search for friends" className="chatMenuInput" />
-
+              {console.log(conversations)}
               {conversations && Array.isArray(conversations) && conversations.length !== 0 && conversations.map((c, index) => (
 
                 <div onClick={() => { ClickChat(c) }} key={index}
