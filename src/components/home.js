@@ -227,7 +227,7 @@ export default function Home() {
 
                                                         <p><i>"{element.introduce}"</i></p>
                                                     
-                                                    { listMSSV.some(item=>item.username===element.MSSV)?
+                                                    { listMSSV && listMSSV.some(item=>item.username===element.MSSV)?
 
                                                    <span onClick={() => LinkToMess(element.MSSV)} className="read-more">
                                                         Message <span className="sr-only">about this is some title</span>
