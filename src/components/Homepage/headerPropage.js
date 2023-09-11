@@ -33,14 +33,15 @@ export default function HeaderPropage() {
                                 >
                                     {link.name}
                                     {link.name === activeSection && (
-                                        <span
-                                            className="bg-gray-100 rounded-full absolute inset-0 -z-10 dark:bg-gray-800"
+                                        <motion.span
+                                            style={{ backgroundColor: "gray", position: "absolute", inset: "1rem", borderRadius: "0.4rem", zIndex: "-2" }}
+                                            layoutId="activeSection"
                                             transition={{
-                                                type: "spring",
-                                                stiffness: 380,
-                                                damping: 30,
+                                                type: "tween",
+                                                stiffness: 300,
+                                                damping: 60,
                                             }}
-                                        />
+                                        ></motion.span>
                                     )}
 
                                 </Link>

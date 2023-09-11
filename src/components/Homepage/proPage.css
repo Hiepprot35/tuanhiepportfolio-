@@ -26,7 +26,7 @@ body {
     padding: 0.4rem;
     margin: 1rem;
     border-radius: 0.3rem;
-    transform: 1s linear;
+    transition: 125ms ;
 }
 
 .Header_homepage li a:hover {
@@ -41,8 +41,11 @@ body {
 
 .Header_homepage ul li {
     flex: 0 0 calc(20% - 10vw);
-    transition: 125ms;
     font-weight: 600;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 .Header_homepage ul li:hover {
     /* Đặt chiều rộng tối đa cho mỗi phần tử li */
@@ -147,6 +150,7 @@ a.Instagram:hover {
 }
 
 .IntroduceMyself {
+    height: 50vh;
     width: 70%;
     display: flex;
     flex-direction: column;
@@ -161,10 +165,10 @@ a.Instagram:hover {
 .img_left img {
     width: 70%;
     height: 70%;
+    transform: translateX(-100%);
 }
 
 .active a {
-    background-color: rgba(69, 66, 66, 0.636) !important;
     color: rgb(255, 255, 255) !important;
 }
 

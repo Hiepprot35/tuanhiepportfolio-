@@ -3,8 +3,7 @@ import React, { useState, createContext, useContext } from "react";
 const ActiveSectionContext = createContext(null);
 
 export function ActiveSectionContextProvider({ children }) {
-  const [activeSection, setActiveSection] = useState('Project');
-  console.log(activeSection)
+  const [activeSection, setActiveSection] = useState('Home');
   const [timeOfLastClick, setTimeOfLastClick] = useState(0);
 
   return (

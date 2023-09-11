@@ -109,7 +109,7 @@ function App() {
             <Route path="*" element={<Navigate to="/"></Navigate>} />
             {/* <Route path="*" element={<IsLoading />} /> */}
 
-            {/* <Route path="/login" element={<Login setAccessToken={setAccessToken} setIsLogin={setIsLogin} />} /> */}
+            <Route path="/login" element={<Login setAccessToken={setAccessToken} setIsLogin={setIsLogin} />} />
             <Route path="/" element={<ProPage />} />
           </Routes>
         )

@@ -23,9 +23,11 @@ export default function MyProjectPropage() {
 
                 myproject.map((e, i) =>
                 (
-                    <motion.section key={i} ref={project} style={{ opacity: scrollYProgress, scale: scrollYProgress, margin: "2rem 0 10rem 0", transition: "500ms" }}
+                    <motion.section key={i} ref={project} style={{
+                        opacity: scrollYProgress, scale: scrollYProgress, margin: "2rem 0 10rem 0", transition: "500ms",
+                        translateY: scrollYProgress
+                    }}
                     >
-                        {console.log(scrollYProgress)}
 
                         <div className="project_content">
                             <div className="project_text">

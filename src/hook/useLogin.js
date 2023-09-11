@@ -27,7 +27,6 @@ export default function useLogin() {
         setIsLogin(false);
       }
     } catch (error) {
-      console.error("Error fetching Refresh Token:", error);
       setIsLogin(false);
     }
   };

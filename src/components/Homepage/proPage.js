@@ -1,6 +1,7 @@
 import './proPage.css';
 import { useRef, useState, useEffect } from 'react';
-import { motion } from "framer-motion";
+import { motion, useScroll } from "framer-motion";
+
 import HeaderPropage from './headerPropage';
 import AboutPropage from './aboutPropage';
 import ContactPropage from './contactPropage';
@@ -10,7 +11,7 @@ import MyProjectPropage from './myProjectPropage';
 import SkillPropage from './skillPropage';
 
 export default function ProPage() {
-
+  
     document.title = "Tuan Hiep"
    
     return (
@@ -24,8 +25,12 @@ export default function ProPage() {
                 <AboutPropage />
                 <DivineSection></DivineSection>
                 <IntroduceProPage />
+                <DivineSection></DivineSection>
                 <MyProjectPropage/>
+                <DivineSection></DivineSection>
                 <SkillPropage/>
+                <DivineSection></DivineSection>
+
                 <ContactPropage />
             </div >
         </div >
