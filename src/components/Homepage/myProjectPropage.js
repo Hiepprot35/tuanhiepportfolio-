@@ -41,7 +41,7 @@ export default function MyProjectPropage() {
                                     ))}
                                 </ul>
                             </div>
-                            <a href="https://tuanhiepprot3.netlify.app/">
+                            <a href="/login">
                                 <img src={`${e.img}`} alt="Project" quality={95}></img>
                             </a>
                         </div>

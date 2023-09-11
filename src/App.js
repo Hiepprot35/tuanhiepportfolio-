@@ -34,22 +34,22 @@ function App() {
   }, [AccessToken]);
 
   const refreshAccessToken = useRefresh()
-  // useEffect(() => {
-  //   async function fetchData() {
-  //     try {
-  //       const refreshedData = await refreshAccessToken();
-  //       refreshedData.AccessToken ? setAccessToken(refreshedData.AccessToken)  : setAccessToken()
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        const refreshedData = await refreshAccessToken();
+        refreshedData.AccessToken ? setAccessToken(refreshedData.AccessToken)  : setAccessToken()
 
-  //     } catch (error) {
-  //       // Xử lý lỗi nếu cần
-  //     }
-  //   }
-
-
-  //   fetchData();
+      } catch (error) {
+        // Xử lý lỗi nếu cần
+      }
+    }
 
 
-  // }, []);
+    fetchData();
+
+
+  }, []);
   if (isLoading) {
     return <IsLoading></IsLoading>
   }
