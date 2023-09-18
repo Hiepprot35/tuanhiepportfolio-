@@ -27,7 +27,9 @@ export const useRefresh = () => {
       });
 
       if (!response.ok) {
-        throw new Error('Refresh token request failed');
+        localStorage.removeItem("AccessToken")
+        localStorage.removeItem("RefreshToken")
+        navigate("/")
       }
 
       const data = await response.json();
@@ -35,8 +37,9 @@ export const useRefresh = () => {
       setAuth({ role: Role, userID: UserID, username: Username });
       return data;
     } catch (error) {
-      console.error('An error occurred:', error);
-      navigate("/login")
+      localStorage.removeItem("AccessToken")
+
+      navigate("/")
     }
   };
   return refreshAccessToken

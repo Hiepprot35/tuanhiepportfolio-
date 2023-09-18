@@ -1,0 +1,23 @@
+.container_main
+{
+    background-color: rgb(240, 226, 226);
+
+}
+.TableTime_Schedule tbody tr td
+{
+    padding: 0.5rem;
+	box-sizing:border-box;
+	border: 1px solid #ccc;
+    background-color: rgb(240, 226, 226);
+}
+.TableTime_Schedule thead tr th
+{
+    padding: 0.5rem;
+	box-sizing:border-box;
+	border: 1px solid #ccc;
+    background-color: rgb(240, 226, 226);
+}
+.TableTime_Schedule tbody tr.active-row {
+    font-weight: bold;
+    color: #009879;
+}

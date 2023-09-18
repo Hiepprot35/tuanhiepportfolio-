@@ -26,7 +26,7 @@ const ChatApp = ({ messageId }) => {
   const [arrivalMessage, setArrivalMessage] = useState(null);
   const ChoosenUser = useRef()
   const [userSeenAt, setuserSeenAt] = useState()
-  const [clicked, setClicket] = useState()
+  const [clicked, setClicket] = useState(false)
   const [onlineUser, setOnlineUser] = useState()
   const [messages, setMessages] = useState([]);
   const [seenMess, setSeenMess] = useState([])
@@ -177,7 +177,7 @@ const ChatApp = ({ messageId }) => {
       }
     }
     getConversation()
-  }, [messages, arrivalMessage,isSeen])
+  }, [messages, arrivalMessage, isSeen])
 
   useEffect(() => {
 
@@ -207,14 +207,12 @@ const ChatApp = ({ messageId }) => {
           const student = await studentApi.json();
           student.userID = userID
           setGuestImg(student)
-          console.log(student)
         } catch (error) {
           console.error(error);
         }
       };
     }
     if (MSSVReceived) {
-      console.log(MSSVReceived)
       const data = MSSVReceived[0]?.username;
       const userid = MSSVReceived[0]?.UserID;
       studentInfo(data, userid);
@@ -287,32 +285,104 @@ const ChatApp = ({ messageId }) => {
       behavior: 'smooth', // Tạo hiệu ứng cuộn mượt
     }) || <div>cac</div>
   }, [messages]);
+  const [searchTerm, setSearchTerm] = useState('');
+  const [searchResults, setSearchResults] = useState([]);
 
+  const handleSearch = async (e) => {
+    if (e.target.value != "") {
+      setClicket(true)
+
+
+      try {
+        const res = await fetch(`${process.env.REACT_APP_DB_HOST}/api/studentSearchBar`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ "data": e.target.value })
+        });
+        const data = await res.json()
+        setSearchTerm(data);
+
+      } catch (err) {
+        console.log(err);
+      }
+    }
+    if (e.target.value == "")
+    {
+      setClicket(false)
+
+    }
+  };
+  useEffect(() => {
+    if (searchTerm) {
+
+      const result = conversations.filter(conversation => {
+        return searchTerm?.some(searchItem => searchItem.UserID === conversation.user1 || searchItem.UserID === conversation.user2);
+      });
+      setSearchResults(result)
+    }
+  }, [searchTerm])
+  useEffect(() => {
+    console.log(searchResults)
+  }, [searchResults])
   return (
     <>
-      <Header></Header>
+      <Header hash={"/message"}></Header>
       {
         <>
           <div className='Container_ChatApp'>
             <div className='Narbar_ChatApp'>
-              <input placeholder="Search for friends" className="chatMenuInput" />
-              {console.log(conversations)}
-              {conversations && Array.isArray(conversations) && conversations.length !== 0 && conversations.map((c, index) => (
+              <input
+                placeholder="Search for friends"
+                className="chatMenuInput"
+                onChange={(e) => handleSearch(e)}
+              />
+              { clicked ? (
+                searchResults.map((c, index) => (
+                  <div
+                    onClick={() => {
+                      ClickChat(c);
+                    }}
+                    key={index}
+                    className='converrsation_chat'
+                    style={currentChat === c ? { backgroundColor: "rgb(245, 243, 243)" } : {}}
+                  >
+                    <Conversation
+                      conversation={c}
+                      currentUser={auth.userID}
+                      Arrivalmess={arrivalMessage}
+                      mess={messages.length}
+                      Online={onlineUser}
+                      listSeen={isSeen}
+                    />
+                  </div>
+                ))
+              ) : (
+                conversations &&
+                Array.isArray(conversations) &&
+                conversations.length !== 0 &&
+                conversations.map((c, index) => (
+                  <div
+                    onClick={() => {
+                      ClickChat(c);
+                    }}
+                    key={index}
+                    className='converrsation_chat'
+                    style={currentChat === c ? { backgroundColor: "rgb(245, 243, 243)" } : {}}
+                  >
+                    <Conversation
+                      conversation={c}
+                      currentUser={auth.userID}
+                      Arrivalmess={arrivalMessage}
+                      mess={messages.length}
+                      Online={onlineUser}
+                      listSeen={isSeen}
+                    />
+                  </div>
+                ))
+              )}
 
-                <div onClick={() => { ClickChat(c) }} key={index}
-                  className='converrsation_chat'
-                  style={currentChat === c ? { backgroundColor: "rgb(245, 243, 243)" } : {}}
-                >
-
-                  <Conversation
-                    conversation={c}
-                    currentUser={auth.userID}
-                    Arrivalmess={arrivalMessage}
-                    mess={messages.length}
-                    Online={onlineUser}
-                    listSeen={isSeen} />
-                </div>
-              ))}
             </div>
             <div className='Main_ChatApp'>
               {

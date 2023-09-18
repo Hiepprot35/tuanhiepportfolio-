@@ -5,6 +5,9 @@ import useAuth from '../../../hook/useAuth';
 import { LogOut } from "../../logout";
 import BlobtoBase64 from '../../../function/BlobtoBase64';
 import './header.css'
+import { motion } from "framer-motion";
+
+import { header_Student } from '../../../lib/data';
 function Header(props) {
     const [weather, setWeather] = useState({
         city: "",
@@ -14,7 +17,8 @@ function Header(props) {
     });
     const Menu_profile_header = useRef()
     const [city, setCity] = useState("hanoi");
-    const { auth } = useAuth()
+    const { auth } = useAuth();
+    const [chooseHeader, setChooseHeader] = useState();
     const [isLoading, setIsLoading] = useState(true)
     const [user, setUser] = useState()
     const apiKey = "e9f7e8aac0662b6cfe1bb2d11bbb7042";
@@ -71,47 +75,44 @@ function Header(props) {
             isAlivew = false
         }
     }, []);
-
+    useEffect(() => {
+        console.log(header_Student)
+    }, [])
     return (
         <>
-            <div className="header">
-                <div className='riotbar-left-content' >
-                    <div className='riotbar-branding-switcher'>
-                        <ul className='list'>
+            <div className="header_user">
+                <div className='header_container'>
+                    <ul className='list'>
 
-                            <li>
-                                <Link to="/home" className='Link'>Home</Link>
 
-                            </li>
-                            {
-                                auth.role == 1 ?
-                                    <li>
-                                        <a href="/create" className='Link'>Create</a>
-                                    </li> : <><a href={`/profile/${auth.username}`} className='Link'>Thay đổi thông tin cá nhân</a>
-                                    </>
-                            }
-                            <li>
-                                <Link to="/dangkilop" className='Link'>Đăng ký học</Link>
+                        {/* {
+                            auth.role == 1 ?
+                                <li>
+                                    <a href="/create" className='Link'>Create</a>
+                                </li> : <><a href={`/profile/${auth.username}`} className='Link'>Thay đổi thông tin cá nhân</a>
+                                </>
+                        } */}
+                        {
+                            header_Student.map((element, index) => (
 
-                            </li>  <li>
-                                <Link to="/message" className='Link'>Nhắn tin</Link>
 
-                            </li>
-                            <li>
+                                <li key={index}>
+                                    <Link to={element.hash} className={`Link ${element.hash == props.hash ? "ActiveLink" : "notActive"}`} onClick={() => setChooseHeader(element.name)}>{element.name}</Link>
+                                  
+                                </li>
+                            ))
+                        }
+                        <li>
+                            <div style={{display:"flex"}}>
+
                                 <p className='City cityname'> {weather.city}     </p>
-
-                            </li>
-                            <li>
                                 <p className='City citytemp'> {weather.temp}*C</p>
-
-                            </li>
-                            <li>
                                 <img src={`/images/${weather.weather}.png`} alt={weather.weather} />
+                            </div>
 
-                            </li>
-                        </ul>
+                        </li>
+                    </ul>
 
-                    </div>
 
                     {/* <div className="">
 

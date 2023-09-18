@@ -4,7 +4,7 @@ import "./conversation.css";
 import useAuth from "../../hook/useAuth";
 import BlobtoBase64 from "../../function/BlobtoBase64";
 import getTime from "../../function/getTime";
-export default function Conversation({ conversation, currentUser, Arrivalmess, mess, Online,listSeen }) {
+export default function Conversation({ conversation, currentUser, Arrivalmess, mess, Online, listSeen }) {
     const [user, setUser] = useState();
     const { auth } = useAuth()
     const [isLoading, setIsLoading] = useState(true);
@@ -61,7 +61,7 @@ export default function Conversation({ conversation, currentUser, Arrivalmess, m
         }
         getMess()
     }, [conversation, currentUser, Arrivalmess, mess])
-  
+
 
     useEffect(() => {
 
@@ -91,62 +91,65 @@ export default function Conversation({ conversation, currentUser, Arrivalmess, m
     return (
         <>
             {isLoading ? <IsLoading /> :
-                <div className="conversation">
-                    <div className="Avatar_status">
-                        <img src={`${BlobtoBase64(user.img)}`} className={`avatarImage`} alt="uer avatar"></img>
-                        <span className={`dot ${ListusersOnline.includes(setOnlineUser) ? "activeOnline" : {}}`}> </span>
-                    </div>
-                    <div className="text_conversation">
+                <>
+                
+                    <div className="conversation">
+                        <div className="Avatar_status">
+                            <img src={`${BlobtoBase64(user.img)}`} className={`avatarImage`} alt="uer avatar"></img>
+                            <span className={`dot ${ListusersOnline.includes(setOnlineUser) ? "activeOnline" : {}}`}> </span>
+                        </div>
+                        <div className="text_conversation">
 
-                        <span className="conversationName">{user.Name}</span>
-                        <div className="messConversation">
-                            {
-                                NewestMess &&
-                                <>
-                                    {
-                                        NewestMess?.sender_id === currentUser ? <> {
-                                            NewestMess.content ?
+                            <span className="conversationName">{user.Name}</span>
+                            <div className="messConversation">
+                                {
+                                    NewestMess &&
+                                    <>
+                                        {
+                                            NewestMess?.sender_id === currentUser ? <> {
+                                                NewestMess.content ?
+                                                    <>
+                                                        <span>Bạn: {NewestMess?.content} </span>
+                                                        <span>{getTime(NewestMess.created_at)}</span>
+                                                    </>
+                                                    : <></>
+                                            }
+                                            </> :
+
+
                                                 <>
-                                                    <span>Bạn: {NewestMess?.content} </span>
-                                                    <span>{getTime(NewestMess.created_at)}</span>
+                                                    {
+                                                        NewestMess.content ?
+                                                            <>
+                                                                <span> {NewestMess?.content} </span>
+                                                                <span>{getTime(NewestMess.created_at)}</span>
+                                                            </>
+                                                            : <></>
+                                                    }
+
                                                 </>
-                                                : <></>
                                         }
-                                        </> :
+                                    </>
+                                }
+                                {
+                                    conversation.sender_id === auth.userID && conversation.isSeen === 1 &&
 
-
-                                            <>
-                                                {
-                                                    NewestMess.content ?
-                                                        <>
-                                                            <span> {NewestMess?.content} </span>
-                                                            <span>{getTime(NewestMess.created_at)}</span>
-                                                        </>
-                                                        : <></>
-                                                }
-
-                                            </>
-                                    }
-                                </>
-                            }
-                            {
-                                conversation.sender_id === auth.userID && conversation.isSeen === 1 &&
-
-                                <div className="Seen_field">
-                                    {/* <img
+                                    <div className="Seen_field">
+                                        {/* <img
                                         className="avatarImage"
                                         style={{ width: "20px", height: "20px" }}
                                         src={`${BlobtoBase64(student?.img)}`} alt="sender" /> */}
-                                    <img style={{width:"1rem",height:"1rem"}} src={`${BlobtoBase64(user.img)}`} className={`avatarImage`} alt="uer avatar"></img>
+                                        <img style={{ width: "1rem", height: "1rem" }} src={`${BlobtoBase64(user.img)}`} className={`avatarImage`} alt="uer avatar"></img>
 
-                                    {/* <p> đmmmm</p> */}
+                                        {/* <p> đmmmm</p> */}
 
-                                </div>
-                            }
+                                    </div>
+                                }
+                            </div>
                         </div>
                     </div>
-                </div>
-            }
+
+                </>}
         </>
     );
 }

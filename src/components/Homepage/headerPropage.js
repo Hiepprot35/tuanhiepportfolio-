@@ -4,7 +4,7 @@ import { Link } from "react-scroll";
 import clsx from "clsx";
 import { links } from '../../lib/data'
 import { useActiveSectionContext } from "../../context/ActiveSectionContextProvider";
-export default function HeaderPropage() {
+export default function HeaderPropage(props) {
     const { activeSection, setActiveSection, setTimeOfLastClick } = useActiveSectionContext();
     const handleLinkClick = (name) => {
         setActiveSection(name);
@@ -20,7 +20,7 @@ export default function HeaderPropage() {
             >
                 <nav>
                     <ul>
-                        {links.map((link) => (
+                        {props.links.map((link) => (
                             <li key={link.hash}
                                 className={clsx({ "active": link.name === activeSection })}
 

@@ -1,6 +1,7 @@
 import './proPage.css';
 import { useRef, useState, useEffect } from 'react';
 import { motion, useScroll } from "framer-motion";
+import { links } from '../../lib/data'
 
 import HeaderPropage from './headerPropage';
 import AboutPropage from './aboutPropage';
@@ -17,7 +18,7 @@ export default function ProPage() {
     return (
 
         <div className='Propage'>
-            <HeaderPropage />
+            <HeaderPropage links={links} />
 
 
             <div className='Container_content'>

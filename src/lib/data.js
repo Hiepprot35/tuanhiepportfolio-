@@ -35,3 +35,24 @@ export const myproject=[
         img:"https://scontent.fsgn2-4.fna.fbcdn.net/v/t1.15752-9/375476631_123836707457477_5358004110519219270_n.png?_nc_cat=109&ccb=1-7&_nc_sid=ae9488&_nc_ohc=zp68zpD158gAX84DgO5&_nc_ht=scontent.fsgn2-4.fna&oh=03_AdRgcjf2ye1YN_jH2EetH7yQOJ5nBTVa1_SmrpSxl8BJ_A&oe=65240403"
     }
 ]
+export const header_Student=[
+    
+        {
+            name: "Home",
+            hash: "/home"
+        },
+        
+        {
+            name: "Đăng kí học",
+            hash: "/dangkilop"
+        },
+        {
+            name: "Nhắn tin",
+            hash: "/message"
+        },
+        {
+            name:"Xem lịch học",
+            hash:"/lichhoc"
+        }
+    
+]

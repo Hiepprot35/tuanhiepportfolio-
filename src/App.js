@@ -12,13 +12,14 @@ import useAuth from './hook/useAuth';
 import Dashboard from './components/Dashboard/Dashboard'
 import FistHomePage from './components/Homepage/firstHomepage';
 import { IsLoading } from './components/Loading';
-import DangKiLopHoc from './components/dangkilophoc';
+import DangKiLopHoc from './components/dangkihoc/dangkilophoc';
 import Chuongtrinhdaotao from './chuongtrinhdaotao';
 import { useRefresh } from './hook/useRefresh';
 import ChatApp from './components/chatapp/chatApp';
 import UserProfile from './components/UserProfile/userProfile';
 import UseRfLocal from './hook/useRFLocal';
 import ProPage from './components/Homepage/proPage';
+import ViewTimetable from './components/xemlichhoc/viewTimetable';
 function App() {
 
   const [isLoading, setIsLoading] = useState(true); // Thêm trạng thái loading
@@ -92,6 +93,7 @@ function App() {
               <Route path="/message" element={<ChatApp />} />
               <Route path="*" element={<Home />} />
               <Route path="/message/:id" element={<MessageRoute />} />
+              <Route path="/lichhoc" element={<ViewTimetable />} />
 
             </Route>
           </Routes>

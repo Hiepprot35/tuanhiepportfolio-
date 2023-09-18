@@ -7,8 +7,7 @@ import { IsLoading } from "./Loading";
 import useAuth from "../hook/useAuth";
 import io from 'socket.io-client';
 import BlobtoBase64 from "../function/BlobtoBase64";
-const { Buffer } = require('buffer');
-
+import DangKiLopHoc from "./dangkihoc/dangkilophoc";
 export default function Home() {
     const navigate = useNavigate();
    
@@ -199,7 +198,7 @@ export default function Home() {
     return (
 
         <>
-            <Header />
+            <Header hash={'/home'} />
             <div className="container_main">
                 {
                     isLoading ? <IsLoading></IsLoading> :

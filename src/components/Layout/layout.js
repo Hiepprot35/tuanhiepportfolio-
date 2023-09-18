@@ -1,4 +1,4 @@
 import Footer from "../footer";
-export default function Layout(){
+export default function Layout({chidlren}){
  
 }
