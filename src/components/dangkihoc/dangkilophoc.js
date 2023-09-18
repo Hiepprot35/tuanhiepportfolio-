@@ -18,13 +18,16 @@ export default function DangKiLopHoc() {
     const [lichhoc, setLichHoc] = useState();
     const [result, setResult] = useState()
     const findMonHoc = (father, son) => {
-        const foundElement = father.find((elementIncludes) =>
-            elementIncludes.CaID === son.Ca[0]?.CaID || elementIncludes.CaID === son.Ca[1]?.CaID
-        );
+        if (father) {
 
-        if (foundElement) {
-            // Nếu tìm thấy phần tử thỏa mãn điều kiện, bạn có thể sử dụng foundElement ở đây.
-            return foundElement
+            const foundElement = father.find((elementIncludes) =>
+                elementIncludes.CaID === son.Ca[0]?.CaID || elementIncludes.CaID === son.Ca[1]?.CaID
+            );
+
+            if (foundElement) {
+                // Nếu tìm thấy phần tử thỏa mãn điều kiện, bạn có thể sử dụng foundElement ở đây.
+                return foundElement
+            }
         }
     }
     const ChooseMonHocChange = (e) => {
@@ -262,7 +265,7 @@ export default function DangKiLopHoc() {
                                                 return (
                                                     < >
                                                         {console.log(findMonHoc(lichhoc, title))}
-                                                        <tr  className={danhlopdadangky.some(monhoc => monhoc?.CLASSID!==title.CLASSID &&monhoc?.CLASSID == findMonHoc(lichhoc, title)?.CLASSID) ?"head_table activeTrungLich"  :  "head_table" } >
+                                                        <tr className={danhlopdadangky.some(monhoc => monhoc?.CLASSID !== title.CLASSID && monhoc?.CLASSID == findMonHoc(lichhoc, title)?.CLASSID) ? "head_table activeTrungLich" : "head_table"} >
                                                             <td colSpan={5}>
 
 
@@ -322,7 +325,7 @@ export default function DangKiLopHoc() {
                                                                             )
 
                                                                 }
-                                                                <span style={{float:"right"}}>
+                                                                <span style={{ float: "right" }}>
                                                                     {title.TongSo}/{title.SiSo}
                                                                 </span>
                                                             </td>
