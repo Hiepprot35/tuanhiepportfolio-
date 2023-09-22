@@ -1,16 +1,15 @@
 import Login from './components/login/login';
 import Home from './components/home';
-import CreateStudent from './components/createStudent';
+import CreateStudent from './components/createStudent/createStudent';
 import { BrowserRouter as Router, Routes, Route, Navigate, Link, useParams } from 'react-router-dom';
 import UseToken from './hook/useToken';
-
+import SettingAccount from './components/setting/settingAccount';
 import { useState } from 'react';
 import useLogin from './hook/useLogin';
 import { useEffect } from 'react';
 import RequireAuth from './components/requireAuth';
 import useAuth from './hook/useAuth';
 import Dashboard from './components/Dashboard/Dashboard'
-import FistHomePage from './components/Homepage/firstHomepage';
 import { IsLoading } from './components/Loading';
 import DangKiLopHoc from './components/dangkihoc/dangkilophoc';
 import Chuongtrinhdaotao from './chuongtrinhdaotao';
@@ -94,6 +93,7 @@ function App() {
               <Route path="*" element={<Home />} />
               <Route path="/message/:id" element={<MessageRoute />} />
               <Route path="/lichhoc" element={<ViewTimetable />} />
+              <Route path="/setting" element={<SettingAccount />} />
 
             </Route>
           </Routes>
@@ -106,7 +106,6 @@ function App() {
 
 
           <Routes>
-              <Route path="/create" element={<CreateStudent />} />
 
             <Route path="*" element={<Navigate to="/"></Navigate>} />
             {/* <Route path="*" element={<IsLoading />} /> */}

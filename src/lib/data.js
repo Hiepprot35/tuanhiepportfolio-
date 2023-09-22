@@ -39,20 +39,32 @@ export const header_Student=[
     
         {
             name: "Home",
-            hash: "/home"
+            hash: "/home",
+            role:[1,2]
+
         },
         
         {
             name: "Đăng kí học",
-            hash: "/dangkilop"
+            hash: "/dangkilop",
+            role:[2]
+
         },
         {
             name: "Nhắn tin",
-            hash: "/message"
+            hash: "/message",
+            role:[1,2]
         },
         {
             name:"Xem lịch học",
-            hash:"/lichhoc"
+            hash:"/lichhoc",
+            role:[2]
+        }
+        ,{
+            name:"Thêm sinh viên",
+            hash:"/create",
+            role:[1]
+
         }
     
 ]

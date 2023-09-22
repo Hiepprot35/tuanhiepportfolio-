@@ -3,6 +3,7 @@
     display: flex;
     width: 100vw;
     justify-content: space-around;
+    flex-direction: column;
 }
 table ,th,td{
     font-family: arial, sans-serif;

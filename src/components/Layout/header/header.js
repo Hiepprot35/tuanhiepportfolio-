@@ -82,37 +82,42 @@ function Header(props) {
         <>
             <div className="header_user">
                 <div className='header_container'>
-                    <ul className='list'>
+                    <div>
+                        <ul className='list'>
 
 
-                        {/* {
+                            {/* {
                             auth.role == 1 ?
                                 <li>
                                     <a href="/create" className='Link'>Create</a>
                                 </li> : <><a href={`/profile/${auth.username}`} className='Link'>Thay đổi thông tin cá nhân</a>
                                 </>
                         } */}
-                        {
-                            header_Student.map((element, index) => (
+                            {
+                                header_Student.map((element, index) => (
 
 
-                                <li key={index}>
-                                    <Link to={element.hash} className={`Link ${element.hash == props.hash ? "ActiveLink" : "notActive"}`} onClick={() => setChooseHeader(element.name)}>{element.name}</Link>
-                                  
-                                </li>
-                            ))
-                        }
-                        <li>
-                            <div style={{display:"flex"}}>
+                                    <li key={index}>
+                                        {
+                                            element.role.includes(auth.role) &&
+                                            <Link to={element.hash} className={`Link ${element.hash == props.hash ? "ActiveLink" : "notActive"}`} onClick={() => setChooseHeader(element.name)}>{element.name}</Link>
 
-                                <p className='City cityname'> {weather.city}     </p>
-                                <p className='City citytemp'> {weather.temp}*C</p>
-                                <img src={`/images/${weather.weather}.png`} alt={weather.weather} />
-                            </div>
+                                        }
 
-                        </li>
-                    </ul>
+                                    </li>
+                                ))
+                            }
+                            <li>
+                                <div style={{ display: "flex" }}>
 
+                                    <p className='City cityname'> {weather.city}     </p>
+                                    <p className='City citytemp'> {weather.temp}*C</p>
+                                    <img src={`/images/${weather.weather}.png`} alt={weather.weather} />
+                                </div>
+
+                            </li>
+                        </ul>
+                    </div>
 
                     {/* <div className="">
 
@@ -124,7 +129,11 @@ function Header(props) {
                     <div className="header_home_user">
 
                         {isLoading ? (
-                            <p>Đang tải...</p>
+                            <>
+                                <p>Admin</p>
+                                <LogOut />
+
+                            </>
                         ) : (
                             <>
                                 {user &&
@@ -160,7 +169,10 @@ function Header(props) {
                                                 <hr style={{ borderColor: "black" }}></hr>
                                                 <div className='ShowAll_User'>
 
-                                                    <span>Xem tất cả thông tin cá nhân</span>
+                                                    <a href='/setting'>
+
+                                                        <span>Cài đặt thông tin cá nhân</span>
+                                                    </a>
                                                 </div>
                                             </div>
 

@@ -6,7 +6,6 @@ import Header from "../Layout/header/header";
 import useAuth from '../../hook/useAuth';
 import './userProfile.css'
 import BlobtoBase64 from "../../function/BlobtoBase64";
-import SendEmail from "../sendEmail/sendEmail";
 function blobToBuffer(blob) {
     return new Promise((resolve, reject) => {
         const reader = new FileReader();

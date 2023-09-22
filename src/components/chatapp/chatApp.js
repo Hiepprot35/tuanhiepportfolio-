@@ -221,34 +221,38 @@ const ChatApp = ({ messageId }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const message = {
-      sender_id: auth.userID,
-      content: inputMess.current.value,
-      conversation_id: currentChat.id,
-    };
-    const user12 = [currentChat?.user1, currentChat?.user2]
-    const receiverId = user12.find(
-      (member) => member !== auth.userID
-    );
-    socket.current.emit("sendMessage", {
-      sender_id: auth.userID,
-      receiverId,
-      content: inputMess.current.value,
-    });
-    try {
-      const res = await fetch(`${process.env.REACT_APP_DB_HOST}/api/message`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(message)
+    if (inputMess.current.value) {
+
+
+      const message = {
+        sender_id: auth.userID,
+        content: inputMess.current.value,
+        conversation_id: currentChat.id,
+      };
+      const user12 = [currentChat?.user1, currentChat?.user2]
+      const receiverId = user12.find(
+        (member) => member !== auth.userID
+      );
+      socket.current.emit("sendMessage", {
+        sender_id: auth.userID,
+        receiverId,
+        content: inputMess.current.value,
       });
-      const data = await res.json()
-      setMessages([...messages, data]);
-      inputMess.current.value = "";
-      inputMess.current.focus()
-    } catch (err) {
-      console.log(err);
+      try {
+        const res = await fetch(`${process.env.REACT_APP_DB_HOST}/api/message`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(message)
+        });
+        const data = await res.json()
+        setMessages([...messages, data]);
+        inputMess.current.value = "";
+        inputMess.current.focus()
+      } catch (err) {
+        console.log(err);
+      }
     }
   };
   useEffect(() => {
@@ -308,8 +312,7 @@ const ChatApp = ({ messageId }) => {
         console.log(err);
       }
     }
-    if (e.target.value == "")
-    {
+    if (e.target.value == "") {
       setClicket(false)
 
     }
@@ -338,7 +341,7 @@ const ChatApp = ({ messageId }) => {
                 className="chatMenuInput"
                 onChange={(e) => handleSearch(e)}
               />
-              { clicked ? (
+              {clicked ? (
                 searchResults.map((c, index) => (
                   <div
                     onClick={() => {
