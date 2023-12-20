@@ -44,9 +44,7 @@ export default function ContactPropage() {
                 Contact me
             </div>
             <form  onSubmit={sendEmail}>
-                <div className="form-row">
-
-                </div>
+               
                 <div className="form-row">
                     <div className="input-data">
                         <input type="text" required value={email} onChange={handleEmailChange}

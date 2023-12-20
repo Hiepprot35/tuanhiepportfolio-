@@ -34,12 +34,15 @@ export default function MyProjectPropage() {
 
                                 <h3>{e.title}</h3>
                                 <p>{e.description}</p>
-                                <ul>
-                                    {e.tags.map((tag, index) => (
-                                        <li style={{ padding: "0.4rem", margin: "0.6rem", backgroundColor: "#5e5353c5", color: "white", borderRadius: "1rem" }} key={index}>{tag}</li>
+                                <div className="project_language">
 
-                                    ))}
-                                </ul>
+                                    <ul>
+                                        {e.tags.map((tag, index) => (
+                                            <li style={{ padding: "0.4rem", margin: "0.6rem", backgroundColor: "#5e5353c5", color: "white", borderRadius: "1rem" }} key={index}>{tag}</li>
+
+                                        ))}
+                                    </ul>
+                                </div>
                             </div>
                             <a href="/login">
                                 <img src={`${e.img}`} alt="Project" quality={95}></img>

@@ -89,7 +89,6 @@ header {
 .Hello_text {
     font-size: 1.1rem;
 }
-
 .Introduce_text {
     display: flex;
     align-items: center;
@@ -119,6 +118,12 @@ header {
     transition: 150ms;
 }
 
+.project_language ul
+{
+    width: 100%;
+    display: grid;
+    grid-template:40% 40%/30% 30% 30% 
+}
 .contact_download a {
     font-weight: 400;
     padding: 0.4rem 1rem 0.4rem 1rem;
@@ -160,8 +165,14 @@ a.Instagram:hover {
 .img_left {
     position: absolute;
     left: 0rem;
+    z-index: -100;
 }
-
+.IntroduceMyself
+{
+    display: flex;
+    align-items: center;
+    text-align: center;
+}
 .img_left img {
     width: 70%;
     height: 70%;

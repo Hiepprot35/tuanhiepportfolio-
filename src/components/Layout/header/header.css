@@ -9,16 +9,19 @@
     background-color: rgba(129, 113, 113, 0.422);
     z-index: 100;
 }
-h3,h4,h5
-{
+
+h3,
+h4,
+h5 {
     font-weight: 700;
     color: #333;
     font-size: 1.3rem;
-    font-family: Quicksand,sans-serif;
+    font-family: Quicksand, sans-serif;
 }
+
 .header_home_user {
 
-    margin-right:3rem;
+    margin-right: 3rem;
     display: flex;
     align-items: center;
 }
@@ -46,12 +49,13 @@ h3,h4,h5
 .header-left {
     display: inline-block;
 }
-.header_container
-{
+
+.header_container {
     justify-content: space-between;
     display: flex;
     width: 100%;
 }
+
 .center {
     align-items: center;
 }
@@ -70,18 +74,18 @@ h3,h4,h5
     border: none;
     background-color: rgba(240, 248, 255, 0);
 }
-.list li
 
-{
+.list li {
     transition: 250ms;
 }
-.list .notActive:hover
-{
+
+.list .notActive:hover {
     background-color: rgba(255, 255, 255, 0.575);
-    border-radius:1rem;
+    border-radius: 1rem;
     color: black;
 
 }
+
 .Link,
 .City {
     padding: 1rem;
@@ -110,14 +114,11 @@ hr {
 ul {
     width: 100%;
     display: flex;
-    /* Sử dụng hiển thị flex */
     list-style: none;
-    /* Loại bỏ ký hiệu danh sách */
     padding: 0;
-    /* Xóa khoảng cách */
     margin: 0;
     align-items: center;
-
+    justify-content: center;
 }
 
 .center {
@@ -137,13 +138,14 @@ ul {
     box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
 
 }
-.ActiveLink
-{
+
+.ActiveLink {
     background-color: rgba(255, 255, 255, 0.575);
-    border-radius:1rem;
+    border-radius: 1rem;
     color: black;
 
 }
+
 .show_menu_profile {
     visibility: visible;
 

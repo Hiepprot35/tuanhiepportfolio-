@@ -22,14 +22,19 @@ code {
 .avatarImage {
   width: 40px;
   height: 40px;
-  border: 1px rgb(7, 7, 7) solid;
+  border: 1px rgb(173, 167, 167) solid;
   border-radius: 50%;
   
   position: relative;
   background-size: cover;
   background-position: center;
 }
-
+.center_ele
+{
+  display: flex;
+    justify-content: center;
+    align-items: center;
+}
 /* .status {
   width: 6px;
   height: 6px;

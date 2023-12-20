@@ -8,6 +8,7 @@ import FormInput from "../Layout/FormInput/FormInput";
 import { ResizeImg } from "../../function/ResizeImg";
 import './createStudent.css'
 function blobToBuffer(blob) {
+
     return new Promise((resolve, reject) => {
         const reader = new FileReader();
         reader.onload = () => {
@@ -21,6 +22,8 @@ function blobToBuffer(blob) {
     });
 }
 export default function CreateStudent() {
+    const fileInputRef = useRef(null)
+
     const khoaRef = useRef(1)
     const password = useRef()
     const currentChooseClass = useRef(null)
@@ -55,7 +58,7 @@ export default function CreateStudent() {
         setAvatarURL(imgLink);
         setDataimg(img);
     };
-    
+
     useEffect(() => {
         fetch(`${host}/api/getAllClass`)
             .then(res => res.json())
@@ -80,7 +83,6 @@ export default function CreateStudent() {
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${AccessToken}`,
-
                 },
                 body: JSON.stringify(data)
             });
@@ -92,23 +94,23 @@ export default function CreateStudent() {
             console.error('Error occurred:', error);
         }
     }
-    useEffect(()=>{console.log(values.Birthday)},[values])
+    useEffect(() => { console.log(values) }, [values])
     async function handleSubmit(event) {
         try {
             event.preventDefault();
-
-            if (dataimg) {
-
-                const imgBigger = await blobToBuffer(dataimg)
-                ResizeImg(dataimg, async (newBlob) => {
-                    const imgBufer = await blobToBuffer(newBlob)
-                    setValues({ ...values, create_by: auth.userID || 1, Khoa: currentChooseKhoa, Class: currentChooseClass.current.value, Sex: currentChooseSex.current.value, img: imgBufer, backgroundimg: imgBigger })
-
-
-                    setIsMounted(!isMounted)
+            const imgBigger = await blobToBuffer(dataimg)
+            ResizeImg(dataimg, async (newBlob) => {
+                const imgBufer = await blobToBuffer(newBlob)
+                setValues({
+                    ...values, Khoa: currentChooseKhoa,
+                    Class: currentChooseClass.current.value,
+                    Sex: currentChooseSex.current.value,
+                    img: imgBufer,
+                    backgroundimg: imgBigger
                 })
+            })
+            setIsMounted(!isMounted)
 
-            }
         }
         catch (error) {
             console.error(error);
@@ -168,16 +170,7 @@ export default function CreateStudent() {
             required: true,
             title: "Eight or more characters"
         },
-        // {
-        //     id: 5,
-        //     name: "SDT",
-        //     type: "password",
-        //     placeholder: "SDT",
-        //     errorMessage: "Passwords don't match!",
-        //     label: "Confirm Password",
-        //     pattern: values.password,
-        //     required: true,
-        // },
+
         {
             id: 6,
             name: "Address",
@@ -210,89 +203,107 @@ export default function CreateStudent() {
                     <h2>Thêm sinh viên</h2>
                     <form onSubmit={handleSubmit}>
                         <div className="form-control">
-                            <div className="inputForm_row1">
-                                {inputs.map((input, index) => (
+                             <div className="iputForm_colum2">
+                                <div className="avatar_field"
+                                    style={{ height: "200px" }}
+                                >
+                                 
+                                    <input
+                                        type="file"
+                                        name="HinhAnh"
+                                        onChange={imgInput}
+                                        ref={fileInputRef}
+                                        accept="image/png, image/jpeg, image/webp"
+                                        hidden
 
-                                    index < 3 &&
-                                    <FormInput
-                                        key={input.id}
-                                        {...input}
-                                        value={values[input.name]}
-
-                                        onChange={onChange}
-                                    />
-
-
-                                ))}
+                                    >
+                                    </input>
+                                    <img  onClick={() => { fileInputRef.current.click() }} className="avatarImage" src={avatarURL?avatarURL:"./images/defaultAvatar.jpg"} style={{ width: "100px", height: "100px" }} alt="Avatar"></img>
+                                    
+                                </div>
                             </div>
-                            <div className="inputForm_row2">
-                                {inputs.map((input, index) => (
+                            <div className="inputForm_colum1">
+                                <div className="inputForm_row1">
+                                    {inputs.map((input, index) => (
 
-                                    index > 2 &&
-                                    <FormInput
-                                        key={input.id}
-                                        {...input}
-                                        value={values[input.name]}
+                                        index < 3 &&
+                                        <FormInput
+                                            key={input.id}
+                                            {...input}
+                                            value={values[input.name]}
 
-                                        onChange={onChange}
-                                    />
+                                            onChange={onChange}
+                                        />
 
 
-                                ))}
+                                    ))}
+                                </div>
+                                <div className="inputForm_row2">
+                                    {inputs.map((input, index) => (
+
+                                        index > 2 &&
+                                        <FormInput
+                                            key={input.id}
+                                            {...input}
+                                            value={values[input.name]}
+
+                                            onChange={onChange}
+                                        />
+
+
+                                    ))}
+                                </div>
+                                <div className="inputForm_row3">
+
+
+                                    <div className="mb-3">
+                                        <span>Tên khoa</span>
+                                        <select name="Khoa" ref={khoaRef} value={currentChooseKhoa} onChange={handleChooseKhoa} >
+                                            {
+                                                khoa ? khoa.map((tab) => {
+                                                    return (
+                                                        <option key={tab.KhoaID} value={tab.KhoaID} >
+                                                            {tab.KhoaName}
+                                                        </option>
+                                                    )
+                                                }) : <div> ok</div>
+                                            }
+                                        </select>
+                                    </div>
+                                    <div className="mb-3">
+                                        <span>Tên lớp</span>
+                                        <select name="Class" ref={currentChooseClass}>
+                                            {
+                                                classFlowKhoa && classFlowKhoa.map((tab) => {
+                                                    return (
+                                                        <option key={tab.CLASSID} value={tab.CLASSID} >
+                                                            {tab.CLASSNAME}
+                                                        </option>
+                                                    )
+                                                })
+                                            }
+                                        </select>
+                                    </div>
+                                    <div className="mb-3">
+                                        <span>Giới tính</span>
+                                        <select id="sex" name="Sex" ref={currentChooseSex} >
+                                            <option value={"Nữ"}>Nữ</option>
+                                            <option value={"Nam"}>Nam</option>
+                                        </select>
+                                    </div>
+                                    <button className="btn btn-primary">
+                                        Submit
+                                    </button>
+                                </div>
                             </div>
-                            <div className="inputForm_row3">
-                                <div className="mb-3">
-                                    <input type="file" name="img" onChange={imgInput} />
-                                    {avatarURL && <img className="avatarImage" src={avatarURL} style={{ width: "40px", height: "40px" }} alt="Avatar"></img>
-                                    }
-                                </div>
 
-
-                                <div className="mb-3">
-                                    <span>Tên khoa</span>
-                                    <select name="Khoa" ref={khoaRef} value={currentChooseKhoa} onChange={handleChooseKhoa} >
-                                        {
-                                            khoa ? khoa.map((tab) => {
-                                                return (
-                                                    <option key={tab.KhoaID} value={tab.KhoaID} >
-                                                        {tab.KhoaName}
-                                                    </option>
-                                                )
-                                            }) : <div> ok</div>
-                                        }
-                                    </select>
-                                </div>
-                                <div className="mb-3">
-                                    <span>Tên lớp</span>
-                                    <select name="Class" ref={currentChooseClass}>
-                                        {
-                                            classFlowKhoa && classFlowKhoa.map((tab) => {
-                                                return (
-                                                    <option key={tab.CLASSID} value={tab.CLASSID} >
-                                                        {tab.CLASSNAME}
-                                                    </option>
-                                                )
-                                            })
-                                        }
-                                    </select>
-                                </div>
-                                <div className="mb-3">
-                                    <span>Giới tính</span>
-                                    <select id="sex" name="Sex" ref={currentChooseSex} >
-                                        <option value={"Nữ"}>Nữ</option>
-                                        <option value={"Nam"}>Nam</option>
-                                    </select>
-                                </div>
-                                <button className="btn btn-primary">
-                                    Submit
-                                </button>
-                            </div>
+                           
                         </div>
 
 
                     </form>
-                </div>
-            </div>
+                </div >
+            </div >
 
             {/* {
                                     isMounted &&

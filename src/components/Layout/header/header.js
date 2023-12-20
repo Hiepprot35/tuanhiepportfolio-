@@ -6,7 +6,7 @@ import { LogOut } from "../../logout";
 import BlobtoBase64 from '../../../function/BlobtoBase64';
 import './header.css'
 import { motion } from "framer-motion";
-
+import { IsLoading } from '../../Loading';
 import { header_Student } from '../../../lib/data';
 function Header(props) {
     const [weather, setWeather] = useState({
@@ -129,14 +129,13 @@ function Header(props) {
                     <div className="header_home_user">
 
                         {isLoading ? (
-                            <>
-                                <p>Admin</p>
-                                <LogOut />
+                            <IsLoading>
 
-                            </>
+
+                            </IsLoading>
                         ) : (
                             <>
-                                {user &&
+                                {user ?
                                     <>
                                         <div >
                                             {/* <li>
@@ -179,7 +178,8 @@ function Header(props) {
                                             <LogOut />
 
                                         </div>
-                                    </>
+                                    </> : <><p>Admin</p>
+                                        <LogOut /></>
                                 }
 
                             </>

@@ -7,7 +7,6 @@ import { IsLoading } from "./Loading";
 import useAuth from "../hook/useAuth";
 import io from 'socket.io-client';
 import BlobtoBase64 from "../function/BlobtoBase64";
-import DangKiLopHoc from "./dangkihoc/dangkilophoc";
 export default function Home() {
     const navigate = useNavigate();
    
@@ -67,7 +66,6 @@ export default function Home() {
                 setlistMess(data)
             }
             catch (err) {
-                console.log(err);
             }
         }
         senApi()
@@ -130,7 +128,6 @@ export default function Home() {
     }
     // Function để fetch danh sách sinh viên
     const location = useLocation();
-    const user = location.state?.user || {}; // Sử dụng state?.user để tránh lỗi khi state không tồn tại
     const URL = `${process.env.REACT_APP_DB_HOST}/api/getallstudent`;
     let isCancel = false
     const getData = async () => {
@@ -179,15 +176,10 @@ export default function Home() {
         fetchData();
         console.log("ok")
     }, []);
-    const [room, setRoom] = useState()
     useEffect(() => {
         getData()
     }, [AccessToken])
-    const join_room = (room) => {
-
-        setRoom(room)
-
-    }
+    
     document.title = "Home"
     const currentData = posts.slice(startIndex, endIndex)
     const totalPages = Math.ceil(posts.length / DataPerPage);
@@ -195,20 +187,22 @@ export default function Home() {
     const handlePageChange = (page) => {
         setCurrentPage(page);
     };
+    const myRef = useRef(null);
+
     return (
 
         <>
             <Header hash={'/home'} />
-            <div className="container_main">
+            <div className="container_main" >
                 {
-                    isLoading ? <IsLoading></IsLoading> :
-                        <section className="articles">
+                    isLoading ? <IsLoading /> :
+                        <section className="articles"  ref={myRef}>
                             {
 
                                 currentData.map((element, index) => {
                                     return (
 
-                                        <article>
+                                        <article key={index}>
                                             <div className="article-wrapper">
                                                 <a href={`/profile/${element.MSSV}`}>
 
@@ -231,7 +225,7 @@ export default function Home() {
                                                    <span onClick={() => LinkToMess(element.MSSV)} className="read-more">
                                                         Message <span className="sr-only">about this is some title</span>
                                                         <svg xmlns="http://www.w3.org/2000/svg" className="icon" viewBox="0 0 20 20" fill="currentColor">
-                                                            <path fill-rule="evenodd" d="M12.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-2.293-2.293a1 1 0 010-1.414z" clip-rule="evenodd" />
+                                                            <path fillRule="evenodd" d="M12.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-2.293-2.293a1 1 0 010-1.414z" clipRule="evenodd" />
                                                         </svg>
                                                     </span>:
                                                 <button className="play_in_cheo" onClick={() => { handleAddChat(element.MSSV) }}> add to message</button>

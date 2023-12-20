@@ -1,6 +1,6 @@
 .message {
     display: flex;
-    margin-top: 20px;
+    margin-top: 10px;
     
 }
 .Mess_seen_text {
@@ -68,14 +68,16 @@
 .Mess_seen_text
 {
     display: flex;
+    align-items: center;
 }
 .messageBottom {
     border-radius: 10px;
     color: white !important;
     font-size: 0.7rem;
     transition: 0.1s linear;
+    padding: 0.5rem;
+    height: 80%;
     visibility: var(--opacityhover);
-    padding: 0.3rem;
     background-color: rgba(141, 141, 141, 0.712);
     
 }

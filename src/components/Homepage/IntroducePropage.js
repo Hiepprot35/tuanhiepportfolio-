@@ -29,24 +29,23 @@ export default function IntroduceProPage() {
                 <motion.section ref={scrollElement} className="img_left"
                 >
 
-                    <img alt="HolmesThinking" src="https://scontent.fsgn2-8.fna.fbcdn.net/v/t1.15752-9/375017206_953787909026543_7249771653964473840_n.png?_nc_cat=102&ccb=1-7&_nc_sid=ae9488&_nc_ohc=EQQkeMUl9zwAX9QpGCQ&_nc_ht=scontent.fsgn2-8.fna&oh=03_AdQkbG-6f6UJ9oJ-47rePyzlHb6Y1v2fqc19wxNil7xWfw&oe=6522F3FD"></img>
+                    <img alt="HolmesThinking" src="./images/holmes.png"></img>
                 </motion.section>
 
                 <h2 style={{ fontWeight: "600", fontSize: "2rem", margin: "2rem" }}>About me</h2>
                 <p>
                     <span>
-                        In the quiet, smoke-filled air of Sherlock Holmes' room, I sat across from him, fingers pressed
-
+                       Hello, my name is Doan Tuan Hiep. Now, I'm senior student at Thuy Loi University. My major is developer softwave.
+                       Desires employment with Company as a Website Developer Intern
                     </span>
                     <span>
-                        around a warm teacup, reflecting on the mysterious cases he had solved. With his keen countenance and sharp gaze, Holmes could unravel the most baffling of enigmas.
+                        .I like playing football and watching films. I love books and my favorite character is Holmes
                     </span>
                 </p>
                 <p>
 
                     <span style={{ textIndent: "20px" }}>
-                       He employed acute reasoning and meticulous observation to crack every case, and I often wondered just how many more mysteries
-                        lay hidden behind his seemingly ordinary demeanor.
+                       Hope in future, I'll be a good programmer.
                     </span>
                 </p>
             </motion.div>

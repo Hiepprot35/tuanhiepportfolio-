@@ -1,11 +1,11 @@
 .column_form {
     display: flex;
-    width: 50% ;
+    width: 50%;
     background-color: rgba(255, 255, 255, 0.501) !important;
     justify-content: center;
     flex-direction: column;
     align-items: center;
-    margin-top:7vh;
+    margin-top: 7vh;
 }
 
 .form- :focus {
@@ -27,4 +27,11 @@
 
 .CreateStudentForm {
     left: 20px;
+}
+
+.avatar_field {}
+
+.avatarImage:hover {
+    cursor: pointer;
+    border: white;
 }

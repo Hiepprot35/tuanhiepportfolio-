@@ -3,7 +3,29 @@ import { Link } from "react-scroll"
 import { useSectionInView } from "../../hook/useSectionInView";
 export default function AboutPropage() {
     const { ref } = useSectionInView("Home");
+    const data = [
+        // {
 
+        //     prop: "Name",
+        //     value: "Đoàn Tuấn Hiệp"
+        // },
+        {
+            prop: "Gender",
+            value: "Male"
+        },
+        {
+            value: "24/07/2001",
+            prop: "Birthday"
+        },
+        {
+            value: "tansou57@gmail.com",
+            prop: "Email"
+        },
+        {
+            prop:"Phone-number",
+            value:"0348912547"
+        }
+    ]
     return (
         <section id="#home" ref={ref}>
             <div className="Introduce_proPage">
@@ -19,7 +41,7 @@ export default function AboutPropage() {
 
                     <img className='avatarImage'
                         style={{ width: "60px ", height: "60px", border: "4px solid white" }}
-                        src='https://scontent.fsgn2-5.fna.fbcdn.net/v/t1.15752-9/373347575_1724462531308571_5612534916686046992_n.jpg?_nc_cat=106&ccb=1-7&_nc_sid=ae9488&_nc_ohc=g4IbOChrXEMAX9B5Pft&_nc_ht=scontent.fsgn2-5.fna&oh=03_AdSMnZDs8Ztt567VLGoulgBe17-rl6Yd1SnkA3Zd4OJ5ZQ&oe=6520E62A'
+                        src='./images/avatar.jpg' alt="Avatar"
                     ></img>
                 </motion.div>
             </div>
@@ -30,11 +52,21 @@ export default function AboutPropage() {
             >
                 <div>
 
-                    <span className='Hello_text'>Hello, I'm </span>
-                    <span className='Hello_text' style={{ fontWeight: "bold" }}>
-                        <i>
-                            Hiep Yugi
-                        </i>
+                    <span className='Hello_text'><big>
+                        Hello, I'm Doan Tuan Hiep
+                        </big>
+                        </span>
+                    <span className='Hello_text'>
+                        <ul style={{ display: "block" }}>
+                            {data.map((e, i) => (
+
+                                <li >{e.prop}: <span  style={{ fontWeight: "600" }}>
+
+                                    {e.value}
+                                </span>
+                                </li>
+                            ))}
+                        </ul>
                     </span>
                 </div>
                 <div>

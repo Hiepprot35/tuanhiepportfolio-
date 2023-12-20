@@ -1,27 +1,26 @@
 import { useState, useEffect, useRef } from "react";
 import BlobtoBase64 from "../../function/BlobtoBase64";
 import './message.css';
-import getTime from "../../function/getTime";
+import * as timeUse from "../../function/getTime";
 import { IsLoading } from "../Loading";
 export default function Message({ message, own, student, Online, listSeen }) {
     const time = useRef(null)
     const seen_text = useRef(null)
     const ListusersOnline = Online && Online.map(item => item.userId) || [];
- 
+    const messageRef = useRef(null)
+    useEffect(()=>{
+        console.log(message)
+    },[])
     return (
         <>
-          
-            <div className="containerMessage">
+            <div className="containerMessage" ref={messageRef}>
 
                 {
                     message ?
-
-
                         <div className={own ? "message own" : "message"}>
                             { }
                             <div className="Mess_seen_container">
                                 <div className="messageTop">
-
                                     {
                                         !own &&
                                         student?.img && message.content !== null &&
@@ -41,7 +40,7 @@ export default function Message({ message, own, student, Online, listSeen }) {
                                         message.content != null ?
                                             <div className="Mess_seen_text">
                                                 <p className="messageText">{message.content}</p>
-                                                <p className="messageBottom" ref={time}>{getTime(message.created_at)}</p>
+                                                <p className="messageBottom" ref={time}>{timeUse.getTime(message.created_at)}</p>
 
                                             </div>
                                             : <></>
@@ -49,19 +48,20 @@ export default function Message({ message, own, student, Online, listSeen }) {
                                     }
                                 </div>
                                 {
-                                   student && message?.id === listSeen?.id && listSeen &&
+                                    student && message?.id === listSeen?.id && listSeen &&
 
-                                    <div className="Seen_field">
-                                        <img                                       
-                                            className="avatarImage"
-                                            style={{ width: "20px", height: "20px" }}
-                                            src={`${BlobtoBase64(student?.img)}`} alt="sender" />
-                                        <p ref={seen_text} style={{ fontSize: "0.9rem", color: "gray" }} >
-                                            Seen at {getTime(listSeen?.Seen_at)}
-                                        </p>
+                                        <div className="Seen_field">
+                                            <img
+                                                className="avatarImage"
+                                                style={{ width: "20px", height: "20px" }}
+                                                src={`${BlobtoBase64(student?.img)}`} alt="sender" />
+                                            <p ref={seen_text} style={{ fontSize: "0.9rem", color: "gray" }} >
+                                                Seen at {timeUse.getTime(listSeen?.Seen_at)}
+                                            </p>
 
 
-                                    </div>
+                                        </div>
+                                        
                                 }
                             </div>
 

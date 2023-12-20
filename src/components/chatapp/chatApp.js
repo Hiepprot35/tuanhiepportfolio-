@@ -1,37 +1,90 @@
 import React, { useEffect, useState, useRef } from 'react';
+import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
 import io from 'socket.io-client';
 import useAuth from '../../hook/useAuth';
 import BlobtoBase64 from '../../function/BlobtoBase64';
 import Header from '../Layout/header/header';
-import { useRefresh } from "../../hook/useRefresh";
-import UseToken from '../../hook/useToken';
-import { IsLoading } from '../Loading';
 import './chatApp.css'
 import Conversation from '../conversation/conversations';
 import Message from '../message/Message';
 import getTime from '../../function/getTime';
 const ChatApp = ({ messageId }) => {
   document.title = "Message"
+  const messageScroll = useRef(null)
   const inputMess = useRef()
-  const { AccessToken, setAccessToken } = UseToken();
   const [guestImg, setGuestImg] = useState();
   const { auth } = useAuth()
   const chatboxRef = useRef(null)
   const [MSSVReceived, setMSSVReceived] = useState()
   const [isLoading, setIsLoading] = useState(true)
-  const [user, setUser] = useState()
+  const [visibleMessages, setVisibleMessages] = useState([]);
   const [conversations, setConversation] = useState([])
-  const refreshAccessToken = useRefresh()
   const [currentChat, setCurrentChat] = useState(null);
   const [arrivalMessage, setArrivalMessage] = useState(null);
-  const ChoosenUser = useRef()
   const [userSeenAt, setuserSeenAt] = useState()
   const [clicked, setClicket] = useState(false)
   const [onlineUser, setOnlineUser] = useState()
   const [messages, setMessages] = useState([]);
   const [seenMess, setSeenMess] = useState([])
+  const [scrollPercentage, setScrollPercentage] = useState(0);
+  const [getMessScroll, setGetMessScroll] = useState(1)
   const [isSeen, setisSeen] = useState(false)
-  const data = []
+
+  const handleScroll = () => {
+    if (messageScroll.current) {
+      const element = messageScroll.current;
+      const scrollTop = element.scrollTop;
+      const scrollHeight = element.scrollHeight;
+      const clientHeight = element.clientHeight;
+      const percentage = (scrollTop / (scrollHeight - clientHeight)) * 100;
+      setScrollPercentage(percentage);
+    }
+  };
+  useEffect(() => {
+    // Hiển thị 10 tin nhắn mới nhất ban đầu
+    setVisibleMessages(messages.slice(messages.length-15, messages.length));
+  }, [messages]);
+  useEffect(() => {
+    const element = messageScroll.current;
+    if (element) {
+      element.addEventListener('scroll', handleScroll);
+
+      return () => {
+        element.removeEventListener('scroll', handleScroll);
+      };
+    }
+  }, [currentChat, messages]);
+  useEffect(() => {
+
+  }, [])
+
+  useEffect(() => {
+    if ( messageScroll.current) {
+      const element = messageScroll.current;
+      const scrollHeight = element.scrollHeight;
+      const clientHeight = element.clientHeight;
+      console.log(clientHeight)
+      element.scrollTop = scrollHeight;
+    }
+  }, [messages]);
+  const loadMoreMessages = () => {
+    const currentlyVisibleCount = visibleMessages.length;
+    const messagesToLoad = 1;
+    const startIndex = messages.length - currentlyVisibleCount;
+    const endIndex = startIndex - messagesToLoad;
+    console.log(endIndex,"-",startIndex)
+    if (endIndex >= 0) {
+      
+      const newVisibleMessages = messages.slice(endIndex, startIndex);
+      setVisibleMessages([...newVisibleMessages, ...visibleMessages]);
+    }
+  };
+  useEffect(() => {
+    if (scrollPercentage < 10) {
+      console.log("oke")
+      loadMoreMessages();
+    }
+  }, [scrollPercentage])
   useEffect(() => {
     if (messageId) {
       const senApi = async () => {
@@ -57,7 +110,6 @@ const ChatApp = ({ messageId }) => {
   let isCancel = false
   const ListusersOnline = onlineUser && onlineUser.map(item => item.userId) || [];
   const ClickChat = (data) => {
-    console.log(data)
     setCurrentChat(data);
   }
   useEffect(() => {
@@ -121,6 +173,7 @@ const ChatApp = ({ messageId }) => {
     const sendSocket = {
       sender_id: auth.userID,
       receiverId,
+      isSeen: true,
     }
     socket.current.emit("UserSeen", sendSocket)
   }
@@ -156,6 +209,7 @@ const ChatApp = ({ messageId }) => {
         setMessages((prev) => [...prev, arrivalMessage]);
     }
   }, [arrivalMessage, currentChat]);
+  const data = []
   useEffect(() => {
     const getConversation = async () => {
       const URL = `${process.env.REACT_APP_DB_HOST}/api/conversations/${auth.userID}`
@@ -163,10 +217,10 @@ const ChatApp = ({ messageId }) => {
 
         const res = await fetch(URL,
           {
-            method: "GET",
+            method: "get",
             headers: {
               'Content-Type': 'application/json',
-            }
+            },
           })
 
         const respon = await res.json();
@@ -189,7 +243,6 @@ const ChatApp = ({ messageId }) => {
         const getMess = await res.json();
         setuserSeenAt(getMess)
       } catch (error) {
-        console.log(error)
       }
 
     }
@@ -256,39 +309,51 @@ const ChatApp = ({ messageId }) => {
     }
   };
   useEffect(() => {
+    console.log(getMessScroll)
+
+  }, [getMessScroll])
+  useEffect(() => {
     const getMessages = async () => {
-      try {
-        const res = await fetch(`${process.env.REACT_APP_DB_HOST}/api/message/${currentChat?.id}`);
-        setMessages(await res.json());
-      } catch (err) {
-        console.log(err);
-      }
-    };
+      if (currentChat) {
+
+
+        try {
+          const res = await fetch(`${process.env.REACT_APP_DB_HOST}/api/message/${currentChat?.id}`,
+            {
+              method: "POST",
+              headers: {
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify({ "count": getMessScroll })
+            }
+          );
+          const data = await res.json()
+          console.log(data)
+          setMessages(data);
+
+        } catch (err) {
+          console.log(err);
+        }
+      };
+    }
     getMessages();
-  }, [currentChat]);
+  }, [currentChat, getMessScroll]);
   useEffect(() => {
     let receiverId;
     const user12 = [currentChat?.user1, currentChat?.user2];
     currentChat?.user1 !== currentChat?.user2 ? receiverId = user12.find((member) => member !== auth.userID) : receiverId = auth.userID;
     const getUser = async () => {
       try {
-        console.log(receiverId)
         const res = await fetch(`${process.env.REACT_APP_DB_HOST}/api/username?id=${receiverId}`);
         const data2 = await res.json();
         setMSSVReceived(data2);
-        console.log(data2)
       } catch (err) {
         console.log(err);
       }
     };
     getUser();
   }, [currentChat]);
-  useEffect(() => {
-    chatboxRef.current && chatboxRef.current.scrollTo({
-      top: chatboxRef.current.scrollHeight,
-      behavior: 'smooth', // Tạo hiệu ứng cuộn mượt
-    }) || <div>cac</div>
-  }, [messages]);
+
   const [searchTerm, setSearchTerm] = useState('');
   const [searchResults, setSearchResults] = useState([]);
 
@@ -317,6 +382,7 @@ const ChatApp = ({ messageId }) => {
 
     }
   };
+  // useEffect(()=>{console.log(currentChat)},[currentChat])
   useEffect(() => {
     if (searchTerm) {
 
@@ -326,9 +392,7 @@ const ChatApp = ({ messageId }) => {
       setSearchResults(result)
     }
   }, [searchTerm])
-  useEffect(() => {
-    console.log(searchResults)
-  }, [searchResults])
+
   return (
     <>
       <Header hash={"/message"}></Header>
@@ -341,7 +405,9 @@ const ChatApp = ({ messageId }) => {
                 className="chatMenuInput"
                 onChange={(e) => handleSearch(e)}
               />
-              {clicked ? (
+              {clicked ? 
+                (
+               
                 searchResults.map((c, index) => (
                   <div
                     onClick={() => {
@@ -351,6 +417,7 @@ const ChatApp = ({ messageId }) => {
                     className='converrsation_chat'
                     style={currentChat === c ? { backgroundColor: "rgb(245, 243, 243)" } : {}}
                   >
+                    
                     <Conversation
                       conversation={c}
                       currentUser={auth.userID}
@@ -363,26 +430,27 @@ const ChatApp = ({ messageId }) => {
                 ))
               ) : (
                 conversations &&
-                Array.isArray(conversations) &&
-                conversations.length !== 0 &&
                 conversations.map((c, index) => (
-                  <div
-                    onClick={() => {
-                      ClickChat(c);
-                    }}
-                    key={index}
-                    className='converrsation_chat'
-                    style={currentChat === c ? { backgroundColor: "rgb(245, 243, 243)" } : {}}
-                  >
-                    <Conversation
-                      conversation={c}
-                      currentUser={auth.userID}
-                      Arrivalmess={arrivalMessage}
-                      mess={messages.length}
-                      Online={onlineUser}
-                      listSeen={isSeen}
-                    />
-                  </div>
+                  <Link key={index} to={`/message/${c.user1 === auth.userID ? c.user2 : c.user1}`}>
+                    <div
+                      onClick={() => {
+                        ClickChat(c);
+                      }}
+                      key={index}
+                      className='converrsation_chat'
+                      style={currentChat && currentChat?.id === c.id ? { backgroundColor: "rgb(245, 243, 243)" } : {}}
+                    >
+                      <Conversation
+                        conversation={c}
+                        currentUser={auth.userID}
+                        Arrivalmess={arrivalMessage}
+                        mess={messages.length}
+                        Online={onlineUser}
+                        listSeen={isSeen}
+                      />
+                    </div>
+                  </Link>
+
                 ))
               )}
 
@@ -415,10 +483,10 @@ const ChatApp = ({ messageId }) => {
                               }
                             </a>
                           </div>
-                          <div className='Body_Chatpp'>
-                            <div className='ChatApp' ref={chatboxRef}>
-                              <div className='ChatApp_text'>
-                                {messages.map((message, index) => (
+                          <div className='Body_Chatpp' >
+                            <div className='ChatApp' >
+                              <div className='ChatApp_text' ref={messageScroll}>
+                                {visibleMessages.map((message, index) => (
                                   <div className='message_content' key={index}>
                                     <Message key={index} message={message}
                                       my={auth.userID} own={message.sender_id === auth.userID} student={guestImg} Online={onlineUser} seen={seenMess} listSeen={userSeenAt} ></Message>
@@ -454,7 +522,6 @@ const ChatApp = ({ messageId }) => {
                     }
                   </>
               }
-
             </div>
           </div>
         </>

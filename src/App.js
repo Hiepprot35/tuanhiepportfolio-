@@ -44,20 +44,11 @@ function App() {
         // Xử lý lỗi nếu cần
       }
     }
-
-
     fetchData();
-
-
   }, []);
   if (isLoading) {
     return <IsLoading></IsLoading>
   }
-
-
-
-
-
   if (!isLoading) {
     if (AccessToken) {
       if (auth.role === 1) {
@@ -103,11 +94,8 @@ function App() {
     }
     else {
         return (
-
-
           <Routes>
-
-            <Route path="*" element={<Navigate to="/"></Navigate>} />
+            {/* <Route path="*" element={<Navigate to="/"></Navigate>} /> */}
             {/* <Route path="*" element={<IsLoading />} /> */}
 
             <Route path="/login" element={<Login setAccessToken={setAccessToken} setIsLogin={setIsLogin} />} />
