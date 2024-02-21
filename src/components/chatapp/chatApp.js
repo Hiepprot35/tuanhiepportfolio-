@@ -30,61 +30,61 @@ const ChatApp = ({ messageId }) => {
   const [getMessScroll, setGetMessScroll] = useState(1)
   const [isSeen, setisSeen] = useState(false)
 
-  const handleScroll = () => {
-    if (messageScroll.current) {
-      const element = messageScroll.current;
-      const scrollTop = element.scrollTop;
-      const scrollHeight = element.scrollHeight;
-      const clientHeight = element.clientHeight;
-      const percentage = (scrollTop / (scrollHeight - clientHeight)) * 100;
-      setScrollPercentage(percentage);
-    }
-  };
-  useEffect(() => {
-    // Hiển thị 10 tin nhắn mới nhất ban đầu
-    setVisibleMessages(messages.slice(messages.length-15, messages.length));
-  }, [messages]);
-  useEffect(() => {
-    const element = messageScroll.current;
-    if (element) {
-      element.addEventListener('scroll', handleScroll);
+  // const handleScroll = () => {
+  //   if (messageScroll.current) {
+  //     const element = messageScroll.current;
+  //     const scrollTop = element.scrollTop;
+  //     const scrollHeight = element.scrollHeight;
+  //     const clientHeight = element.clientHeight;
+  //     const percentage = (scrollTop / (scrollHeight - clientHeight)) * 100;
+  //     setScrollPercentage(percentage);
+  //   }
+  // };
+  // useEffect(() => {
+  //   // Hiển thị 10 tin nhắn mới nhất ban đầu
+  //   setVisibleMessages(messages.slice(messages.length-15, messages.length));
+  // }, [messages]);
+  // useEffect(() => {
+  //   const element = messageScroll.current;
+  //   if (element) {
+  //     element.addEventListener('scroll', handleScroll);
 
-      return () => {
-        element.removeEventListener('scroll', handleScroll);
-      };
-    }
-  }, [currentChat, messages]);
-  useEffect(() => {
+  //     return () => {
+  //       element.removeEventListener('scroll', handleScroll);
+  //     };
+  //   }
+  // }, [currentChat, messages]);
+  // useEffect(() => {
 
-  }, [])
+  // }, [])
 
-  useEffect(() => {
-    if ( messageScroll.current) {
-      const element = messageScroll.current;
-      const scrollHeight = element.scrollHeight;
-      const clientHeight = element.clientHeight;
-      console.log(clientHeight)
-      element.scrollTop = scrollHeight;
-    }
-  }, [messages]);
-  const loadMoreMessages = () => {
-    const currentlyVisibleCount = visibleMessages.length;
-    const messagesToLoad = 1;
-    const startIndex = messages.length - currentlyVisibleCount;
-    const endIndex = startIndex - messagesToLoad;
-    console.log(endIndex,"-",startIndex)
-    if (endIndex >= 0) {
+  // useEffect(() => {
+  //   if ( messageScroll.current) {
+  //     const element = messageScroll.current;
+  //     const scrollHeight = element.scrollHeight;
+  //     const clientHeight = element.clientHeight;
+  //     console.log(clientHeight)
+  //     element.scrollTop = scrollHeight;
+  //   }
+  // }, [messages]);
+  // const loadMoreMessages = () => {
+  //   const currentlyVisibleCount = visibleMessages.length;
+  //   const messagesToLoad = 1;
+  //   const startIndex = messages.length - currentlyVisibleCount;
+  //   const endIndex = startIndex - messagesToLoad;
+  //   console.log(endIndex,"-",startIndex)
+  //   if (endIndex >= 0) {
       
-      const newVisibleMessages = messages.slice(endIndex, startIndex);
-      setVisibleMessages([...newVisibleMessages, ...visibleMessages]);
-    }
-  };
-  useEffect(() => {
-    if (scrollPercentage < 10) {
-      console.log("oke")
-      loadMoreMessages();
-    }
-  }, [scrollPercentage])
+  //     const newVisibleMessages = messages.slice(endIndex, startIndex);
+  //     setVisibleMessages([...newVisibleMessages, ...visibleMessages]);
+  //   }
+  // };
+  // useEffect(() => {
+  //   if (scrollPercentage < 10) {
+  //     console.log("oke")
+  //     loadMoreMessages();
+  //   }
+  // }, [scrollPercentage])
   useEffect(() => {
     if (messageId) {
       const senApi = async () => {
@@ -486,7 +486,7 @@ const ChatApp = ({ messageId }) => {
                           <div className='Body_Chatpp' >
                             <div className='ChatApp' >
                               <div className='ChatApp_text' ref={messageScroll}>
-                                {visibleMessages.map((message, index) => (
+                                {messages.map((message, index) => (
                                   <div className='message_content' key={index}>
                                     <Message key={index} message={message}
                                       my={auth.userID} own={message.sender_id === auth.userID} student={guestImg} Online={onlineUser} seen={seenMess} listSeen={userSeenAt} ></Message>
@@ -511,7 +511,7 @@ const ChatApp = ({ messageId }) => {
                                 </div>
                                 <div className='button_field'>
                                   {
-                                    <button className='play_in_cheo' onClick={handleSubmit} >Send</button>
+                                    <button className='play_in_cheo' onInvalid={inputMess?true:false} onClick={handleSubmit} >Send</button>
                                   }
                                 </div>
                               </div>

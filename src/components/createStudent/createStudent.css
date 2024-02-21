@@ -29,7 +29,13 @@
     left: 20px;
 }
 
-.avatar_field {}
+.avatar_field {
+
+    height: 200px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
 
 .avatarImage:hover {
     cursor: pointer;

@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { Buffer } from "buffer";
 import { useRefresh } from "../../hook/useRefresh";
 import UseToken from "../../hook/useToken";
+import { ConfirmDialog } from "../confirmComponent/confirm";
 import Header from "../Layout/header/header";
 import useAuth from '../../hook/useAuth'
 import FormInput from "../Layout/FormInput/FormInput";
@@ -28,8 +29,9 @@ export default function CreateStudent() {
     const password = useRef()
     const currentChooseClass = useRef(null)
     const currentChooseSex = useRef(null)
-    const [currentChooseKhoa, setCurrentChooseKhoa] = useState();
+    const [currentChooseKhoa, setCurrentChooseKhoa] = useState(1);
     const { auth } = useAuth()
+    const [messRes, setMessRes] = useState();
     const [khoa, setKhoa] = useState();
     const { AccessToken, setAccessToken } = UseToken();
     const [isMounted, setIsMounted] = useState(false)
@@ -87,7 +89,14 @@ export default function CreateStudent() {
                 body: JSON.stringify(data)
             });
 
-            const resJson = await res.json()
+            const resJson = await res.json();
+            if (resJson.status == 200) {
+                setIsMounted(false);
+                setMessRes(resJson.message);
+            }
+            setIsMounted(false);
+            setMessRes(resJson.message);
+
 
         } catch (error) {
 
@@ -109,27 +118,29 @@ export default function CreateStudent() {
                     backgroundimg: imgBigger
                 })
             })
-            setIsMounted(!isMounted)
-
+            setIsMounted(true)
         }
         catch (error) {
             console.error(error);
         }
     }
-
-    useEffect(() => { values && sendData(values) }, [isMounted])
-
+    useEffect(() => {
+        messRes && setTimeout(() => {
+            setMessRes(null)
+        }, 1000)
+    }, [messRes])
+    const confirmSubmit = () => {
+        values && sendData(values);
+    }
+    const onCancel = () => {
+        setIsMounted(false);
+    }
     const handleChooseKhoa = (e) => {
-
         setCurrentChooseKhoa(e.target.value)
     }
-
     useEffect(() => {
-        const data2 = classInfo.filter((tab) => tab.KhoaID === parseInt(currentChooseKhoa))
-        setClassFlowKhoa(data2);
-    }, [currentChooseKhoa])
-
-
+        setClassFlowKhoa(classInfo && classInfo.filter((tab) => tab.KhoaID === parseInt(currentChooseKhoa || 1)));
+    }, [classInfo, currentChooseKhoa]);    
     const inputs = [
         {
             id: 1,
@@ -203,11 +214,10 @@ export default function CreateStudent() {
                     <h2>Thêm sinh viên</h2>
                     <form onSubmit={handleSubmit}>
                         <div className="form-control">
-                             <div className="iputForm_colum2">
+                            <div className="iputForm_colum2">
                                 <div className="avatar_field"
                                     style={{ height: "200px" }}
                                 >
-                                 
                                     <input
                                         type="file"
                                         name="HinhAnh"
@@ -215,49 +225,37 @@ export default function CreateStudent() {
                                         ref={fileInputRef}
                                         accept="image/png, image/jpeg, image/webp"
                                         hidden
-
                                     >
                                     </input>
-                                    <img  onClick={() => { fileInputRef.current.click() }} className="avatarImage" src={avatarURL?avatarURL:"./images/defaultAvatar.jpg"} style={{ width: "100px", height: "100px" }} alt="Avatar"></img>
-                                    
+                                    <img onClick={() => { fileInputRef.current.click() }} className="avatarImage" src={avatarURL ? avatarURL : "./images/defaultAvatar.jpg"} style={{ width: "100px", height: "100px" }} alt="Avatar"></img>
                                 </div>
                             </div>
                             <div className="inputForm_colum1">
                                 <div className="inputForm_row1">
                                     {inputs.map((input, index) => (
-
                                         index < 3 &&
                                         <FormInput
                                             key={input.id}
                                             {...input}
                                             value={values[input.name]}
-
                                             onChange={onChange}
                                         />
-
-
                                     ))}
                                 </div>
                                 <div className="inputForm_row2">
                                     {inputs.map((input, index) => (
-
                                         index > 2 &&
                                         <FormInput
                                             key={input.id}
                                             {...input}
                                             value={values[input.name]}
-
                                             onChange={onChange}
                                         />
-
-
                                     ))}
                                 </div>
                                 <div className="inputForm_row3">
-
-
                                     <div className="mb-3">
-                                        <span>Tên khoa</span>
+                                        <span>Tên khoa: </span>
                                         <select name="Khoa" ref={khoaRef} value={currentChooseKhoa} onChange={handleChooseKhoa} >
                                             {
                                                 khoa ? khoa.map((tab) => {
@@ -271,7 +269,7 @@ export default function CreateStudent() {
                                         </select>
                                     </div>
                                     <div className="mb-3">
-                                        <span>Tên lớp</span>
+                                        <span>Tên lớp: </span>
                                         <select name="Class" ref={currentChooseClass}>
                                             {
                                                 classFlowKhoa && classFlowKhoa.map((tab) => {
@@ -285,7 +283,7 @@ export default function CreateStudent() {
                                         </select>
                                     </div>
                                     <div className="mb-3">
-                                        <span>Giới tính</span>
+                                        <span>Giới tính: </span>
                                         <select id="sex" name="Sex" ref={currentChooseSex} >
                                             <option value={"Nữ"}>Nữ</option>
                                             <option value={"Nam"}>Nam</option>
@@ -297,7 +295,7 @@ export default function CreateStudent() {
                                 </div>
                             </div>
 
-                           
+
                         </div>
 
 
@@ -305,11 +303,24 @@ export default function CreateStudent() {
                 </div >
             </div >
 
-            {/* {
-                                    isMounted &&
-                             <SuccessNotification></SuccessNotification>
-                            }    */}
+            {
+                isMounted &&
+                <ConfirmDialog
+                    message="Bạn có chắc chắn muốn thực hiện hành động này?"
+                    onConfirm={confirmSubmit}
+                    onCancel={onCancel}
+                ></ConfirmDialog>
+            }
+            {messRes && (
+                <div className="confirm-dialog noti">
+                    <div className='confirm_layout'>
+                        <p>
+                            {messRes}
+                        </p>
+                    </div>
+                </div>
 
+            )}
         </>
     )
 }

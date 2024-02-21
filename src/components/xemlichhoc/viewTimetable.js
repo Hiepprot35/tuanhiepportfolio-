@@ -119,7 +119,7 @@ useEffect
 },[AllMonHoc])
 return (
   <>
-    <Header hash="/lichhoc"></Header>
+    <Header ></Header>
    {isLoading? <IsLoading></IsLoading>:
     <div className="container_main">
       <div className="TableTime_Schedule">

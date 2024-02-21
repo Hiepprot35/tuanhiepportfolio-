@@ -15,6 +15,7 @@ table ,th,td{
     display: flex;
     flex-direction: column;
     margin-left: 0;
+    align-items: flex-start;
 }
 
 .MonHocCombobox_layout {
@@ -67,4 +68,9 @@ p{
 .activeTrungLich
 {
     background-color: #ff9900b9;
+}
+.dangkihoc_layout
+{
+    display: flex;
+
 }

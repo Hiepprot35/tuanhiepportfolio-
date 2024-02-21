@@ -17,6 +17,7 @@ import { useRefresh } from './hook/useRefresh';
 import ChatApp from './components/chatapp/chatApp';
 import UserProfile from './components/UserProfile/userProfile';
 import UseRfLocal from './hook/useRFLocal';
+import Errorpage from './components/Layout/Errorpage';
 import ProPage from './components/Homepage/proPage';
 import ViewTimetable from './components/xemlichhoc/viewTimetable';
 function App() {
@@ -61,6 +62,7 @@ function App() {
               <Route path="/chat" element={<ChatApp />} />
               <Route path="/home" element={<Home />} />
               <Route path="/message" element={<ChatApp />} />
+              <Route path="/message/:id" element={<MessageRoute />} />
 
               <Route path="/" element={<Navigate to="/home"></Navigate>} />
               <Route path="/create" element={<CreateStudent />} />
@@ -75,7 +77,6 @@ function App() {
           <Routes>
             <Route path="/dangkilop" element={<DangKiLopHoc />} />
             <Route path="/profile/:MSSV" element={<ProfileRoutes />} />
-
             <Route path="/chuongtrinhdaotao" element={<Chuongtrinhdaotao />} />
             <Route element={<RequireAuth allowedRoles={ROLES} />}>
               {/* <Route path="/" element={<Dashboard />} /> */}
@@ -97,9 +98,11 @@ function App() {
           <Routes>
             {/* <Route path="*" element={<Navigate to="/"></Navigate>} /> */}
             {/* <Route path="*" element={<IsLoading />} /> */}
+            <Route path="*" element={<Errorpage/>} />
+            <Route path="/create" element={<CreateStudent />} />
 
             <Route path="/login" element={<Login setAccessToken={setAccessToken} setIsLogin={setIsLogin} />} />
-            <Route path="/" element={<ProPage />} />
+            <Route path="/" element={<Login setAccessToken={setAccessToken} setIsLogin={setIsLogin} />} />
           </Routes>
         )
 

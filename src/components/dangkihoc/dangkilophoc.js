@@ -25,7 +25,6 @@ export default function DangKiLopHoc() {
             );
 
             if (foundElement) {
-                // Nếu tìm thấy phần tử thỏa mãn điều kiện, bạn có thể sử dụng foundElement ở đây.
                 return foundElement
             }
         }
@@ -185,6 +184,7 @@ export default function DangKiLopHoc() {
                     setdsachlop(pre => [...pre, { "CLASSID": respon.CLASSID, "MonHocID": respon.MonHocID }])
                 }
                 else if (sendToApi.status === 200) {
+                    console.log(danhlopdadangky);
                     const newData = danhlopdadangky.filter((element) =>
                         element.CLASSID != e.target.value
                     )
@@ -205,15 +205,19 @@ export default function DangKiLopHoc() {
     }
     return (
         <>
-            <Header hash={"/dangkilop"}></Header>
+            <Header></Header>
             <div className="container_main">
+                <div className='dangkihoc_layout'>
                 <form>
                     <div className="MonHocCombobox_layout">
+                        <div>
+
                         <h4>
                             <strong>
                                 Môn học
                             </strong>
                         </h4>
+                        </div>
                         {
                             loading ? <IsLoading></IsLoading> :
                                 <div className='MonHoc_table' name="monhoc" id="monhoc" >
@@ -254,18 +258,15 @@ export default function DangKiLopHoc() {
                                         Lớp học
                                     </strong>
                                 </h4>
-                                <table>
+                                <table  style={{"width":"100%"}}>
                                     <thead>
-
-
                                     </thead>
                                     <tbody>
                                         {
                                             result && result.map((title, index) => {
                                                 return (
-                                                    < >
-                                                        {console.log(findMonHoc(lichhoc, title))}
-                                                        <tr className={danhlopdadangky.some(monhoc => monhoc?.CLASSID !== title.CLASSID && monhoc?.CLASSID == findMonHoc(lichhoc, title)?.CLASSID) ? "head_table activeTrungLich" : "head_table"} >
+                                                    <div key={index} >
+                                                        <tr key={index} className={danhlopdadangky.some(monhoc => monhoc?.CLASSID !== title.CLASSID && monhoc?.CLASSID == findMonHoc(lichhoc, title)?.CLASSID) ? "head_table activeTrungLich" : "head_table"} >
                                                             <td colSpan={5}>
 
 
@@ -348,9 +349,9 @@ export default function DangKiLopHoc() {
                                                             <td>
                                                                 {title.Ca.map((elementCa, index) => {
                                                                     return (
-                                                                        <>
+                                                                        <div key={index}>
                                                                             <p key={index}>Thứ {elementCa.ThuTrongTuan} Ca {elementCa.CaID % 4 !== 0 ? elementCa.CaID % 4 : 4} ({elementCa.ThoiGianBatDau} đến {elementCa.ThoiGianKetThuc})</p><br />
-                                                                        </>
+                                                                        </div>
                                                                     )
                                                                 })}
                                                             </td>
@@ -358,7 +359,7 @@ export default function DangKiLopHoc() {
                                                             <td></td>
 
                                                         </tr>
-                                                    </>
+                                                    </div>
 
                                                 )
                                             }
@@ -372,7 +373,7 @@ export default function DangKiLopHoc() {
 
                     </div>
                 </form >
-
+                </div>
             </div >
         </>
     )
