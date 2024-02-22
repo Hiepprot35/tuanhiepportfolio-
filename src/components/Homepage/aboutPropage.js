@@ -85,26 +85,24 @@ export default function AboutPropage() {
                 >
                     <span>
 
-                        <Link to="#contact" offset={-50} smooth={true} duration={800} style={{ backgroundColor: "black", margin: "1rem" }}
+                        <Link to="#about" offset={-50} smooth={true} duration={800} style={{ backgroundColor: "black", margin: "1rem" }}
                         >
-                            Contact me here →
+                            About me here →
                         </Link>
 
                     </span>
                     <span>
-
-
-                        <Link to="#contact" offset={-50} smooth={true} duration={800} style={{ background: "white", color: "black" }}>
+                        <a target="_blank" href="https://drive.google.com/file/d/1YqYoGRQsXX6TyB_qvC5Ny82keeR9qiPN/view?usp=sharing" offset={-50} smooth={true} duration={800} style={{ background: "white", color: "black" }}>
                             Download CV
-                        </Link>
+                        </a>
                     </span>
                     <span>
-                        <a className="Icon Facebook" href="https://facebook.com/doyledzvl1">
+                        <a className="Icon Facebook" href="https://facebook.com/tuanhiep2407" target="_blank">
                             <i className="fa fa-facebook"></i>
                         </a>
                     </span>
                     <span>
-                        <a className="Icon Instagram" href="https://facebook.com/doyledzvl1">
+                        <a className="Icon Instagram" href="https://www.instagram.com/tuanhip_/" target="_blank">
                             <i className="fa fa-instagram"></i>
                         </a>
                     </span>
