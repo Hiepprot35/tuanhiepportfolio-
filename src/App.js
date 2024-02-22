@@ -119,7 +119,7 @@ function App() {
 
   }
 
-}
+
 function ProfileRoutes() {
   const { MSSV } = useParams();
 
