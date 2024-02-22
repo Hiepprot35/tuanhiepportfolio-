@@ -32,7 +32,7 @@ export default function ProPage() {
                 <SkillPropage/>
                 <DivineSection></DivineSection>
 
-                <ContactPropage />
+                {/* <ContactPropage /> */}
             </div >
         </div >
 
