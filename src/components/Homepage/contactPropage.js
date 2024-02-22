@@ -1,7 +1,7 @@
 import '../UserProfile/userProfile.css'
 import { useSectionInView } from "../../hook/useSectionInView";
 import { useState } from 'react';
-
+import sendEmail from '../../function/SendEmail';
 export default function ContactPropage() {
     const [email, setEmail] = useState("");
     const [message, setMessage] = useState("");
@@ -13,29 +13,29 @@ export default function ContactPropage() {
     const handleMessageChange = (e) => {
         setMessage(e.target.value);
     };
-    const sendEmail = async () => {
-        try {
-            const data = {
-                "to": email,
-                "subject": 'Prototype',
-                "message": message
+    // const sendEmail = async (email,message) => {
+    //     try {
+    //         const data = {
+    //             "to": email,
+    //             "subject": 'Prototype',
+    //             "message": message
 
-            }
-            const res = await fetch(`${process.env.REACT_APP_DB_HOST}/api/send-email`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(data)
-            })
-            const resApi = await res.json()
-            alert(resApi);
+    //         }
+    //         const res = await fetch(`${process.env.REACT_APP_DB_HOST}/api/send-email`, {
+    //             method: 'POST',
+    //             headers: {
+    //                 'Content-Type': 'application/json'
+    //             },
+    //             body: JSON.stringify(data)
+    //         })
+    //         const resApi = await res.json()
+    //         alert(resApi);
 
-        } catch (error) {
-            console.error("Error sending email: ", error);
-            alert(error);
-        }
-    };
+    //     } catch (error) {
+    //         console.error("Error sending email: ", error);
+    //         alert(error);
+    //     }
+    // };
     return (
 
         <section className="container_input" id='#contact' ref={ref}>
@@ -43,7 +43,7 @@ export default function ContactPropage() {
             <div className="text">
                 Contact me
             </div>
-            <form  onSubmit={sendEmail}>
+            <form  onSubmit={sendEmail(email,message)}>
                
                 <div className="form-row">
                     <div className="input-data">

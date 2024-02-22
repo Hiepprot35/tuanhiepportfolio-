@@ -5,11 +5,15 @@ import FormInput from "../Layout/FormInput/FormInput";
 import './settingAccount.css'
 import { motion } from "framer-motion";
 import PropertyUser from "./propertyUser";
+import { getDate } from "../../function/getTime";
+import SuccessNotification from "../Notification/successNotifi";
 export default function SettingAccount() {
     const [userInfo, setUserInfo] = useState();
     const [inputs, setInputs] = useState();
+    const [saved,setSaved]=useState(false);
     const [clicked, setClicked] = useState(false);
     const [choosenProperty, setChoosenProperty] = useState({ key: "", value: "" })
+    const [messRes,setMessRes]=useState();
     const { auth } = useAuth();
     useEffect(() => {
         const getData = async (data) => {
@@ -26,6 +30,26 @@ export default function SettingAccount() {
         getData()
     }
         , [])
+    async function updateUser(proterty)
+    {
+        try {
+          const res=await fetch(`${process.env.REACT_APP_DB_HOST}/api/UpdateUserID/`,
+          {
+            method:"POST",
+            headers:{
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(proterty)
+          })
+          const resJson=await res.json()
+          setMessRes(resJson.message)
+        } catch (error) {
+         console.log(error)   
+        }
+    }
+    useEffect(()=>{saved && updateUser(userInfo)
+    setSaved(false);
+    },[saved,userInfo])
     useEffect(() => {
         if (userInfo) {
 
@@ -63,31 +87,44 @@ export default function SettingAccount() {
                                     }}>
                                         <div className="property_user" onClick={() => clickProperty(e)}>
 
-                                                <div style={{display:"flex"}}>
-                                                    <div>
-                                                        {e.key}
-                                                    </div>
-                                                    <div>
-                                                        {e.value}
-                                                    </div>
-                                                </div>
+                                            <div style={{ display: "flex" }}>
                                                 <div>
-                                                    <p>--</p>
+                                                    {e.key}
                                                 </div>
+
                                             </div>
+                                            <div>
+                                                <div>
+                                                    {e.key==="Birthday" ?getDate(e.value):e.value}
+                                                </div>                                       
+                                                         </div>
+                                        </div>
 
                                         <br></br>
                                     </div>
                                 )
                             ))
                         }
+                         <div className=" layout1" style={{
+                                        display: "flex",
+                                        alignItems: "center",
+                                        justifyContent: "space-around",
+                                    }}>
+                                        <div className="property_user" >
+                                        <div style={{ display: "flex" }}>
+                                        <input type="checkbox" id="myCheck" ></input><p>Xác thực email</p>
+                                        </div>
+                                        </div>
+                                    </div>
+                      
                     </div>
                     {clicked && choosenProperty &&
-                        <PropertyUser propertyUser={choosenProperty} setClicked={setClicked}></PropertyUser>
+                        <PropertyUser propertyUser={choosenProperty} setUserInfo={setUserInfo} setSaved={setSaved} setClicked={setClicked}></PropertyUser>
                     }
                 </div>
 
             </div >
+           <SuccessNotification messRes={messRes} setMessRes={setMessRes}></SuccessNotification>
         </>
     )
 }

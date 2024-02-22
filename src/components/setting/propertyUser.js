@@ -1,8 +1,51 @@
 import { motion } from "framer-motion"
+import { useState,useEffect,useRef } from "react"
+import { getDate } from "../../function/getTime";
 export default function PropertyUser(props) {
-    return (
+    const [property, setProperty] = useState(props.propertyUser.value);
+    const label_property=useRef(null);
+    const button_save=useRef(null);
+    function clickFocusProperty(){
+        if(label_property.current)
+        {
+            label_property.current.classList.add("click_property");
+        }
+    }
+    function outClick()
+    {
+        if(label_property.current)
+        {
 
+            label_property.current.classList.remove("click_property");
 
+        }
+    }
+    function saveUserProperty()
+    {
+        props.setUserInfo((value) => {
+            return {
+              ...value,
+              [props.propertyUser.key]: property
+            };
+          });
+          props.setClicked(false);
+          props.setSaved(true);
+        }
+    useEffect(() => {
+       if(button_save.current)
+       {
+        if(property!==props.propertyUser.value)
+        {
+
+            button_save.current.classList.add("invaild_ButtonSave")
+            
+        }
+        else
+        button_save.current.classList.remove("invaild_ButtonSave")
+
+       }
+      }, [property]);
+          return (
         <>
             <div className="layout_filter">
                 <motion.div
@@ -31,22 +74,37 @@ export default function PropertyUser(props) {
                         </svg>
 
                     </div>
-                    <div className="div-label">
-
-                        <label className="Label_property">
-                            <span className="Span_property">
-                                <span className="span_left"></span>
-                                <span className="spanWithName">
-                                    <span className="spanChildWithName">{props.propertyUser.key}</span>
-                                </span>
-                                <span className="span2"></span>
-                            </span>
-                        </label>
-                    </div>
-                    <input
+                    <div className="div-label" ref={label_property}>
+                    <label className="Label_property">
+                        <span className="Span_property">
+                        <span className="span_left"></span>
+                        <span className="spanWithName">
+                            <span className="spanChildWithName">{props.propertyUser.key}</span>
+                        </span>
+                        <span className="span2"></span>
+                        </span>
+                        <input
+                        style={{ width: "100%" }}
+                        onClick={(e)=>{clickFocusProperty()}}
+                        onBlur={(e)=>{outClick()}}
                         className="input_property"
-                        value={props.propertyUser.value}
-                    ></input>
+                        type={props.propertyUser.key === "Birthday" ? "date" : "text"}
+                        value={
+                            props.propertyUser.key === "Birthday"
+                            ? getDate(property)
+                            : property
+                        }
+                        onChange={
+                            props.propertyUser.key === "MSSV"
+                            ? null
+                            : (e) => setProperty(e.target.value )
+                        }
+                        />
+                    </label>
+                    </div>
+
+                   
+                    <button ref={button_save} onClick={(e)=>saveUserProperty()}> Lưu </button>
                 </motion.div>
             </div>
         </>

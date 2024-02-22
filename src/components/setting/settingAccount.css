@@ -6,7 +6,11 @@
     flex-direction: column;
     align-items: center;
 }
-
+.setting_property
+{
+    --propertycolor:rgb(3, 3, 3);
+    --border_height_span:.03rem;
+}
 .layout1 {
     --widthBefore: 1rem
 }
@@ -16,7 +20,10 @@
     border-radius: 0.3rem;
     width: 60%;
 }
-
+.input_property:focus
+{
+    --propertycolor:red;
+}
 .property_user,
 .layout1 {
     width: 100%;
@@ -79,7 +86,12 @@
     transition: 75ms ease-out;
 
 }
-
+.click_property span
+{
+    color: rgb(158, 234, 237);
+    --border_height_span:0.1rem;
+    border-color: rgb(138, 240, 228);
+}
 .layout_filter {
     background-color: rgba(121, 122, 124, 0.338);
     width: 100vw;
@@ -99,11 +111,32 @@
     position: absolute;
     transition: 200ms linear;
     inset: 0;
-    border-bottom: 1.5px solid rgba(102, 100, 100, 0.329);
+    border-bottom: var(--border_height_span) solid rgba(102, 100, 100, 0.329);
     margin-left: var(--widthBefore);
 
 }
-
+.setting_property button
+{
+    position: absolute;
+    right: 1rem;
+    bottom: 0.7rem;
+    border: none;
+    border-radius: 1rem;
+    background-color: rgb(157, 160, 160);
+    width: 50px;
+    color: rgb(99, 98, 98);
+    font-weight: 600;
+    height: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+.invaild_ButtonSave
+{
+    background-color: rgb(150, 233, 241) !important;
+    color: white !important; 
+}
 .div-label {
     height: 3rem;
     width: 100%;
@@ -120,6 +153,7 @@
     display: -webkit-box;
     display: -webkit-flex;
     /* display: flex; */
+    border-color:var(--propertycolor);
     position: absolute;
     /* top: 0; */
     /* right: 0; */
@@ -135,15 +169,15 @@
 .span_left
 {
     width: 1rem;
-    border-left: 1px solid black;
-    border-top-left-radius: 0.2rem;
-    border-bottom-left-radius: 0.2rem;
-
+    border-left:  var(--border_height_span) solid var(--propertycolor);
+    border-top-left-radius: .3rem    ;
+    border-bottom-left-radius: .3rem;
 }
 .span_left,.span2,.spanWithName
 {
-    border-top:1px solid black ;
-    border-bottom: 1px solid black ;
+    border-top: var(--border_height_span) solid var(--propertycolor) ;
+    border-bottom:  var(--border_height_span) solid var(--propertycolor) ;
+    
 }
 .spanWithName
 {
@@ -152,13 +186,23 @@
 }
 .span2
 {
-    border-right: 1px solid black;
+    border-right:  var(--border_height_span) solid var(--propertycolor);
     flex-grow: 1;
-    border-top-right-radius: 0.2rem;
-    border-bottom-right-radius: 0.2rem;
+    border-radius: 1rem  var(--propertycolor);
+    border-top-right-radius: .3rem;
+    border-bottom-right-radius: .3rem;
 }
 .spanChildWithName 
 {
+    background-color: white;
+    position: fixed;
+    padding: 0 0.35rem 0 0.35rem;
     font-size: 0.7rem;
-    top:50%;    
+    margin-top: -.4rem; 
+}
+
+.input_property
+{
+    margin-left: 1rem;
+    border:none;
 }

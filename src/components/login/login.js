@@ -44,8 +44,8 @@ export default function Login({ setAccessToken, setIsLogin }) {
       const resApi = await res.json()
       setverifyCode(resApi)
     };
-    ResApi?.isVerify && sendEmail()
-    console.log(data)
+    ResApi?.isVerify && sendEmail();
+    console.log(infoToSendGmail?.to);
   }, [infoToSendGmail])
   async function handleSubmit(e) {
     e.preventDefault();
@@ -111,7 +111,7 @@ export default function Login({ setAccessToken, setIsLogin }) {
   const handleBackground = (newImg) => {
     setLoginImgBackground(newImg)
   }
-
+  // useEffect(console.log(infoToSendGmail?.to),[infoToSendGmail])
   //-------------------------------------------------------------------------------//
 
 
@@ -135,19 +135,18 @@ export default function Login({ setAccessToken, setIsLogin }) {
           {infoToSendGmail ? (
             <div className="dangnhap_input_div">
               {/* <p>Verify code sent to {infoToSendGmail?.to}</p> */}
-              <div className='verifycode_div' style={{ display: "flex" }}>
-                <input
+              <div className='verifycode_div'>
+              <p className="" id="labelPassword">
+                  Đã gửi mã xác thực đến email: {infoToSendGmail?.to}
+                </p>
+              <input
                   type="password"
                   name="password"
-                  className="dangnhapinput 1"
+                  className=""
                   defaultValue=""
-                  id="input_mk"
+                  id="input_code"
                   ref={verifyCodeInput}
                 />
-                <label className="username" id="labelPassword" >
-                  Verify Code
-                </label>
-
                 <button
                   type="submit"
                   className="sumbit"

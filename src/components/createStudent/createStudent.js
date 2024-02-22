@@ -7,6 +7,7 @@ import Header from "../Layout/header/header";
 import useAuth from '../../hook/useAuth'
 import FormInput from "../Layout/FormInput/FormInput";
 import { ResizeImg } from "../../function/ResizeImg";
+import SuccessNotification from "../Notification/successNotifi";
 import './createStudent.css'
 function blobToBuffer(blob) {
 
@@ -124,11 +125,7 @@ export default function CreateStudent() {
             console.error(error);
         }
     }
-    useEffect(() => {
-        messRes && setTimeout(() => {
-            setMessRes(null)
-        }, 1000)
-    }, [messRes])
+
     const confirmSubmit = () => {
         values && sendData(values);
     }
@@ -311,16 +308,8 @@ export default function CreateStudent() {
                     onCancel={onCancel}
                 ></ConfirmDialog>
             }
-            {messRes && (
-                <div className="confirm-dialog noti">
-                    <div className='confirm_layout'>
-                        <p>
-                            {messRes}
-                        </p>
-                    </div>
-                </div>
-
-            )}
+              <SuccessNotification messRes={messRes} setMessRes={setMessRes}> 
+        </SuccessNotification>
         </>
     )
 }

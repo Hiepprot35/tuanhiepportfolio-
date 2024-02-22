@@ -1,10 +1,21 @@
-export default function SuccessNotification() {
+import { useEffect } from "react"
+export default function SuccessNotification(props) {
+    const message=props.messRes;
+    useEffect(() => {
+        message && setTimeout(() => {
+            props.setMessRes(null)
+        }, 1000)
+    }, [message])
     return (
-        <div className="success_notification">
-            <img src="https://cdn-icons-png.flaticon.com/512/148/148767.png" alt="notification" />
+        message && 
+            <div className="confirm-dialog noti">
+                <div className='confirm_layout'>
+                    <p>
+                        {message}
+                    </p>
+                </div>
+            </div>
 
-            <h1>Thành công</h1>
-            <button>Ok</button>
-        </div>
-    );
+        
+    )
 }

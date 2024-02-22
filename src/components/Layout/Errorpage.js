@@ -14,4 +14,4 @@ function Errorpage()
     )
 
 }
-export default Errorpage();
+export default Errorpage;

@@ -20,6 +20,18 @@ export  function getTime(data)
         }
         return(`${currentHours}:${currentMinutes}`)
 }
+export function getDate(data)
+{
+        console.log("Nhay vao",data)
+        const timeSent=new Date(data)
+        const year = timeSent.getUTCFullYear();
+        const month = timeSent.getUTCMonth() + 1;
+        const day =timeSent.getUTCDate(); 
+        const formattedDay = day < 10 ? `0${day}` : day;
+        const formattedMonth = month < 10 ? `0${month}` : month;
+        return(`${year}-${formattedMonth}-${formattedDay}`)
+
+}
 export  function countTime(data)
 {
         const timeSent=new Date(data)
