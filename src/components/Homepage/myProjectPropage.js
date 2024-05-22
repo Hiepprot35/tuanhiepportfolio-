@@ -14,9 +14,9 @@ export default function MyProjectPropage() {
     return (
         <section
 
-            style={{ margin: "2rem 0 10rem 0", transition: "125ms" }}
+            style={{ margin: "2rem 0 10rem 0", transition: "125ms",height:"100vh" }}
 
-            className="IntroduceMyself" id="#project" ref={ref} >
+            className="IntroduceMyself" id="#project" ref={ref}  >
 
             <h2 style={{ fontWeight: "600", fontSize: "2rem", margin: "2rem" }}>My project</h2>
             {
@@ -24,7 +24,7 @@ export default function MyProjectPropage() {
                 myproject.map((e, i) =>
                 (
                     <motion.section key={i} ref={project} style={{
-                        opacity: scrollYProgress, scale: scrollYProgress, margin: "2rem 0 10rem 0", transition: "500ms",
+                        opacity: scrollYProgress, scale: scrollYProgress, margin: "2rem 0 0rem 0", transition: "500ms",
                         translateY: scrollYProgress
                     }}
                     >
@@ -44,7 +44,7 @@ export default function MyProjectPropage() {
                                     </ul>
                                 </div>
                             </div>
-                            <a href="/login">
+                            <a href={`${e.link}`}>
                                 <img src={`${e.img}`} alt="Project" quality={95}></img>
                             </a>
                         </div>
